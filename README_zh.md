@@ -60,6 +60,21 @@ make demo PYTHON=.venv-check/bin/python
 准备。历史 G1 任务运行时需要匹配的任务权重及观测、动作协议。详见
 [工作流指南](docs/workflows.md)和[资产目录](docs/public_assets.md)。
 
+## 腕部相机支架
+
+[`hardware/`](hardware/) 目录提供用于在 G1 腕部安装 Intel RealSense D415 的 STL 模型和 URDF 预览。
+
+| 支架 | 相机位置 | 预览 |
+| --- | --- | --- |
+| [论文版](hardware/wrist-camera-paper/) | 手背 | [30°](hardware/wrist-camera-paper/urdf_30deg.png) |
+| [拓展版](hardware/wrist-camera-expansion/) | 手心一侧 | [−20°](hardware/wrist-camera-expansion/urdf_neg20deg.png), [−10°](hardware/wrist-camera-expansion/urdf_neg10deg.png), [0°](hardware/wrist-camera-expansion/urdf_0deg.png), [10°](hardware/wrist-camera-expansion/urdf_10deg.png), [20°](hardware/wrist-camera-expansion/urdf_20deg.png) |
+
+建议先使用[拓展版 0° 支架](hardware/wrist-camera-expansion/D415-wrist-0%C2%B0.stl)进行测试。
+
+| [−20°](hardware/wrist-camera-expansion/video/overview_neg20deg.mp4) | [−10°](hardware/wrist-camera-expansion/video/overview_neg10deg.mp4) | [**0°**](hardware/wrist-camera-expansion/video/overview_0deg.mp4) | [10°](hardware/wrist-camera-expansion/video/overview_10deg.mp4) | [20°](hardware/wrist-camera-expansion/video/overview_20deg.mp4) |
+| :---: | :---: | :---: | :---: | :---: |
+| ![−20° 相机仿真视场](hardware/wrist-camera-expansion/video/overview_neg20deg.gif) | ![−10° 相机仿真视场](hardware/wrist-camera-expansion/video/overview_neg10deg.gif) | ![0° 相机仿真视场](hardware/wrist-camera-expansion/video/overview_0deg.gif) | ![10° 相机仿真视场](hardware/wrist-camera-expansion/video/overview_10deg.gif) | ![20° 相机仿真视场](hardware/wrist-camera-expansion/video/overview_20deg.gif) |
+
 ## 当前模型实现
 
 Zeta-0 从当前观测预测场景与身体的未来变化，并以此引导动作生成。

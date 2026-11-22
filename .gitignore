@@ -12,6 +12,11 @@ wheels/
 /data
 cache
 *.mp4
+!/hardware/wrist-camera-expansion/video/overview_neg20deg.mp4
+!/hardware/wrist-camera-expansion/video/overview_neg10deg.mp4
+!/hardware/wrist-camera-expansion/video/overview_0deg.mp4
+!/hardware/wrist-camera-expansion/video/overview_10deg.mp4
+!/hardware/wrist-camera-expansion/video/overview_20deg.mp4
 ml-egodex_dataset/ # soft link to the egodex dataset
 wandb/
 runs/

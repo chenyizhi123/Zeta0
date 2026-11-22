@@ -82,6 +82,10 @@ for mounting an Intel RealSense D415 on the G1 wrist.
 
 For initial testing, use the [0° expanded mount](hardware/wrist-camera-expansion/D415-wrist-0%C2%B0.stl).
 
+| [−20°](hardware/wrist-camera-expansion/video/overview_neg20deg.mp4) | [−10°](hardware/wrist-camera-expansion/video/overview_neg10deg.mp4) | [**0°**](hardware/wrist-camera-expansion/video/overview_0deg.mp4) | [10°](hardware/wrist-camera-expansion/video/overview_10deg.mp4) | [20°](hardware/wrist-camera-expansion/video/overview_20deg.mp4) |
+| :---: | :---: | :---: | :---: | :---: |
+| ![Simulated field of view at −20°](hardware/wrist-camera-expansion/video/overview_neg20deg.gif) | ![Simulated field of view at −10°](hardware/wrist-camera-expansion/video/overview_neg10deg.gif) | ![Simulated field of view at 0°](hardware/wrist-camera-expansion/video/overview_0deg.gif) | ![Simulated field of view at 10°](hardware/wrist-camera-expansion/video/overview_10deg.gif) | ![Simulated field of view at 20°](hardware/wrist-camera-expansion/video/overview_20deg.gif) |
+
 ## Policy implementations
 
 Zeta-0 predicts scene-and-body futures from current observations and uses them to
