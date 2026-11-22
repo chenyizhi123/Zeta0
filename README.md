@@ -70,6 +70,18 @@ requirements. Historical G1 task runtimes require matching task weights and
 observation/action contracts. See the [workflow guide](docs/workflows.md) and
 [asset catalog](docs/public_assets.md).
 
+## Wrist camera mounts
+
+The [`hardware/`](hardware/) directory includes STL models and URDF previews
+for mounting an Intel RealSense D415 on the G1 wrist.
+
+| Mount | Camera position | Preview |
+| --- | --- | --- |
+| [Paper design](hardware/wrist-camera-paper/) | Back of the hand | [30°](hardware/wrist-camera-paper/urdf_30deg.png) |
+| [Expanded design](hardware/wrist-camera-expansion/) | Palm side | [−20°](hardware/wrist-camera-expansion/urdf_neg20deg.png), [−10°](hardware/wrist-camera-expansion/urdf_neg10deg.png), [0°](hardware/wrist-camera-expansion/urdf_0deg.png), [10°](hardware/wrist-camera-expansion/urdf_10deg.png), [20°](hardware/wrist-camera-expansion/urdf_20deg.png) |
+
+For initial testing, use the [0° expanded mount](hardware/wrist-camera-expansion/D415-wrist-0%C2%B0.stl).
+
 ## Policy implementations
 
 Zeta-0 predicts scene-and-body futures from current observations and uses them to
