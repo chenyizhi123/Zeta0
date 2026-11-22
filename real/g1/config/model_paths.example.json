@@ -1,0 +1,15 @@
+{
+  "format": "local_zeta0_model_paths.v1",
+  "runtime_profile": "place_chair_20261029",
+  "runtime_kit": "/REPLACE_PROJECT_ROOT/.local/zeta0/place_chair_runtime_20261029",
+  "qwen_model": "/REPLACE_MATCHING_ENCODER_DIRECTORY",
+  "vlm_source": "psi0_place_chair_exact_encoder",
+  "tasks": {
+    "place_chair": {
+      "weights_dir": "/REPLACE_WEIGHTS_DIRECTORY",
+      "task": "Place the chair in front of the table",
+      "action_hz": 30,
+      "action_horizon": 50
+    }
+  }
+}

@@ -1,0 +1,7 @@
+{
+  "body_endpoint": "tcp://127.0.0.1:5557",
+  "camera_endpoint": "tcp://REPLACE_ROBOT_HOST:5555",
+  "hand_state_endpoint": "tcp://REPLACE_ROBOT_HOST:5561",
+  "hand_command_endpoint": "tcp://REPLACE_ROBOT_HOST:5562",
+  "action_bind": "tcp://*:5556"
+}

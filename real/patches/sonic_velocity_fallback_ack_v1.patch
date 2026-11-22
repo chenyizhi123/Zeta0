@@ -1,0 +1,285 @@
+--- a/gear_sonic_deploy/deploy.sh
++++ b/gear_sonic_deploy/deploy.sh
+@@ -211,6 +211,7 @@
+     echo "  --input-type TYPE       Set the input type (default: zmq_manager)"
+     echo "  --output-type TYPE      Set the output type (default: ros2)"
+     echo "  --zmq-host HOST         Set the ZMQ host (default: localhost)"
++    echo "  --velocity-fallback     Token timeout/network stop selects active zero-velocity planner"
+     echo "  --motor-kp-scale SPEC   Scale Kp for hardware motor indices/ranges"
+     echo "  --motor-kd-scale SPEC   Scale Kd for hardware motor indices/ranges"
+     echo ""
+@@ -255,6 +256,7 @@
+ ZMQ_HOST="$ZMQ_HOST_DEFAULT"
+ MOTOR_KP_SCALES=()
+ MOTOR_KD_SCALES=()
++VELOCITY_FALLBACK=false
+ 
+ # Parse arguments
+ while [[ $# -gt 0 ]]; do
+@@ -295,6 +297,10 @@
+             MOTION_DATA="$2"
+             shift 2
+             ;;
++        --velocity-fallback)
++            VELOCITY_FALLBACK=true
++            shift
++            ;;
+         --input-type)
+             if [[ -z "$2" ]]; then
+                 echo -e "${RED}Error: --input-type requires a type argument${NC}" >&2
+@@ -401,6 +407,9 @@
+ 
+ # Additional flags for simulation mode
+ EXTRA_ARGS=()
++if [[ "$VELOCITY_FALLBACK" == true ]]; then
++    EXTRA_ARGS+=("--velocity-fallback")
++fi
+ if [[ "$ENV_TYPE" == "sim" ]]; then
+     EXTRA_ARGS+=("--disable-crc-check")
+     echo -e "${YELLOW}📋 Simulation mode: CRC check will be disabled${NC}"
+--- a/gear_sonic_deploy/src/g1/g1_deploy_onnx_ref/include/token_timing_snapshot.hpp
++++ b/gear_sonic_deploy/src/g1/g1_deploy_onnx_ref/include/token_timing_snapshot.hpp
+@@ -1,6 +1,7 @@
+ #pragma once
+ 
+ #include <chrono>
++#include <cstdint>
+ #include <mutex>
+ #include <optional>
+ #include <vector>
+@@ -9,6 +10,8 @@
+   using Clock = std::chrono::steady_clock;
+   std::vector<double> values;
+   std::optional<Clock::time_point> received_at;
++  std::uint64_t commit_sequence=0;
++  std::int64_t frame_index=-1;
+ 
+   double AgeSecondsAt(Clock::time_point now) const {
+     return received_at ? std::chrono::duration<double>(now-*received_at).count() : -1.0;
+@@ -21,15 +24,19 @@
+ // snapshot it without introducing a motion -> pose-data lock inversion.
+ class TokenTimingBuffer {
+  public:
+-  void Commit(const std::vector<double>& values, TokenTimingSnapshot::Clock::time_point received_at) {
++  void Commit(const std::vector<double>& values, TokenTimingSnapshot::Clock::time_point received_at,
++              std::int64_t frame_index=-1) {
+     std::lock_guard<std::mutex> lock(mutex_);
+     snapshot_.values=values;
+     snapshot_.received_at=received_at;
++    snapshot_.commit_sequence=++commit_sequence_;
++    snapshot_.frame_index=frame_index;
+   }
+ 
+   void Clear() {
+     std::lock_guard<std::mutex> lock(mutex_);
+     snapshot_={};
++    snapshot_.commit_sequence=commit_sequence_; // Never reuse a commit identity after reset.
+   }
+ 
+   TokenTimingSnapshot Snapshot() const {
+@@ -40,4 +47,5 @@
+  private:
+   mutable std::mutex mutex_;
+   TokenTimingSnapshot snapshot_;
++  std::uint64_t commit_sequence_=0;
+ };
+--- a/gear_sonic_deploy/src/g1/g1_deploy_onnx_ref/include/input_interface/input_interface.hpp
++++ b/gear_sonic_deploy/src/g1/g1_deploy_onnx_ref/include/input_interface/input_interface.hpp
+@@ -30,6 +30,7 @@
+ #define INPUT_INTERFACE_HPP
+ 
+ #include <unistd.h>
++#include "../token_timing_snapshot.hpp"
+ #include <atomic>
+ #include <queue>
+ #include <memory>
+@@ -79,6 +80,8 @@
+     virtual void update() = 0;
+     virtual int ControlModeCode() const { return -1; }
+     virtual bool VelocityFallbackEnabled() const { return false; }
++    virtual bool TokenStreamReady() const { return false; }
++    virtual TokenTimingSnapshot GetTokenTimingSnapshot() const { return {}; }
+     virtual void SetMeasuredBody(const std::array<double,29>&) {}
+     virtual std::optional<std::array<float,14>> GetStreamArmTarget() const { return {}; }
+ 
+--- a/gear_sonic_deploy/src/g1/g1_deploy_onnx_ref/include/input_interface/zmq_endpoint_interface.hpp
++++ b/gear_sonic_deploy/src/g1/g1_deploy_onnx_ref/include/input_interface/zmq_endpoint_interface.hpp
+@@ -249,6 +249,7 @@
+         std::cerr << "✗✗✗ This is not allowed. Exiting ZMQ streaming mode for safety." << std::endl;
+ 
+         use_zmq_stream = false;
++        token_stream_ready_.store(false);
+ 
+         {
+             std::lock_guard<std::mutex> lock(current_motion_mutex);
+@@ -330,6 +331,7 @@
+                 }
+                 // reset streaming buffers when enabling to avoid mixing with stale data
+                 ResetStreamedMotion(); // This also resets protocol version in the merger
++                token_stream_ready_.store(true); // Reset/enable completed, before any first token.
+             } else {
+                 std::cout << "=====================================" << std::endl;
+                 std::cout << "ZMQ STREAMING MODE: DISABLED" << std::endl;
+@@ -423,7 +425,7 @@
+                             // data_mutex_ still protects this packet's copied
+                             // payload and receipt time. A pending newer packet
+                             // cannot extend the lifetime of this decoded token.
+-                            token_timing_.Commit(result.token_data,*buffered_received_at_);
++                            token_timing_.Commit(result.token_data,*buffered_received_at_,result.token_frame_index);
+                             operator_state.play = true; // this should be redundant because the robot never read reference motion
+                         }
+                         
+@@ -617,7 +619,10 @@
+       return last_receive_time_;
+     }
+ 
+-    TokenTimingSnapshot GetTokenTimingSnapshot() const {
++    bool TokenStreamReady() const override { return token_stream_ready_.load(); }
++    void InvalidateTokenStreamReady() { token_stream_ready_.store(false); }
++
++    TokenTimingSnapshot GetTokenTimingSnapshot() const override {
+       return token_timing_.Snapshot();
+     }
+ 
+@@ -642,6 +647,7 @@
+     /// so the background callback cannot race a reset or leave a pending packet
+     /// without the timestamp required by protocol-4 token commit.
+     void ResetStreamedMotionLocked() {
++        token_stream_ready_.store(false);
+         motion_merger_.Reset();
+         active_protocol_version_ = -1;  // Reset protocol version tracking
+         // Update legacy fields for backward compatibility
+@@ -667,6 +673,7 @@
+         int frame_step = 1;                        ///< Detected stride between frame indices.
+         int protocol_version = 0;                  ///< Protocol version from the message (1, 2, or 3).
+         std::vector<double> token_data;            ///< Token data from the message.
++        std::int64_t token_frame_index=-1;          ///< Exact single-frame protocol-4 identity.
+     };
+     
+     /**
+@@ -800,6 +807,9 @@
+                     std::memcpy(&frame_val, frame_idx_buf.data(), sizeof(int64_t));
+                     if (needs_swap) frame_val = byte_swap(frame_val);
+                     frame_info = ", frame_index: " + std::to_string(frame_val);
++                    if (frame_idx_field.shape==std::vector<size_t>{1} &&
++                        frame_idx_buf.size()==sizeof(int64_t) && frame_val>=0)
++                        result.token_frame_index=frame_val;
+                 } else if (frame_idx_field.dtype == "i64" && frame_idx_buf.size() > sizeof(int64_t)) {
+                     // Chunk mode: show range
+                     int num_frames = frame_idx_buf.size() / sizeof(int64_t);
+@@ -1934,6 +1944,7 @@
+     std::vector<std::vector<uint8_t>> buffered_buffers_;         ///< Copied binary field data.
+     std::optional<std::chrono::steady_clock::time_point> buffered_received_at_;
+     TokenTimingBuffer token_timing_; ///< Decoded protocol-4 token and its own packet receipt time.
++    std::atomic<bool> token_stream_ready_{false};
+     
+     // ------------------------------------------------------------------
+     // Timing / diagnostics
+--- a/gear_sonic_deploy/src/g1/g1_deploy_onnx_ref/include/input_interface/zmq_manager.hpp
++++ b/gear_sonic_deploy/src/g1/g1_deploy_onnx_ref/include/input_interface/zmq_manager.hpp
+@@ -162,6 +162,12 @@
+     }
+     int ControlModeCode() const override { return active_mode_==ManagedMode::PLANNER ? 0 : 1; }
+     bool VelocityFallbackEnabled() const override { return velocity_fallback_; }
++    bool TokenStreamReady() const override {
++      return active_mode_==ManagedMode::STREAMED_MOTION && pose_interface_->TokenStreamReady();
++    }
++    TokenTimingSnapshot GetTokenTimingSnapshot() const override {
++      return pose_interface_->GetTokenTimingSnapshot();
++    }
+     std::optional<std::array<float,14>> GetStreamArmTarget() const override {
+       if (velocity_fallback_ && active_mode_==ManagedMode::STREAMED_MOTION)
+         return pose_interface_->GetStreamArmTarget();
+@@ -303,6 +309,7 @@
+             // Trigger safety reset on mode switch
+             TriggerSafetyReset();
+             if (pose_interface_) {
++              pose_interface_->InvalidateTokenStreamReady();
+               pose_interface_->TriggerSafetyReset();
+             }
+ 
+--- a/gear_sonic_deploy/src/g1/g1_deploy_onnx_ref/include/output_interface/output_interface.hpp
++++ b/gear_sonic_deploy/src/g1/g1_deploy_onnx_ref/include/output_interface/output_interface.hpp
+@@ -43,6 +43,7 @@
+ #include <msgpack.hpp>
+ 
+ #include "../state_logger.hpp"
++#include "../token_timing_snapshot.hpp"
+ #include "../motion_data_reader.hpp"
+ 
+ /**
+@@ -114,6 +115,17 @@
+         output_data_map_["velocity_fallback_enabled"]={fallback ? 1.0 : 0.0};
+         output_data_map_["controller_time_monotonic"]={monotonic};
+         output_data_map_["zero_velocity_requested"]={zero_velocity ? 1.0 : 0.0};
++    }
++    // Native ACK v1: the snapshot was copied into this successful decoder control tick.
++    void SetTokenCommitState(bool active,bool ready,bool valid,const TokenTimingSnapshot& token,
++                             double age) {
++        output_data_map_["velocity_fallback_ack_version"]={1.0};
++        output_data_map_["control_active"]={active ? 1.0 : 0.0};
++        output_data_map_["token_stream_ready"]={ready ? 1.0 : 0.0};
++        output_data_map_["decoder_token_input_valid"]={valid ? 1.0 : 0.0};
++        output_data_map_["decoder_token_commit_sequence"]={static_cast<double>(token.commit_sequence)};
++        output_data_map_["decoder_token_frame_index"]={static_cast<double>(token.frame_index)};
++        output_data_map_["decoder_token_receive_age_s"]={age};
+     }
+     void SetActionDiagnostics(const std::array<float,29>& decoder,
+                               const std::array<float,29>& applied) {
+--- a/gear_sonic_deploy/src/g1/g1_deploy_onnx_ref/src/g1_deploy_onnx_ref.cpp
++++ b/gear_sonic_deploy/src/g1/g1_deploy_onnx_ref/src/g1_deploy_onnx_ref.cpp
+@@ -179,6 +179,8 @@
+     bool velocity_fallback_ = false;
+     ArmMotionGate arm_motion_gate_;
+     std::array<float,29> decoder_q_target_{};
++    TokenTimingSnapshot decoder_token_snapshot_;
++    bool decoder_token_input_valid_=false;
+     MotionConsentLatch upper_body_consent_;
+     std::mutex upper_body_consent_mutex_;
+     std::unique_ptr<ZMQPackedMessageSubscriber> upper_body_gate_subscriber_;
+@@ -3173,10 +3175,12 @@
+       if (initial_encoder_mode_ != -2) {
+         // get the external token state from the input interface
+         bool has_ext_token_data;
++        TokenTimingSnapshot external_token_snapshot;
+         std::vector<double> temp_token_state_data;
+         {
+             std::lock_guard<std::mutex> motion_lock(current_motion_mutex_);
+             std::tie(has_ext_token_data, temp_token_state_data) = input_interface_->GetExternalTokenState();
++            external_token_snapshot=input_interface_->GetTokenTimingSnapshot();
+         }
+ 
+         // if the external token state is not empty, we need to copy the data to the token_state_data_
+@@ -3198,6 +3202,12 @@
+           } else {
+             std::copy(temp_token_state_data.begin(), temp_token_state_data.end(), token_state_data_.begin());
+             is_using_encoder_ = false;
++            if (Finite64Token(temp_token_state_data) &&
++                external_token_snapshot.values==temp_token_state_data &&
++                external_token_snapshot.received_at.has_value()) {
++              decoder_token_snapshot_=external_token_snapshot;
++              decoder_token_input_valid_=true;
++            }
+             // Safety: Mark that we've received at least one token
+             if (!first_token_received_) {
+               first_token_received_ = true;
+@@ -4090,6 +4100,7 @@
+             }
+           }
+ 
++          decoder_token_input_valid_=false; // Never acknowledge a prior tick or an encoder token.
+           if (!GatherInputInterfaceData()) {
+             return;
+           }
+@@ -4169,6 +4180,11 @@
+                   is_using_encoder_,planner_ && planner_->planner_state_.enabled &&
+                   planner_->planner_state_.initialized && current_motion_copy->name=="planner_motion",
+                   input_interface_->VelocityFallbackEnabled(),GateClock(),zero_velocity);
++              const bool token_input=decoder_token_input_valid_ && !is_using_encoder_ &&
++                  input_interface_->ControlModeCode()==1 && input_interface_->TokenStreamReady();
++              output_interface->SetTokenCommitState(program_state_==ProgramState::CONTROL,
++                  input_interface_->TokenStreamReady(),token_input,decoder_token_snapshot_,
++                  decoder_token_snapshot_.AgeSecondsAt(std::chrono::steady_clock::now()));
+               const auto applied=motor_command_buffer_.GetDataWithTime().data;
+               if (applied) output_interface->SetActionDiagnostics(decoder_q_target_,applied->q_target);
+               output_interface->publish(

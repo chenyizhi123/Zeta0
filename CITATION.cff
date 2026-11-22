@@ -1,0 +1,8 @@
+cff-version: 1.2.0
+type: software
+message: "If you use this source code, cite the software repository and preserve upstream attribution."
+title: "Zeta0: Humanoid demonstration collection, training and deployment"
+authors:
+  - name: "Zeta0 contributors"
+repository-code: "https://github.com/chenyizhi123/Zeta0"
+license: Apache-2.0

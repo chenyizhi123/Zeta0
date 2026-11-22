@@ -1,0 +1,43 @@
+{
+  "schema_version": "REPLACE_WITH_VERIFIED_VALUE",
+  "source": "REPLACE_WITH_VERIFIED_VALUE",
+  "calibration_config": {
+    "dt": "REPLACE_WITH_VERIFIED_VALUE",
+    "servo0_calibration": "REPLACE_WITH_VERIFIED_VALUE",
+    "servo1_calibration": "REPLACE_WITH_VERIFIED_VALUE",
+    "joint0": [
+      "REPLACE_WITH_VERIFIED_VALUE",
+      "REPLACE_WITH_VERIFIED_VALUE"
+    ],
+    "joint1": [
+      "REPLACE_WITH_VERIFIED_VALUE",
+      "REPLACE_WITH_VERIFIED_VALUE"
+    ],
+    "direction": [
+      "REPLACE_WITH_VERIFIED_VALUE",
+      "REPLACE_WITH_VERIFIED_VALUE"
+    ],
+    "has_calibrate": "REPLACE_WITH_VERIFIED_VALUE"
+  },
+  "target_ticks": [
+    "REPLACE_WITH_VERIFIED_VALUE",
+    "REPLACE_WITH_VERIFIED_VALUE"
+  ],
+  "target_angles_deg": [
+    "REPLACE_WITH_VERIFIED_VALUE",
+    "REPLACE_WITH_VERIFIED_VALUE"
+  ],
+  "captured_robot_epoch": "REPLACE_WITH_VERIFIED_VALUE",
+  "operator_confirmed_module_pose": "REPLACE_WITH_VERIFIED_VALUE",
+  "confirmed_at_workstation": "REPLACE_WITH_VERIFIED_VALUE",
+  "automatic_recalibration": "REPLACE_WITH_VERIFIED_VALUE",
+  "startup_policy": "REPLACE_WITH_VERIFIED_VALUE",
+  "operator_description": "REPLACE_WITH_VERIFIED_VALUE",
+  "mechanical_zero_reverified": "REPLACE_WITH_VERIFIED_VALUE",
+  "operator_position_margin_ticks": "REPLACE_WITH_VERIFIED_VALUE",
+  "captured_from": "REPLACE_WITH_VERIFIED_VALUE",
+  "capture_present_position_ticks": [
+    "REPLACE_WITH_VERIFIED_VALUE",
+    "REPLACE_WITH_VERIFIED_VALUE"
+  ]
+}

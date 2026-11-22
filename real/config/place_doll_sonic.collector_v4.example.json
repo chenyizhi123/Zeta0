@@ -1,0 +1,19 @@
+{
+  "body_endpoint": "tcp://127.0.0.1:5557",
+  "camera_endpoint": "tcp://127.0.0.1:5560",
+  "hand_state_endpoint": "tcp://REPLACE_ROBOT_HOST:5561",
+  "hand_command_endpoint": "tcp://REPLACE_ROBOT_HOST:5562",
+  "action_bind": "tcp://*:5556",
+  "state_history_count": 1,
+  "real_observation_mode": "collector_snapshot_v1",
+  "real_observation_contract": {
+    "version": 1,
+    "camera_max_skew_ms": 25.0,
+    "camera_wait_ms": 20.0,
+    "max_age_ms": 200.0,
+    "body_max_offset_ms": 40.0,
+    "hand_max_offset_ms": 50.0,
+    "history_size": 128,
+    "image_shape": [480, 640, 3]
+  }
+}

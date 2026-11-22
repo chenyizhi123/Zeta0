@@ -1,0 +1,26 @@
+# Additional exclusions for source-only snapshots and git archive.
+/docs/research export-ignore
+/paper export-ignore
+/diagnostics export-ignore
+/chenyz export-ignore
+/deploy_packages export-ignore
+/data export-ignore
+/models export-ignore
+/checkpoints export-ignore
+/posttrain_assets export-ignore
+/posttrain_runs export-ignore
+/eval_runs export-ignore
+/runs export-ignore
+/workspace.local.env export-ignore
+*.local.json export-ignore
+*.local.yaml export-ignore
+*.zip export-ignore
+*.log export-ignore
+*.pt export-ignore
+*.pth export-ignore
+*.safetensors export-ignore
+/tests/test_paper_sync_drafts.py export-ignore
+
+/INSPIRE.md export-ignore
+/third_party/Isaac-GR00T export-ignore
+/third_party/GR00T-WholeBodyControl export-ignore

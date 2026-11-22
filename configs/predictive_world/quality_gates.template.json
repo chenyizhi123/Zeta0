@@ -1,0 +1,7 @@
+[
+  {"view": "all", "metric": "latent_mse.mean", "max": 0.75},
+  {"view": "prior", "metric": "latent_mse.mean", "max": 0.75},
+  {"view": "world", "metric": "latent_mse.mean", "max": 0.60},
+  {"view": "policy", "metric": "action_mse.mean", "max": 1.00},
+  {"view": "policy", "metric": "improvement_over_copy.mean", "min": 0.0}
+]

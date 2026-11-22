@@ -1,0 +1,13 @@
+[build-system]
+requires = ["setuptools>=78"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "lerobot_robot_sonic"
+version = "0.1.0"
+description = "LeRobot interfaces for the existing G1 SONIC controller and remote cameras"
+requires-python = ">=3.12"
+dependencies = ["lerobot[deepdiff-dep]==0.6.1"]
+
+[tool.setuptools.packages.find]
+where = ["."]

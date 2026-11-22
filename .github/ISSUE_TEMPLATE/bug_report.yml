@@ -1,0 +1,30 @@
+name: Bug report
+description: Report a reproducible source, installation or workflow problem.
+title: "[Bug] "
+body:
+  - type: dropdown
+    id: workflow
+    attributes:
+      label: Workflow
+      options: [Installation, Training, Collection, Deployment, Source export]
+    validations:
+      required: true
+  - type: textarea
+    id: environment
+    attributes:
+      label: Source and environment
+      description: Commit, operating system, Python/Torch/CUDA versions and selected backend.
+    validations:
+      required: true
+  - type: textarea
+    id: reproduction
+    attributes:
+      label: Reproduction and expected result
+      description: Include the smallest command/configuration that reproduces the issue.
+    validations:
+      required: true
+  - type: textarea
+    id: output
+    attributes:
+      label: Actual result
+      description: Include relevant logs after removing credentials, private endpoints and raw sensor data. For vulnerabilities use SECURITY.md.

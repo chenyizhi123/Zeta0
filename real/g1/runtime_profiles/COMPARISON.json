@@ -1,0 +1,96 @@
+{
+  "profiles": [
+    "blow_dry_hair_runtime_20261029",
+    "clean_table_runtime_local_v1",
+    "place_chair_runtime_20261029",
+    "tidy_scene_runtime_local_v1",
+    "zeta0_deploy_offline_kit_20261024"
+  ],
+  "files_per_profile": {
+    "blow_dry_hair_runtime_20261029": 46,
+    "clean_table_runtime_local_v1": 46,
+    "place_chair_runtime_20261029": 46,
+    "tidy_scene_runtime_local_v1": 46,
+    "zeta0_deploy_offline_kit_20261024": 46
+  },
+  "identical_paths": 35,
+  "differing_paths": {
+    "runtime/psi/config/predictive_world.py": {
+      "blow_dry_hair_runtime_20261029": "3037ae9c47438b4ea3b0d6ddd3587a6680b3ad058804bb7fe0a75744ef0213ea",
+      "clean_table_runtime_local_v1": "94f1f0b149730f970b639ed6511b45207a3e6bc31fa017994d33fb17190ee5ae",
+      "place_chair_runtime_20261029": "3037ae9c47438b4ea3b0d6ddd3587a6680b3ad058804bb7fe0a75744ef0213ea",
+      "tidy_scene_runtime_local_v1": "94f1f0b149730f970b639ed6511b45207a3e6bc31fa017994d33fb17190ee5ae",
+      "zeta0_deploy_offline_kit_20261024": "94f1f0b149730f970b639ed6511b45207a3e6bc31fa017994d33fb17190ee5ae"
+    },
+    "runtime/psi/data/predictive_world/index.py": {
+      "blow_dry_hair_runtime_20261029": "6eff8aefafc45b79bde3130ac39ac01858df34c9dab016a07c3692ae42d805eb",
+      "clean_table_runtime_local_v1": "75226373b7e0eee628a929ff1865c9d30c716eb3e7a460145595063eda2e7692",
+      "place_chair_runtime_20261029": "6eff8aefafc45b79bde3130ac39ac01858df34c9dab016a07c3692ae42d805eb",
+      "tidy_scene_runtime_local_v1": "75226373b7e0eee628a929ff1865c9d30c716eb3e7a460145595063eda2e7692",
+      "zeta0_deploy_offline_kit_20261024": "75226373b7e0eee628a929ff1865c9d30c716eb3e7a460145595063eda2e7692"
+    },
+    "runtime/psi/data/predictive_world/measurement_schema.py": {
+      "blow_dry_hair_runtime_20261029": "9837e0d3f5b0d9e625f6fb3993237b4bf9ab713fcf9079f2c972e7acf4d510a5",
+      "clean_table_runtime_local_v1": "7b0b3fa47b1b995f709f8d63e01b8a1ae65320ce47a9f717108cdd8710f9b757",
+      "place_chair_runtime_20261029": "9837e0d3f5b0d9e625f6fb3993237b4bf9ab713fcf9079f2c972e7acf4d510a5",
+      "tidy_scene_runtime_local_v1": "7b0b3fa47b1b995f709f8d63e01b8a1ae65320ce47a9f717108cdd8710f9b757",
+      "zeta0_deploy_offline_kit_20261024": "7b0b3fa47b1b995f709f8d63e01b8a1ae65320ce47a9f717108cdd8710f9b757"
+    },
+    "runtime/psi/deploy/real_sonic_client.py": {
+      "blow_dry_hair_runtime_20261029": "7b11c450f95e879fb9a47940f132d655bd61b88b435df008510df139988a3d1a",
+      "clean_table_runtime_local_v1": "7b11c450f95e879fb9a47940f132d655bd61b88b435df008510df139988a3d1a",
+      "place_chair_runtime_20261029": "7b11c450f95e879fb9a47940f132d655bd61b88b435df008510df139988a3d1a",
+      "tidy_scene_runtime_local_v1": "7b11c450f95e879fb9a47940f132d655bd61b88b435df008510df139988a3d1a",
+      "zeta0_deploy_offline_kit_20261024": "1b6561ddb08adadc16474ad36616bb8773a89041acd4e0185c5c908a8c1bf313"
+    },
+    "runtime/psi/deploy/real_sonic_io.py": {
+      "blow_dry_hair_runtime_20261029": "67cb4f99b6590645ca59157916df89b52f6549f0a5a39aaff45fe3d99d239180",
+      "clean_table_runtime_local_v1": "67cb4f99b6590645ca59157916df89b52f6549f0a5a39aaff45fe3d99d239180",
+      "place_chair_runtime_20261029": "67cb4f99b6590645ca59157916df89b52f6549f0a5a39aaff45fe3d99d239180",
+      "tidy_scene_runtime_local_v1": "67cb4f99b6590645ca59157916df89b52f6549f0a5a39aaff45fe3d99d239180",
+      "zeta0_deploy_offline_kit_20261024": "f1d7e04da24c13350b2f81c6ac568e76730590e8d587707f0b4a9e735cdb039c"
+    },
+    "runtime/psi/deploy/real_sonic_protocol.py": {
+      "blow_dry_hair_runtime_20261029": "ad022c6171cb3c67196b04d2d25c067d899cae9c9bcbd5a645cf49253ff4ade9",
+      "clean_table_runtime_local_v1": "80ccb9753629fde2a9860721bc3e51eafbb9f50fad0fc5e09321be0b74ba1bbd",
+      "place_chair_runtime_20261029": "ad022c6171cb3c67196b04d2d25c067d899cae9c9bcbd5a645cf49253ff4ade9",
+      "tidy_scene_runtime_local_v1": "80ccb9753629fde2a9860721bc3e51eafbb9f50fad0fc5e09321be0b74ba1bbd",
+      "zeta0_deploy_offline_kit_20261024": "e9d7beb8215ca2a1daa1828c83b86f0b2c7f0abae9e87f80e4e95f15252eb8e5"
+    },
+    "runtime/psi/deploy/real_sonic_runtime.py": {
+      "blow_dry_hair_runtime_20261029": "cc258b3a7e78a24203b1af009f5ea369a58f7a26bfa9b27c2bc26a715cdeb3c4",
+      "clean_table_runtime_local_v1": "689aa05941f61b8ba795c81ee08d7cdf678cf31436b082f8bc3a2ce5c116aab0",
+      "place_chair_runtime_20261029": "cc258b3a7e78a24203b1af009f5ea369a58f7a26bfa9b27c2bc26a715cdeb3c4",
+      "tidy_scene_runtime_local_v1": "2f20cf0ae068f6f1ea04fd00c94d14cebb484871ee61f40946c3172e9184819d",
+      "zeta0_deploy_offline_kit_20261024": "271172cf692f37785b8b5bc6f55da4182857d8c20e86d60928c622c18a948c69"
+    },
+    "runtime/psi/deploy/real_sonic_server.py": {
+      "blow_dry_hair_runtime_20261029": "5e30554feedf71f7c5b38d8faf9435109b2ba1bf6db7ded99b18057172409300",
+      "clean_table_runtime_local_v1": "4d2354b0e9f424e95781239349d29e66609f7dc591da05bf824d6ebae50fb732",
+      "place_chair_runtime_20261029": "5e30554feedf71f7c5b38d8faf9435109b2ba1bf6db7ded99b18057172409300",
+      "tidy_scene_runtime_local_v1": "4d2354b0e9f424e95781239349d29e66609f7dc591da05bf824d6ebae50fb732",
+      "zeta0_deploy_offline_kit_20261024": "055d1745a1c3a1678b206f7c1f029b85da6ec69e960fc259aaff41bcda0ceafd"
+    },
+    "runtime/psi/deploy/research_inference_weights.py": {
+      "blow_dry_hair_runtime_20261029": "672a207a52c81b9e854e592737ac8e5502fda4a1581a319b13924f0754105ebf",
+      "clean_table_runtime_local_v1": "03c3866f36e5771e366e6a07ea37d6149a70ac4fd2e95f8da2d37f9b63f12ef1",
+      "place_chair_runtime_20261029": "672a207a52c81b9e854e592737ac8e5502fda4a1581a319b13924f0754105ebf",
+      "tidy_scene_runtime_local_v1": "b65640e960b7962ed2bf554ff6e00b7764f513bd0df697f8ddb01b92f8db8698",
+      "zeta0_deploy_offline_kit_20261024": "03c3866f36e5771e366e6a07ea37d6149a70ac4fd2e95f8da2d37f9b63f12ef1"
+    },
+    "runtime/psi/models/predictive_world/scratch.py": {
+      "blow_dry_hair_runtime_20261029": "fa322dca614263dca0c1371ba50198452bc5203540f8beff2e60c8fd54be0de1",
+      "clean_table_runtime_local_v1": "c25b96241d4958936ad6d576d2623a566771aadebd509fd99fbcb8acd74bbef3",
+      "place_chair_runtime_20261029": "fa322dca614263dca0c1371ba50198452bc5203540f8beff2e60c8fd54be0de1",
+      "tidy_scene_runtime_local_v1": "c25b96241d4958936ad6d576d2623a566771aadebd509fd99fbcb8acd74bbef3",
+      "zeta0_deploy_offline_kit_20261024": "c25b96241d4958936ad6d576d2623a566771aadebd509fd99fbcb8acd74bbef3"
+    },
+    "runtime/psi/sonic_actions.py": {
+      "blow_dry_hair_runtime_20261029": "deb87afa9c7d5ebc6f5a3c4a16d357665683e6b2f69e8ec797e2d6a73e4b6f94",
+      "clean_table_runtime_local_v1": "06570520987e7a65e6ad14f62fce91a09f3a07f331dbbe3c277a1a6e8944f6ea",
+      "place_chair_runtime_20261029": "deb87afa9c7d5ebc6f5a3c4a16d357665683e6b2f69e8ec797e2d6a73e4b6f94",
+      "tidy_scene_runtime_local_v1": "06570520987e7a65e6ad14f62fce91a09f3a07f331dbbe3c277a1a6e8944f6ea",
+      "zeta0_deploy_offline_kit_20261024": "deb87afa9c7d5ebc6f5a3c4a16d357665683e6b2f69e8ec797e2d6a73e4b6f94"
+    }
+  }
+}

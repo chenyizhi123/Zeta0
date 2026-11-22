@@ -1,0 +1,133 @@
+# Python-generated files
+__pycache__/
+*.py[oc]
+build/
+dist/
+wheels/
+*.egg-info
+
+# Virtual environments
+.venv*
+
+/data
+cache
+*.mp4
+ml-egodex_dataset/ # soft link to the egodex dataset
+wandb/
+runs/
+checkpoints/
+log/
+playgrounds/
+TODO.md
+*.zip
+
+runs_old/
+tmp_dir/
+.runs*
+
+
+.env
+.env.local
+
+_lerobot_build
+.cache
+.data
+.logs
+
+*.local.yaml
+
+
+vq/
+extern/vq_bet_official/
+src/fast/egodex-*
+*.pkl
+!src/fast/egodex-rel-50w-1x48-v2048-s100
+src/fast/pi
+
+.deepspeed_env
+*.bak
+#uv.lock
+.vscode/
+.direnv/
+# Dependency contents must be deliberately pinned and reviewed; do not hide the
+# entire third_party tree from maintainers.
+src/gr00t/.venv/
+props/
+textures/
+test.py
+*.npy
+
+unitree_sdk2_python
+
+src/h_rdt/datasets/pretrain/egodex_large_values.txt
+.claude/
+
+# Zeta0-Humanoid local-only material. These rules are not a publication/security audit.
+.codex/
+.pytest_cache/
+.ruff_cache/
+.env.*
+!.env.sample
+!.env.example
+*.pem
+*.key
+*.pt
+*.pth
+*.ckpt
+*.safetensors
+*.onnx
+*.mcap
+*.bag
+*.log
+
+# Shared development workspace: inputs, generated runs and site-local settings.
+/models
+/posttrain_assets
+/posttrain_runs
+/workspace.local.env
+
+# Keep local experiment outputs outside the source release.
+/eval_runs
+*.npz
+*.parquet
+*.arrow
+*.hdf5
+*.h5
+
+# Local collection, diagnostics and deployment artifacts.
+/chenyz
+/deploy_packages
+/exports
+*.tar.zst
+/diagnostics
+/paper
+/docs/research/
+/MUJOCO_LOG.TXT
+*.local.json
+*.sqlite
+*.sqlite3
+*.db
+/source_manifest.json
+
+
+# Optional local dependency checkouts and manuscript-only checks.
+/third_party/GR00T-WholeBodyControl/
+/third_party/Isaac-GR00T/
+/tests/test_paper_sync_drafts.py
+
+# Match artifact links as well as physical directories.
+/runs
+/checkpoints
+
+# Local process crash dumps.
+/core
+/core.*
+
+# Site inventories and optional upstream checkout are never release source.
+/INSPIRE.md
+/workspace.local.env
+/third_party/Isaac-GR00T/
+
+# Incomplete optional-source downloads are local preparation state.
+/third_party/.source-fetch-*/
+/third_party/source-fetch-*/

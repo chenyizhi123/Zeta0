@@ -1,0 +1,13 @@
+{
+  "format": "local_zeta0_model_paths.v1",
+  "runtime_profile": "place_chair_20261029",
+  "qwen_model": "../.local/REPLACE_MATCHING_ENCODER",
+  "tasks": {
+    "my_task": {
+      "weights_dir": "../.local/models/REPLACE_MATCHING_WEIGHTS",
+      "task": "Place the object on the table.",
+      "action_hz": 30,
+      "action_horizon": 50
+    }
+  }
+}

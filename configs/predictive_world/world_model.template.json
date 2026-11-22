@@ -1,0 +1,78 @@
+{
+  "route": "predictive_world",
+  "data": {
+    "history_visual_offsets_s": [
+      -0.4,
+      -0.2,
+      0
+    ],
+    "state_history_count": 21,
+    "state_query_hz": 50,
+    "future_group_ends_s": [
+      0.2,
+      0.4,
+      0.6
+    ],
+    "action_horizon": 30,
+    "action_hz": 50,
+    "visual_max_age_s": 0.08,
+    "state_max_age_s": 0.04,
+    "action_max_age_s": 0.04,
+    "source_sampling_exponent": 0.5,
+    "measurement_registry": "REQUIRED_MEASUREMENT_REGISTRY.json",
+    "canonical_future_capabilities": "REQUIRED_CAPABILITY_REGISTRY.json",
+    "action_protocol_registry": "REQUIRED_ACTION_PROTOCOL_REGISTRY.json",
+    "state_schema_registry": "REQUIRED_STATE_SCHEMA_REGISTRY.json",
+    "index_path": "REQUIRED_PREDICTIVE_INDEX.jsonl",
+    "feature_cache": "REQUIRED_FEATURE_CACHE"
+  },
+  "model": {
+    "qwen_model": "REQUIRED_LOCAL_QWEN_MODEL",
+    "measurement_dim": 29,
+    "history_hidden_dim": 1024,
+    "history_blocks": 16,
+    "history_heads": 16,
+    "history_ff_dim": 4096,
+    "latent_transition": {
+      "hidden_dim": 768,
+      "num_blocks": 8,
+      "num_heads": 12,
+      "ff_dim": 3072,
+      "semantics": "parallel_process"
+    }
+  },
+  "training": {
+    "phase": "world_model",
+    "seed": 101,
+    "max_updates": 15000,
+    "micro_batch": 256,
+    "gradient_accumulation_steps": 1,
+    "effective_global_batch": 10240,
+    "learning_rate": 0.0001,
+    "warmup_updates": 1000,
+    "checkpoint_every": 3000,
+    "first_checkpoint_update": 20,
+    "target_encoder_ema_decay": 0.99,
+    "normalizer_calibration_updates": 500,
+    "forecast_warmup_updates": 500,
+    "forecast_ramp_updates": 500,
+    "scene_loss_weight": 1,
+    "body_loss_weight": 1,
+    "temporal_loss_weight": 0.25,
+    "teacher_action_loss_weight": 1,
+    "latent_regularizer_weight": 0.001,
+    "prior_prediction_loss_weight": 1,
+    "world_prediction_loss_weight": 1,
+    "policy_latent_origin": "predicted",
+    "forecast_readout_loss_weight": 0.25,
+    "forecast_control_loss_weight": 1.0,
+    "forecast_control_scope": "prior"
+  },
+  "runtime": {
+    "nodes": 5,
+    "gpus_per_node": 8,
+    "process_group_timeout_s": 600,
+    "dataloader_timeout_s": 600,
+    "output_dir": "REQUIRED_NEW_WORLD_MODEL_OUTPUT"
+  }
+}

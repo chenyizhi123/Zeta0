@@ -1,0 +1,89 @@
+{
+  "route": "predictive_world",
+  "data": {
+    "history_visual_offsets_s": [
+      -0.4,
+      -0.2,
+      0
+    ],
+    "state_history_count": 21,
+    "state_query_hz": 50,
+    "future_group_ends_s": [
+      0.2,
+      0.4,
+      0.6
+    ],
+    "action_horizon": 30,
+    "action_hz": 50,
+    "visual_max_age_s": 0.08,
+    "state_max_age_s": 0.04,
+    "action_max_age_s": 0.04,
+    "source_sampling_exponent": 0.5,
+    "measurement_registry": "REQUIRED_MEASUREMENT_REGISTRY.json",
+    "canonical_future_capabilities": "REQUIRED_CAPABILITY_REGISTRY.json",
+    "action_protocol_registry": "REQUIRED_ACTION_PROTOCOL_REGISTRY.json",
+    "state_schema_registry": "REQUIRED_STATE_SCHEMA_REGISTRY.json",
+    "index_path": "REQUIRED_PREDICTIVE_INDEX.jsonl",
+    "feature_cache": "REQUIRED_FEATURE_CACHE",
+    "observed_visual_mode": "current_multiview"
+  },
+  "model": {
+    "qwen_model": "REQUIRED_LOCAL_QWEN_MODEL",
+    "measurement_dim": 29,
+    "history_hidden_dim": 1024,
+    "history_blocks": 16,
+    "history_heads": 16,
+    "history_ff_dim": 4096,
+    "latent_transition": {
+      "hidden_dim": 768,
+      "num_blocks": 8,
+      "num_heads": 12,
+      "ff_dim": 3072,
+      "semantics": "parallel_process"
+    }
+  },
+  "training": {
+    "phase": "joint",
+    "seed": 101,
+    "max_updates": 20000,
+    "world_model": "REQUIRED_IMMUTABLE_WORLD_MODEL_BUNDLE",
+    "policy_latent_origin": "predicted",
+    "micro_batch": 220,
+    "gradient_accumulation_steps": 1,
+    "effective_global_batch": 8800,
+    "learning_rate": 0.0001,
+    "joint_world_learning_rate": 3e-05,
+    "warmup_updates": 500,
+    "checkpoint_every": 3000,
+    "first_checkpoint_update": 20,
+    "target_encoder_ema_decay": 0.99,
+    "normalizer_calibration_updates": 0,
+    "forecast_warmup_updates": 0,
+    "forecast_ramp_updates": 0,
+    "scene_loss_weight": 1,
+    "body_loss_weight": 1,
+    "temporal_loss_weight": 0.25,
+    "teacher_action_loss_weight": 1,
+    "latent_regularizer_weight": 0.001,
+    "prior_prediction_loss_weight": 1,
+    "world_prediction_loss_weight": 1,
+    "joint_world_loss_weight": 1,
+    "joint_action_loss_weight": 1,
+    "forecast_readout_loss_weight": 0.25,
+    "forecast_control_loss_weight": 1.0,
+    "forecast_control_scope": "prior",
+    "log_every": 10,
+    "log_both_modes": true,
+    "validation_every": 200,
+    "validation_batches": 4,
+    "validation_micro_batch": 8,
+    "validation_seed": 2026
+  },
+  "runtime": {
+    "nodes": 5,
+    "gpus_per_node": 8,
+    "process_group_timeout_s": 600,
+    "dataloader_timeout_s": 600,
+    "output_dir": "REQUIRED_NEW_JOINT_MONITORING_V1_OUTPUT"
+  }
+}

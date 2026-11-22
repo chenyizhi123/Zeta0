@@ -1,0 +1,105 @@
+name: CPU development checks
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: checks-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  cpu:
+    runs-on: ubuntu-22.04
+    timeout-minutes: 20
+    env:
+      CUDA_VISIBLE_DEVICES: ""
+      OMP_NUM_THREADS: "1"
+      HF_HUB_OFFLINE: "1"
+      TRANSFORMERS_OFFLINE: "1"
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
+        with:
+          python-version: "3.10"
+      - name: Install isolated CPU test environment
+        run: |
+          python -m pip install uv==0.8.20
+          uv venv --python python .venv-check
+          uv pip install --python .venv-check/bin/python torch==2.7.0 --index-url https://download.pytorch.org/whl/cpu
+          uv pip install --python .venv-check/bin/python --group cpu-test
+      - name: Verify lock consistency
+        run: uv lock --check
+      - name: Run local checks
+        run: make check PYTHON=.venv-check/bin/python RUFF=.venv-check/bin/ruff
+      - name: Verify release source boundaries
+        run: make check-release PYTHON=.venv-check/bin/python
+      - name: Build wheel and verify installed identity
+        run: |
+          uv build --wheel
+          .venv-check/bin/python scripts/check_distribution.py dist/*.whl
+          uv pip install --no-deps --python .venv-check/bin/python dist/*.whl
+          .venv-check/bin/python -I -c 'import psi; from importlib.metadata import version; from psi.data.predictor_pretrain.runtime_contract import resolve_timeouts; assert psi.__version__ == version("zeta0-humanoid"); assert "site-packages" in psi.__file__; assert resolve_timeouts({}) == (600, 600)'
+          .venv-check/bin/zeta --help
+
+  native-gr00t:
+    runs-on: ubuntu-22.04
+    timeout-minutes: 30
+    env:
+      CUDA_VISIBLE_DEVICES: ""
+      OMP_NUM_THREADS: "1"
+      HF_HUB_OFFLINE: "1"
+      TRANSFORMERS_OFFLINE: "1"
+      NO_ALBUMENTATIONS_UPDATE: "1"
+      GIT_LFS_SKIP_SMUDGE: "1"
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
+        with:
+          python-version: "3.10"
+      - name: Install native video and OpenCV system dependencies
+        run: sudo apt-get update && sudo apt-get install -y ffmpeg libgl1 libglib2.0-0
+      - name: Install native CPU test dependencies
+        run: |
+          python -m pip install uv==0.8.20
+          uv venv --python python .venv-native
+          uv pip install --python .venv-native/bin/python torch==2.7.0 torchvision==0.22.0 --index-url https://download.pytorch.org/whl/cpu
+          uv pip install --python .venv-native/bin/python -e . --group psi --group gr00t --group cpu-test --group serve --group robot
+          uv pip check --python .venv-native/bin/python
+      - name: Verify native video decoder runtime
+        run: .venv-native/bin/python -c "from torchcodec.decoders import VideoDecoder"
+      - name: Acquire exact upstream source without weights
+        run: .venv-native/bin/python scripts/fetch_sources.py Isaac-GR00T --apply
+      - name: Run both host regression suites
+        env:
+          PYTEST_ADDOPTS: "-vv -o faulthandler_timeout=120 --durations=15"
+        run: timeout --signal=TERM --kill-after=30s 10m make test-mainline test-gr00t PYTHON=.venv-native/bin/python
+
+  g1-source:
+    runs-on: ubuntu-22.04
+    timeout-minutes: 5
+    strategy:
+      matrix:
+        python: ["3.10", "3.12"]
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
+        with:
+          python-version: ${{ matrix.python }}
+      - run: python -m pip install pytest==9.0.3
+      - run: make test-g1
+      - name: Scan exact export and maintained source syntax
+        run: |
+          python scripts/check_release.py
+          python scripts/audit_repository.py

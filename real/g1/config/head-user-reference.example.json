@@ -1,0 +1,69 @@
+{
+  "schema_version": "REPLACE_WITH_VERIFIED_VALUE",
+  "source": "REPLACE_WITH_VERIFIED_VALUE",
+  "captured_robot_epoch": "REPLACE_WITH_VERIFIED_VALUE",
+  "calibration_config": {
+    "dt": "REPLACE_WITH_VERIFIED_VALUE",
+    "servo0_calibration": "REPLACE_WITH_VERIFIED_VALUE",
+    "servo1_calibration": "REPLACE_WITH_VERIFIED_VALUE",
+    "joint0": [
+      "REPLACE_WITH_VERIFIED_VALUE",
+      "REPLACE_WITH_VERIFIED_VALUE"
+    ],
+    "joint1": [
+      "REPLACE_WITH_VERIFIED_VALUE",
+      "REPLACE_WITH_VERIFIED_VALUE"
+    ],
+    "direction": [
+      "REPLACE_WITH_VERIFIED_VALUE",
+      "REPLACE_WITH_VERIFIED_VALUE"
+    ],
+    "has_calibrate": "REPLACE_WITH_VERIFIED_VALUE"
+  },
+  "observed_ticks": [
+    "REPLACE_WITH_VERIFIED_VALUE",
+    "REPLACE_WITH_VERIFIED_VALUE"
+  ],
+  "target_ticks": [
+    "REPLACE_WITH_VERIFIED_VALUE",
+    "REPLACE_WITH_VERIFIED_VALUE"
+  ],
+  "range_checks": [
+    {
+      "axis": "REPLACE_WITH_VERIFIED_VALUE",
+      "bounds": [
+        "REPLACE_WITH_VERIFIED_VALUE",
+        "REPLACE_WITH_VERIFIED_VALUE"
+      ],
+      "observed": "REPLACE_WITH_VERIFIED_VALUE",
+      "inside": "REPLACE_WITH_VERIFIED_VALUE"
+    },
+    {
+      "axis": "REPLACE_WITH_VERIFIED_VALUE",
+      "bounds": [
+        "REPLACE_WITH_VERIFIED_VALUE",
+        "REPLACE_WITH_VERIFIED_VALUE"
+      ],
+      "observed": "REPLACE_WITH_VERIFIED_VALUE",
+      "inside": "REPLACE_WITH_VERIFIED_VALUE"
+    }
+  ],
+  "target_angles_deg": [
+    "REPLACE_WITH_VERIFIED_VALUE",
+    "REPLACE_WITH_VERIFIED_VALUE"
+  ],
+  "position_span_ticks": [
+    "REPLACE_WITH_VERIFIED_VALUE",
+    "REPLACE_WITH_VERIFIED_VALUE"
+  ],
+  "usb_path": "REPLACE_WITH_VERIFIED_VALUE",
+  "saved_at_workstation": "REPLACE_WITH_VERIFIED_VALUE",
+  "reference_only": "REPLACE_WITH_VERIFIED_VALUE",
+  "automatic_startup_target_installed": "REPLACE_WITH_VERIFIED_VALUE",
+  "status": "REPLACE_WITH_VERIFIED_VALUE",
+  "reason": "REPLACE_WITH_VERIFIED_VALUE",
+  "target_file": "REPLACE_WITH_VERIFIED_VALUE",
+  "capture_motion_commands_sent": "REPLACE_WITH_VERIFIED_VALUE",
+  "service_result": "REPLACE_WITH_VERIFIED_VALUE",
+  "validation_evidence": "REPLACE_WITH_VERIFIED_VALUE"
+}

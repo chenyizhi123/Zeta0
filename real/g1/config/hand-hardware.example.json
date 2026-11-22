@@ -1,0 +1,212 @@
+{
+  "hand_type": "REPLACE_WITH_VERIFIED_VALUE",
+  "brand": "REPLACE_WITH_VERIFIED_VALUE",
+  "protocol": "REPLACE_WITH_VERIFIED_VALUE",
+  "model": "REPLACE_WITH_VERIFIED_VALUE",
+  "model_confirmed_by_operator": "REPLACE_WITH_VERIFIED_VALUE",
+  "service_verified": "REPLACE_WITH_VERIFIED_VALUE",
+  "deployment_driver_compatible": "REPLACE_WITH_VERIFIED_VALUE",
+  "service_binary_sha256": "REPLACE_WITH_VERIFIED_VALUE",
+  "service_expected_revision": "REPLACE_WITH_VERIFIED_VALUE",
+  "service_reconnection": {
+    "retry_interval_ms": "REPLACE_WITH_VERIFIED_VALUE",
+    "consecutive_read_failures_before_reconnect": "REPLACE_WITH_VERIFIED_VALUE",
+    "per_hand_verified_port_only": "REPLACE_WITH_VERIFIED_VALUE",
+    "first_valid_feedback_cycle_read_only": "REPLACE_WITH_VERIFIED_VALUE",
+    "clear_cached_commands_after_feedback_gap": "REPLACE_WITH_VERIFIED_VALUE",
+    "activation": "REPLACE_WITH_VERIFIED_VALUE"
+  },
+  "reason": "REPLACE_WITH_VERIFIED_VALUE",
+  "serial_communication_verified": "REPLACE_WITH_VERIFIED_VALUE",
+  "hand_actuation_verified": "REPLACE_WITH_VERIFIED_VALUE",
+  "hardware_variant": "REPLACE_WITH_VERIFIED_VALUE",
+  "serial_baud": "REPLACE_WITH_VERIFIED_VALUE",
+  "serial_bindings": {
+    "left": {
+      "port": "REPLACE_WITH_VERIFIED_VALUE",
+      "id": "REPLACE_WITH_VERIFIED_VALUE",
+      "serial": "REPLACE_WITH_VERIFIED_VALUE"
+    },
+    "right": {
+      "port": "REPLACE_WITH_VERIFIED_VALUE",
+      "id": "REPLACE_WITH_VERIFIED_VALUE",
+      "serial": "REPLACE_WITH_VERIFIED_VALUE"
+    }
+  },
+  "dataset_representation": {
+    "format": "REPLACE_WITH_VERIFIED_VALUE",
+    "kind": "REPLACE_WITH_VERIFIED_VALUE",
+    "order": [
+      "REPLACE_WITH_VERIFIED_VALUE",
+      "REPLACE_WITH_VERIFIED_VALUE"
+    ],
+    "range": [
+      "REPLACE_WITH_VERIFIED_VALUE",
+      "REPLACE_WITH_VERIFIED_VALUE"
+    ],
+    "state_key": "REPLACE_WITH_VERIFIED_VALUE",
+    "action_key": "REPLACE_WITH_VERIFIED_VALUE",
+    "state_reduction": "REPLACE_WITH_VERIFIED_VALUE",
+    "action_source": "REPLACE_WITH_VERIFIED_VALUE",
+    "grasp_input": "REPLACE_WITH_VERIFIED_VALUE",
+    "range_note": "REPLACE_WITH_VERIFIED_VALUE",
+    "model_action": "REPLACE_WITH_VERIFIED_VALUE",
+    "legacy_gripper_keys": "REPLACE_WITH_VERIFIED_VALUE"
+  },
+  "hand_activation": {
+    "startup_enabled": "REPLACE_WITH_VERIFIED_VALUE",
+    "active_modes_enabled": "REPLACE_WITH_VERIFIED_VALUE",
+    "active_modes": [
+      "REPLACE_WITH_VERIFIED_VALUE",
+      "REPLACE_WITH_VERIFIED_VALUE",
+      "REPLACE_WITH_VERIFIED_VALUE",
+      "REPLACE_WITH_VERIFIED_VALUE",
+      "REPLACE_WITH_VERIFIED_VALUE"
+    ],
+    "requires_unlock": "REPLACE_WITH_VERIFIED_VALUE",
+    "toggle": "REPLACE_WITH_VERIFIED_VALUE",
+    "control": "REPLACE_WITH_VERIFIED_VALUE",
+    "disable_on_pico_stale": "REPLACE_WITH_VERIFIED_VALUE",
+    "disable_on_off": "REPLACE_WITH_VERIFIED_VALUE",
+    "activation_starts_at_feedback": "REPLACE_WITH_VERIFIED_VALUE",
+    "receiver_restart_requires_new_enable": "REPLACE_WITH_VERIFIED_VALUE",
+    "resume": "REPLACE_WITH_VERIFIED_VALUE",
+    "scope": [
+      "REPLACE_WITH_VERIFIED_VALUE",
+      "REPLACE_WITH_VERIFIED_VALUE"
+    ]
+  },
+  "upper_body_activation": {
+    "startup_enabled": "REPLACE_WITH_VERIFIED_VALUE",
+    "control": "REPLACE_WITH_VERIFIED_VALUE",
+    "pose_following": "REPLACE_WITH_VERIFIED_VALUE",
+    "motor_hold_override": "REPLACE_WITH_VERIFIED_VALUE",
+    "stick_toggle_controls_arms": "REPLACE_WITH_VERIFIED_VALUE",
+    "initialization_may_move_arms": "REPLACE_WITH_VERIFIED_VALUE",
+    "planner_hand_following": "REPLACE_WITH_VERIFIED_VALUE",
+    "stick_clicks_change_mode": "REPLACE_WITH_VERIFIED_VALUE"
+  },
+  "service_verification_evidence": "REPLACE_WITH_VERIFIED_VALUE",
+  "auto_trigger_control_verified": "REPLACE_WITH_VERIFIED_VALUE",
+  "vr_3pt_joystick_following_verified": "REPLACE_WITH_VERIFIED_VALUE",
+  "grasp_input": {
+    "default_profile": "REPLACE_WITH_VERIFIED_VALUE",
+    "selector": "REPLACE_WITH_VERIFIED_VALUE",
+    "profiles": [
+      {
+        "id": "REPLACE_WITH_VERIFIED_VALUE",
+        "name": "REPLACE_WITH_VERIFIED_VALUE",
+        "label": "REPLACE_WITH_VERIFIED_VALUE",
+        "closed_pose": [
+          "REPLACE_WITH_VERIFIED_VALUE",
+          "REPLACE_WITH_VERIFIED_VALUE",
+          "REPLACE_WITH_VERIFIED_VALUE",
+          "REPLACE_WITH_VERIFIED_VALUE",
+          "REPLACE_WITH_VERIFIED_VALUE",
+          "REPLACE_WITH_VERIFIED_VALUE"
+        ]
+      },
+      {
+        "id": "REPLACE_WITH_VERIFIED_VALUE",
+        "name": "REPLACE_WITH_VERIFIED_VALUE",
+        "label": "REPLACE_WITH_VERIFIED_VALUE",
+        "closed_pose": [
+          "REPLACE_WITH_VERIFIED_VALUE",
+          "REPLACE_WITH_VERIFIED_VALUE",
+          "REPLACE_WITH_VERIFIED_VALUE",
+          "REPLACE_WITH_VERIFIED_VALUE",
+          "REPLACE_WITH_VERIFIED_VALUE",
+          "REPLACE_WITH_VERIFIED_VALUE"
+        ]
+      }
+    ],
+    "source": "REPLACE_WITH_VERIFIED_VALUE",
+    "control": "REPLACE_WITH_VERIFIED_VALUE",
+    "hardware_grasp_verified": "REPLACE_WITH_VERIFIED_VALUE",
+    "mapping_revision": "REPLACE_WITH_VERIFIED_VALUE",
+    "trigger_full": "REPLACE_WITH_VERIFIED_VALUE",
+    "trigger_hysteresis": "REPLACE_WITH_VERIFIED_VALUE",
+    "closure_curve": [
+      {
+        "stroke": "REPLACE_WITH_VERIFIED_VALUE",
+        "fractions": [
+          "REPLACE_WITH_VERIFIED_VALUE",
+          "REPLACE_WITH_VERIFIED_VALUE",
+          "REPLACE_WITH_VERIFIED_VALUE",
+          "REPLACE_WITH_VERIFIED_VALUE",
+          "REPLACE_WITH_VERIFIED_VALUE",
+          "REPLACE_WITH_VERIFIED_VALUE"
+        ]
+      },
+      {
+        "stroke": "REPLACE_WITH_VERIFIED_VALUE",
+        "fractions": [
+          "REPLACE_WITH_VERIFIED_VALUE",
+          "REPLACE_WITH_VERIFIED_VALUE",
+          "REPLACE_WITH_VERIFIED_VALUE",
+          "REPLACE_WITH_VERIFIED_VALUE",
+          "REPLACE_WITH_VERIFIED_VALUE",
+          "REPLACE_WITH_VERIFIED_VALUE"
+        ]
+      },
+      {
+        "stroke": "REPLACE_WITH_VERIFIED_VALUE",
+        "fractions": [
+          "REPLACE_WITH_VERIFIED_VALUE",
+          "REPLACE_WITH_VERIFIED_VALUE",
+          "REPLACE_WITH_VERIFIED_VALUE",
+          "REPLACE_WITH_VERIFIED_VALUE",
+          "REPLACE_WITH_VERIFIED_VALUE",
+          "REPLACE_WITH_VERIFIED_VALUE"
+        ]
+      },
+      {
+        "stroke": "REPLACE_WITH_VERIFIED_VALUE",
+        "fractions": [
+          "REPLACE_WITH_VERIFIED_VALUE",
+          "REPLACE_WITH_VERIFIED_VALUE",
+          "REPLACE_WITH_VERIFIED_VALUE",
+          "REPLACE_WITH_VERIFIED_VALUE",
+          "REPLACE_WITH_VERIFIED_VALUE",
+          "REPLACE_WITH_VERIFIED_VALUE"
+        ]
+      }
+    ],
+    "closing_speed_ratios": [
+      "REPLACE_WITH_VERIFIED_VALUE",
+      "REPLACE_WITH_VERIFIED_VALUE",
+      "REPLACE_WITH_VERIFIED_VALUE",
+      "REPLACE_WITH_VERIFIED_VALUE",
+      "REPLACE_WITH_VERIFIED_VALUE",
+      "REPLACE_WITH_VERIFIED_VALUE"
+    ],
+    "speed_policy_revision": "REPLACE_WITH_VERIFIED_VALUE",
+    "official_source_snapshot": "REPLACE_WITH_VERIFIED_VALUE",
+    "official_reuse_scope": "REPLACE_WITH_VERIFIED_VALUE",
+    "execution_policy": {
+      "trigger_rate_per_s": "REPLACE_WITH_VERIFIED_VALUE",
+      "target_rate_per_s": "REPLACE_WITH_VERIFIED_VALUE",
+      "speed_ceiling": "REPLACE_WITH_VERIFIED_VALUE"
+    }
+  },
+  "usb_adapter": {
+    "vendor_id": "REPLACE_WITH_VERIFIED_VALUE",
+    "product_id": "REPLACE_WITH_VERIFIED_VALUE",
+    "serial": "REPLACE_WITH_VERIFIED_VALUE",
+    "driver": "REPLACE_WITH_VERIFIED_VALUE",
+    "module": "REPLACE_WITH_VERIFIED_VALUE",
+    "interfaces": {
+      "left": "REPLACE_WITH_VERIFIED_VALUE",
+      "right": "REPLACE_WITH_VERIFIED_VALUE"
+    },
+    "udev_rules": "REPLACE_WITH_VERIFIED_VALUE",
+    "verified_kernel": "REPLACE_WITH_VERIFIED_VALUE"
+  },
+  "transport_verification": {
+    "source": "REPLACE_WITH_VERIFIED_VALUE",
+    "serial_identity_verified": "REPLACE_WITH_VERIFIED_VALUE",
+    "motion_commands_sent": "REPLACE_WITH_VERIFIED_VALUE",
+    "dds_feedback_verified": "REPLACE_WITH_VERIFIED_VALUE",
+    "dds_feedback_evidence": "REPLACE_WITH_VERIFIED_VALUE"
+  }
+}

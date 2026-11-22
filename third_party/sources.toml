@@ -1,0 +1,13 @@
+# Exact external source revisions for training and G1 setup.
+# These pins record provenance; their code/assets are not release-cleared.
+
+[Isaac-GR00T]
+path = "third_party/Isaac-GR00T"
+url = "https://github.com/NVIDIA/Isaac-GR00T.git"
+commit = "3b49067943eb1ab2eb2203b93d461c4390c78da3"
+
+[GR00T-WholeBodyControl]
+path = "third_party/GR00T-WholeBodyControl"
+url = "https://github.com/physical-superintelligence-lab/GR00T-WholeBodyControl.git"
+commit = "d40376994ff094787591ab76a691c50b8e131786"
+sparse = ["external_dependencies/unitree_sdk2_python", "external_dependencies/XRoboToolkit-PC-Service-Pybind_X86_and_ARM64", "gear_sonic_deploy/thirdparty", "gear_sonic/data/robot_model"]

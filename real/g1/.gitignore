@@ -1,0 +1,16 @@
+.local/
+.venv*/
+/logs/
+/data/
+config/*.json
+!config/*.example.json
+GR00T-WholeBodyControl/external_dependencies/
+GR00T-WholeBodyControl/gear_sonic_deploy/thirdparty/
+GR00T-WholeBodyControl/gear_sonic/data/
+GR00T-WholeBodyControl/gear_sonic_deploy/target/
+GR00T-WholeBodyControl/gear_sonic_deploy/build/
+external_dependencies/
+
+/config/robot-known-hosts
+/scripts/hand_server/*.rules
+/scripts/hand_server/brainco_hand_server

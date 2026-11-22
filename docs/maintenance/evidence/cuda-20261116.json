@@ -1,0 +1,100 @@
+{
+  "format": "zeta0.reviewed-cuda-evidence.v1",
+  "date": "2026-11-16",
+  "canonical_source_commit": "fb8d691bdb7103eeae3bbdefcf1d0701326b48b8",
+  "incoming_source_archive_sha256": "04cc070ac89c89b32aad67e9a00938964035ee92559f27700d1a489d3f0c68be",
+  "snapshot_git_identity": "39ddc78572d0ecddf2303a0b14d8f2e17f1fbc45",
+  "upstream_gr00t_commit": "3b49067943eb1ab2eb2203b93d461c4390c78da3",
+  "runtime_reused_read_only": true,
+  "python": "3.10.18",
+  "os": "Ubuntu 22.04.4 LTS",
+  "driver": "595.58.03",
+  "gpu": {
+    "format": "zeta0.gpu-acceptance.v1",
+    "device": "NVIDIA H200",
+    "torch": "2.7.0+cu126",
+    "cuda": "12.6",
+    "tests_passed": 3,
+    "tests_skipped": 0,
+    "full_model_or_robot_acceptance": false
+  },
+  "quickstart": {
+    "format": "zeta0.quickstart.v1",
+    "data": "synthetic",
+    "device": "cuda",
+    "source_commit": "39ddc78572d0ecddf2303a0b14d8f2e17f1fbc45",
+    "torch": "2.7.0+cu126",
+    "seed": 7,
+    "completed_updates": 8,
+    "resumed_at": 4,
+    "checkpoint_sha256": "9d4be30f7201e1fa0d0a460910a7a4068e104e71135d05da8d7f15b9e7eab08f",
+    "initial_mse": 0.42419230937957764,
+    "final_mse": 0.3336610794067383,
+    "prediction_shape": [
+      4,
+      3,
+      2,
+      4
+    ],
+    "robot_commands_sent": false,
+    "metrics": [
+      {
+        "update": 1,
+        "mse": 0.42419230937957764
+      },
+      {
+        "update": 2,
+        "mse": 0.4038863182067871
+      },
+      {
+        "update": 3,
+        "mse": 0.41352909803390503
+      },
+      {
+        "update": 4,
+        "mse": 0.39016813039779663
+      },
+      {
+        "update": 5,
+        "mse": 0.38253891468048096
+      },
+      {
+        "update": 6,
+        "mse": 0.36742687225341797
+      },
+      {
+        "update": 7,
+        "mse": 0.35629868507385254
+      },
+      {
+        "update": 8,
+        "mse": 0.34708866477012634
+      }
+    ]
+  },
+  "selected_cases": [
+    {
+      "classname": "tests.predictive_world.test_phases",
+      "name": "test_cuda_bf16_world_and_joint_optimizer_steps",
+      "seconds": 4.197,
+      "status": "passed"
+    },
+    {
+      "classname": "tests.predictive_world.test_gr00t",
+      "name": "test_checkpointed_native_outputs_gradients_dropout_rng_and_state_keys_match[cuda-False]",
+      "seconds": 4.546,
+      "status": "passed"
+    },
+    {
+      "classname": "tests.predictive_world.test_gr00t",
+      "name": "test_checkpointed_native_outputs_gradients_dropout_rng_and_state_keys_match[cuda-True]",
+      "seconds": 0.066,
+      "status": "passed"
+    }
+  ],
+  "evidence_sha256": {
+    "summary.json": "be1a92e1f81e0d11c753d580e5c32bed0d713e31efcbe43a60daf195b316d426",
+    "quickstart/summary.json": "fc719f8e2022645d761e653bd5c843063c78660c727b0f814a2aa2d044b91a7c",
+    "gpu-tests.xml": "49d91a72a6c55b7d26fa8bb1a67f7b4fa8b01a0a01ce7e9229a5d1f5dead5c0e"
+  }
+}

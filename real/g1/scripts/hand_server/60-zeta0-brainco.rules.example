@@ -1,0 +1,6 @@
+# Verify adapter identity and left/right interface mapping on your own hardware.
+ACTION=="add|change", SUBSYSTEM=="usb", ENV{DEVTYPE}=="usb_device", ATTR{idVendor}=="1a86", ATTR{idProduct}=="55ec", ATTR{serial}=="REPLACE_USB_ADAPTER_SERIAL", ENV{ID_MM_DEVICE_IGNORE}="1"
+ACTION=="add", SUBSYSTEM=="usb", ENV{DEVTYPE}=="usb_interface", ATTRS{idVendor}=="1a86", ATTRS{idProduct}=="55ec", ATTRS{serial}=="REPLACE_USB_ADAPTER_SERIAL", ATTR{bInterfaceNumber}=="0[02]", DRIVER=="cdc_acm", RUN+="/usr/local/sbin/zeta0-bind-wch-hand %k REPLACE_USB_ADAPTER_SERIAL"
+ACTION=="add|change", SUBSYSTEM=="tty", KERNEL=="ttyCH343USB*", ATTRS{idVendor}=="1a86", ATTRS{idProduct}=="55ec", ATTRS{serial}=="REPLACE_USB_ADAPTER_SERIAL", ENV{ID_MM_DEVICE_IGNORE}="1", GROUP="dialout", MODE="0660", IMPORT{builtin}="usb_id"
+ACTION=="add|change", SUBSYSTEM=="tty", KERNEL=="ttyCH343USB*", ENV{ID_SERIAL_SHORT}=="REPLACE_USB_ADAPTER_SERIAL", ENV{ID_USB_INTERFACE_NUM}=="00", SYMLINK+="brainco/left"
+ACTION=="add|change", SUBSYSTEM=="tty", KERNEL=="ttyCH343USB*", ENV{ID_SERIAL_SHORT}=="REPLACE_USB_ADAPTER_SERIAL", ENV{ID_USB_INTERFACE_NUM}=="02", SYMLINK+="brainco/right"

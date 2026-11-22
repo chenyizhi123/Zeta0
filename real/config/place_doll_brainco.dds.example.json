@@ -1,0 +1,7 @@
+{
+  "transport": "existing_dds",
+  "dds_domain_id": 0,
+  "dds_config": "<CycloneDDS><Domain Id=\"0\"><General><Interfaces><NetworkInterface address=\"REPLACE_WIRED_ADDRESS\"/></Interfaces></General><Discovery><Peers><Peer Address=\"REPLACE_ROBOT_HOST\"/></Peers></Discovery></Domain></CycloneDDS>",
+  "state_bind": "tcp://*:5561",
+  "command_bind": "tcp://*:5562"
+}

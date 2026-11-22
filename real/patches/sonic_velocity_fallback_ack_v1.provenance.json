@@ -1,0 +1,57 @@
+{
+  "format": "zeta0.sonic.native_ack_source_patch.v1",
+  "capability_format": "zeta0.sonic.velocity_fallback_ack.v1",
+  "capability_version": 1,
+  "patch_file": "sonic_velocity_fallback_ack_v1.patch",
+  "patch_sha256": "d02e3bb15a5bc1eab772e23ed6119ac4fe22d4aa40dbb81025a895b94f1c44b5",
+  "files": [
+    {
+      "path": "gear_sonic_deploy/deploy.sh",
+      "source_sha256": "df786d1195a4fea85676e2a047ffd8766257c9f9be45c9f4c1e52c5788d4b9d6",
+      "patched_sha256": "b881d5da8189ccda40329c68d239d8f67a58d1c4e559a277b723f488c334b2d0"
+    },
+    {
+      "path": "gear_sonic_deploy/src/g1/g1_deploy_onnx_ref/include/token_timing_snapshot.hpp",
+      "source_sha256": "3d0a6a729787bfbdc0fe2a824c61826ffecbcd4916f0ad7354c442c611ef528b",
+      "patched_sha256": "32ac492b21775380728e53a46d053467586f3733893b7cb0f279f550f84226e7"
+    },
+    {
+      "path": "gear_sonic_deploy/src/g1/g1_deploy_onnx_ref/include/input_interface/input_interface.hpp",
+      "source_sha256": "9447c742b56c751655a24878442da555db80393c53c4639c5cc7891036b2ad00",
+      "patched_sha256": "abb0c92b0a08ece1fbace792143bc305b2b3569e6857cdefe9495e63ea24d82b"
+    },
+    {
+      "path": "gear_sonic_deploy/src/g1/g1_deploy_onnx_ref/include/input_interface/zmq_endpoint_interface.hpp",
+      "source_sha256": "096a446f4a6224deb96d152b5526614e4335a8a75e8629282eb8ad3791e81f61",
+      "patched_sha256": "b431ba86ba4e756188537d6f201ced4812e6f8c0a162270abcf3c18bb34a7b53"
+    },
+    {
+      "path": "gear_sonic_deploy/src/g1/g1_deploy_onnx_ref/include/input_interface/zmq_manager.hpp",
+      "source_sha256": "f5626099a5eee2a4dab60786df2be583456a9102f5a26c2ddd298212f49e836a",
+      "patched_sha256": "e3188ffdc12aabb2b570261b271fc0244d18d6203fc47e35599a99acf9d34dc4"
+    },
+    {
+      "path": "gear_sonic_deploy/src/g1/g1_deploy_onnx_ref/include/output_interface/output_interface.hpp",
+      "source_sha256": "17436e7a4b8d450afe13722915dc9758ff620ef10e03adcd26648d9dbd8135b8",
+      "patched_sha256": "19853fbd6b54d7d1a68c9e88f706fb7c20eb9eaa5b35657da1d2ae79cdaa1d4e"
+    },
+    {
+      "path": "gear_sonic_deploy/src/g1/g1_deploy_onnx_ref/src/g1_deploy_onnx_ref.cpp",
+      "source_sha256": "610b6a67e90a26a5c798ec745b887b759b5212e148394583a4adb2e9c1cd388c",
+      "patched_sha256": "4b339b1eee16e76d6904804edf5c49ba06da19ce96e3a1dddcbfffc78c41b5df"
+    }
+  ],
+  "required_feedback_fields": [
+    "velocity_fallback_ack_version",
+    "control_active",
+    "token_stream_ready",
+    "decoder_token_input_valid",
+    "decoder_token_commit_sequence",
+    "decoder_token_frame_index",
+    "decoder_token_receive_age_s"
+  ],
+  "origin": "CRC-verified files recovered from a truncated user-provided collection/deployment ZIP",
+  "applied_to_recovered_source": false,
+  "compiled": false,
+  "hardware_tested": false
+}

@@ -1,0 +1,66 @@
+{
+  "sonic_root": "/REPLACE_PROJECT_ROOT/GR00T-WholeBodyControl",
+  "robot_host": "REPLACE_ROBOT_HOST",
+  "body_dds_peer": "REPLACE_BODY_DDS_PEER",
+  "robot_camera_root": "~/sonic_camera",
+  "robot_head_root": "~/g1_head_setup",
+  "head_servo_device": "/dev/serial/by-id/REPLACE_HEAD_SERVO_DEVICE",
+  "hand_server_path": "/REPLACE_ROBOT_HAND_SERVER_BINARY",
+  "robot_interface": "REPLACE_WIRED_INTERFACE",
+  "pc_wifi_ip": "REPLACE_PC_WIFI_IP",
+  "pc_wifi_ssid": "REPLACE_WIFI_SSID",
+  "pc_service_root": "/REPLACE_PC_SERVICE_ROOT",
+  "camera_sources": {
+    "ego_view": {
+      "host": "REPLACE_ROBOT_HOST",
+      "port": 5555,
+      "key": "ego_view"
+    },
+    "video6": {
+      "host": "REPLACE_ROBOT_HOST",
+      "port": 5556,
+      "key": "video6",
+      "usb_path": "REPLACE_LEFT_WRIST_USB_PATH",
+      "usb_serial": "REPLACE_LEFT_WRIST_USB_SERIAL",
+      "usb_vendor_id": "8086",
+      "usb_product_id": "0ad3",
+      "usb_interface": "REPLACE_LEFT_WRIST_USB_INTERFACE",
+      "pixel_format": "YUYV"
+    },
+    "video8": {
+      "host": "REPLACE_ROBOT_HOST",
+      "port": 5557,
+      "key": "video8",
+      "usb_path": "REPLACE_RIGHT_WRIST_USB_PATH",
+      "usb_serial": "REPLACE_RIGHT_WRIST_USB_SERIAL",
+      "usb_vendor_id": "8086",
+      "usb_product_id": "0ad3",
+      "usb_interface": "REPLACE_RIGHT_WRIST_USB_INTERFACE",
+      "pixel_format": "YUYV"
+    }
+  },
+  "wrist_mapping": {
+    "video6": "left_wrist",
+    "video8": "right_wrist"
+  },
+  "camera_output_port": 5560,
+  "dataset_frequency": 30,
+  "recording_input_wait_s": 1.0,
+  "task_prompt": "Place the object on the table.",
+  "observation_sync": {
+    "version": 1,
+    "camera_max_skew_ms": 25.0,
+    "camera_wait_ms": 20.0,
+    "max_age_ms": 200.0,
+    "body_max_offset_ms": 40.0,
+    "hand_max_offset_ms": 50.0,
+    "history_size": 128,
+    "image_shape": [
+      480,
+      640,
+      3
+    ]
+  },
+  "head_camera_serial": "REPLACE_HEAD_SENSOR_SERIAL",
+  "head_camera_usb_serial": "REPLACE_HEAD_USB_SERIAL"
+}

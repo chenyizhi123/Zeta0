@@ -1,0 +1,7 @@
+{
+  "transport": "sdk_modbus",
+  "left": {"port": "/dev/serial/by-id/REPLACE_LEFT_HAND_DEVICE", "baudrate": 115200, "slave_id": "0x7e"},
+  "right": {"port": "/dev/serial/by-id/REPLACE_RIGHT_HAND_DEVICE", "baudrate": 115200, "slave_id": "0x7e"},
+  "state_bind": "tcp://*:5561",
+  "command_bind": "tcp://*:5562"
+}
