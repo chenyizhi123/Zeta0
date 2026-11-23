@@ -16,6 +16,16 @@ HUMANOIDARENA_TASKS = (
     "HSI_vision_navi",
 )
 
+REAL_G1_TASK_ARCHIVES: dict[str, str] = {
+    "blow_dry_hair": "real/blow_dry_hair.zip",
+    "clean_table_trash": "real/clean_table_trash.zip",
+    "place_chair": "real/place_chair.zip",
+    "place_doll": "real/place_doll.zip",
+    "place_tape_on_table": "real/place_tape_on_table.zip",
+    "tidy_scene": "real/tidy_scene.zip",
+    "flatten_box": "additional/flatten_box.zip",
+}
+
 OFFICIAL_DATASETS: dict[str, dict[str, Any]] = {
     "humanoidarena": {
         "repo_id": "SII-yizhi/HumanoidArenaV3.1_SONIC40",
@@ -34,8 +44,10 @@ OFFICIAL_DATASETS: dict[str, dict[str, Any]] = {
         "fps": 30,
         "state_dim": 41,
         "action_dim": 76,
-        "tasks": [],
-        "description": "Unitree G1 + BrainCo real-world demonstrations collected with SONIC.",
+        "tasks": list(REAL_G1_TASK_ARCHIVES),
+        "task_patterns": dict(REAL_G1_TASK_ARCHIVES),
+        "base_patterns": ["README.md", "SHA256SUMS"],
+        "description": "Unitree G1 + BrainCo real-world demonstrations (6 primary + 1 additional task, 739 episodes, 872,409 frames).",
     },
 }
 
@@ -73,7 +85,12 @@ def build_pull_plan(
     spec = resolve_dataset_spec(dataset)
     destination = Path(output).expanduser().resolve()
     allow_patterns: list[str] | None = None
-    selected_tasks = [t.strip() for t in (tasks or []) if t.strip()]
+    selected_tasks = [
+        part.strip()
+        for item in (tasks or [])
+        for part in item.split(",")
+        if part.strip()
+    ]
     if selected_tasks:
         known = set(spec.get("tasks", []))
         if known:
@@ -82,7 +99,11 @@ def build_pull_plan(
                 raise ValueError(
                     f"Unknown task(s) {unknown} for {spec['repo_id']}; available: {sorted(known)}"
                 )
-        allow_patterns = ["README.md"] + [f"{task}/**" for task in selected_tasks]
+        task_patterns = spec.get("task_patterns") or {}
+        base_patterns = list(spec.get("base_patterns") or ["README.md"])
+        allow_patterns = base_patterns + [
+            task_patterns.get(task, f"{task}/**") for task in selected_tasks
+        ]
     return {
         "format": "zeta0.dataset_pull_plan.v1",
         "ok": True,

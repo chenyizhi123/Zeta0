@@ -23,10 +23,11 @@ ASCII-normalized name and SHA-256 digest is recorded in
 
 ## Downloading STL meshes and simulation FOV videos
 
-Option 1 — GitHub Releases (recommended once published):
+Option 1 — GitHub Releases (`v0.2.0`):
 
 ```bash
 # Download hardware-wrist-camera-v1.tar.gz from GitHub Releases, then verify:
+curl -LO https://github.com/chenyizhi123/Zeta0/releases/download/v0.2.0/hardware-wrist-camera-v1.tar.gz
 tar -xzf hardware-wrist-camera-v1.tar.gz -C hardware/
 python -c '
 import hashlib, json

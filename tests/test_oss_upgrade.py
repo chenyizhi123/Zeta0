@@ -117,9 +117,16 @@ def test_cli_hosts_init_and_data_pull_plan(tmp_path):
     assert plan["allow_patterns"] == ["README.md", "HOI_pp_box/**"]
     assert plan["executed"] is False
 
-    res_real = _cli("--json", "data", "pull", "real", "--output", str(tmp_path / "real"))
+    res_real = _cli(
+        "--json", "data", "pull", "real",
+        "--tasks", "place_chair,flatten_box", "--output", str(tmp_path / "real"),
+    )
     assert res_real.returncode == 0, res_real.stderr
-    assert json.loads(res_real.stdout)["repo_id"] == "SII-yizhi/zeta0-real-dataset"
+    real_plan = json.loads(res_real.stdout)
+    assert real_plan["repo_id"] == "SII-yizhi/zeta0-real-dataset"
+    assert real_plan["allow_patterns"] == [
+        "README.md", "SHA256SUMS", "real/place_chair.zip", "additional/flatten_box.zip",
+    ]
 
     # Init GR00T config and verify automatic SHA-256 computation from config.json.
     gr00t_dir = tmp_path / "gr00t_base"
