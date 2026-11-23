@@ -269,7 +269,7 @@ Also see: [Installation](docs/installation.md) · [Dockerfiles](docker/README.md
 
 ---
 
-## Open-Source Release Checklist
+## Released So Far
 
 - [x] Real-world Unitree G1 + SONIC + BrainCo dataset ([`SII-yizhi/zeta0-real-dataset`](https://huggingface.co/datasets/SII-yizhi/zeta0-real-dataset), 6+1 tasks, 739 episodes)
 - [x] 3D-printable RealSense D415 wrist camera mounts + print specs + SHA-256 bundle ([`v0.2.0`](https://github.com/chenyizhi123/Zeta0/releases/tag/v0.2.0))

@@ -269,7 +269,7 @@ PYTHONPATH=src python scripts/benchmark_inference.py --preset tiny-cpu --device 
 
 ---
 
-## 开源进度清单
+## 迄今已发布
 
 - [x] Unitree G1 + SONIC + BrainCo 真机数据集公开（[`SII-yizhi/zeta0-real-dataset`](https://huggingface.co/datasets/SII-yizhi/zeta0-real-dataset)，6+1 任务，739 局）
 - [x] RealSense D415 3D 打印腕部支架、打印参数与 SHA-256 资产包（[`v0.2.0`](https://github.com/chenyizhi123/Zeta0/releases/tag/v0.2.0)）
