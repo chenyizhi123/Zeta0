@@ -1,74 +1,171 @@
+<div align="center">
+
 # ζ₀ (Zeta0)
 
-**A Framework for World Action Models with Joint Scene and Body Foresight in Humanoid Control**
+### A Framework for World Action Models with Joint Scene and Body Foresight in Humanoid Control
 
-[![Project Page](https://img.shields.io/badge/Project_Page-ζ₀-0F766E?style=flat-square)](https://chenyizhi123.github.io/zeta0-project/)
-[![Paper PDF](https://img.shields.io/badge/Paper-PDF_(18pp)-B91C1C?style=flat-square)](https://chenyizhi123.github.io/zeta0-project/assets/Zeta0-Humanoid-Full.pdf)
-[![Sim Dataset](https://img.shields.io/badge/HF_Dataset-HumanoidArena_SONIC40-F59E0B?style=flat-square)](https://huggingface.co/datasets/SII-yizhi/HumanoidArenaV3.1_SONIC40)
-[![Real Dataset](https://img.shields.io/badge/HF_Dataset-Zeta0_Real_G1-F59E0B?style=flat-square)](https://huggingface.co/datasets/SII-yizhi/zeta0-real-dataset)
+[![Project Page](https://img.shields.io/badge/Project_Page-ζ₀-0F766E?style=for-the-badge&logo=githubpages&logoColor=white)](https://chenyizhi123.github.io/zeta0-project/)
+[![Paper PDF](https://img.shields.io/badge/Paper-PDF_(18pp)-B91C1C?style=for-the-badge&logo=adobeacrobatreader&logoColor=white)](https://chenyizhi123.github.io/zeta0-project/assets/Zeta0-Humanoid-Full.pdf)
+[![Real G1 Dataset](https://img.shields.io/badge/HF_Dataset-Real_G1_(739_ep)-F59E0B?style=for-the-badge&logo=huggingface&logoColor=black)](https://huggingface.co/datasets/SII-yizhi/zeta0-real-dataset)
+[![Sim Dataset](https://img.shields.io/badge/HF_Dataset-HumanoidArena_(700_ep)-F59E0B?style=for-the-badge&logo=huggingface&logoColor=black)](https://huggingface.co/datasets/SII-yizhi/HumanoidArenaV3.1_SONIC40)
+
+[![Release v0.2.0](https://img.shields.io/badge/Release-v0.2.0-111827?style=flat-square&logo=github)](https://github.com/chenyizhi123/Zeta0/releases/tag/v0.2.0)
+[![CI](https://github.com/chenyizhi123/Zeta0/actions/workflows/checks.yml/badge.svg)](https://github.com/chenyizhi123/Zeta0/actions/workflows/checks.yml)
 [![License](https://img.shields.io/badge/License-Apache_2.0-2563EB?style=flat-square)](LICENSE)
 [![Python](https://img.shields.io/badge/Python-3.10_train_|_3.12_capture-3776AB?style=flat-square)](docs/installation.md)
 
-English | [简体中文](README_zh.md) · [Project Page](https://chenyizhi123.github.io/zeta0-project/) · [Paper PDF](https://chenyizhi123.github.io/zeta0-project/assets/Zeta0-Humanoid-Full.pdf) · [Roadmap](ROADMAP.md) · [Changelog](CHANGELOG.md)
+**English** | [简体中文](README_zh.md) · [Real G1 Demos](#real-world-unitree-g1-demos) · [Method](#method--layered-architecture-system-2--15--1--0) · [4 Real-Robot Pillars](#four-open-source-real-robot-pillars) · [3D-Printable Mounts](#3d-printable-wrist-camera-mounts-unitree-g1--d415) · [Quick Start](#quick-start-30-seconds-on-cpu) · [Citation](#citation)
 
-**Zeta0** turns layered / dual-system vision-language-action (VLA) policies into **World Action Models (WAM)** by foreseeing future visual features and measured whole-body joint trajectories in a shared latent representation, supervised in action space via **dual-response transfer**. It connects Unitree G1 + SONIC + BrainCo demonstration capture, unified training across **Ψ₀** and **GR00T N1.7** hosts (with **π₀.₅** host contracts reserved), closed-loop evaluation, foresight visualization, and **Real-Time Chunking (RTC)** deployment.
+<br/>
 
-![Zeta-0 policy: autonomous G1 task, scene-and-body prediction, and additional real-world tasks](docs/assets/zeta0-overview.png)
+<a href="https://chenyizhi123.github.io/zeta0-project/assets/videos/zeta0_overview_public.mp4">
+  <img src="docs/assets/zeta0-overview.png" alt="Zeta-0 overview: autonomous Unitree G1 tasks, joint scene-and-body foresight, and real-world deployment" width="96%"/>
+</a>
 
-*Zeta-0 foresees joint scene-and-body futures (+0.2 / +0.4 / +0.6 s) from causal inputs to condition whole-body humanoid actions. See the [method contract](docs/predictive_world.md).*
+<sub><b>ζ₀</b> turns layered / dual-system VLAs (<b>Ψ₀</b>, <b>GR00T N1.7</b>, and future <b>π₀.₅</b>) into <b>World Action Models</b> by foreseeing future scene features and all 29 measured whole-body joints (+0.2 / +0.4 / +0.6 s) from causal inputs, supervised in action space via <b>Dual-Response Transfer</b>. Click the teaser above to watch the overview video.</sub>
+
+</div>
+
+---
+
+## News
+
+- **`[2026-11]` `v0.2.0` Released**: Full real-robot open-source stack for **Unitree G1 + GEAR-SONIC + BrainCo Revo2** — including **no-private-weights** training (`--init-mode scratch` with Qwen3-VL / Cosmos-Reason2-2B & `--init-mode gr00t_n1d7` with NVIDIA GR00T N1.7-3B), unified G1 RTC deployment, `import zeta0` SDK, and verified 3D-printable D415 wrist mounts in [Release `v0.2.0`](https://github.com/chenyizhi123/Zeta0/releases/tag/v0.2.0).
+- **`[2026-11]` Public Real-Robot Dataset**: Released [`SII-yizhi/zeta0-real-dataset`](https://huggingface.co/datasets/SII-yizhi/zeta0-real-dataset) (**739 episodes · 872,409 frames · 6 primary + 1 additional real G1 tasks**) alongside the 7-task simulation dataset [`SII-yizhi/HumanoidArenaV3.1_SONIC40`](https://huggingface.co/datasets/SII-yizhi/HumanoidArenaV3.1_SONIC40) (700 episodes).
+- **`[2026-11]` Project Page & Paper**: Interactive real/sim rollouts and full 18-page PDF are live at [chenyizhi123.github.io/zeta0-project](https://chenyizhi123.github.io/zeta0-project/).
+
+---
+
+## Start Where You Need
+
+| If you want to... | Go straight to |
+| :--- | :--- |
+| **Print the G1 RealSense D415 wrist mounts** | [Download `hardware-wrist-camera-v1.tar.gz`](https://github.com/chenyizhi123/Zeta0/releases/download/v0.2.0/hardware-wrist-camera-v1.tar.gz) · [Print Specs & BOM](hardware/README.md) |
+| **Download the public real G1 dataset (739 ep)** | [`SII-yizhi/zeta0-real-dataset`](https://huggingface.co/datasets/SII-yizhi/zeta0-real-dataset) · `zeta data pull real --tasks place_chair --execute` |
+| **Collect, train & deploy on Unitree G1** | [4 Real-Robot Pillars](#four-open-source-real-robot-pillars) · [G1 Capture & Deploy](real/g1/README.md) · [Training Guide](docs/real_data_final_method.md) |
+| **Plug ζ₀ foresight into your layered VLA** | [30s CPU Demo](#quick-start-30-seconds-on-cpu) · [`zeta0.hosts`](src/psi/models/predictive_world/hosts/) · [Backend Guide](docs/backends.md) |
+
+---
+
+## Real-World Unitree G1 Demos
+
+Autonomous closed-loop rollouts on a physical **Unitree G1 + GEAR-SONIC WBC + BrainCo Revo2 hands** with Real-Time Chunking (RTC). Click any card to play the full rollout video (3rd-person + head/wrist camera PiP):
+
+<table>
+  <tr>
+    <td align="center" width="33%">
+      <a href="https://chenyizhi123.github.io/zeta0-project/assets/videos/real_01_tidy_scene.mp4">
+        <img src="https://chenyizhi123.github.io/zeta0-project/assets/posters/real_01_tidy_scene.jpg" width="100%" alt="Tidy Scene"/>
+      </a>
+      <br/><b>Tidy Scene</b> (5-stage · 200 ep)<br/><sub><code>real/tidy_scene.zip</code> · 30 Hz</sub>
+    </td>
+    <td align="center" width="33%">
+      <a href="https://chenyizhi123.github.io/zeta0-project/assets/videos/real_05_clear_table.mp4">
+        <img src="https://chenyizhi123.github.io/zeta0-project/assets/posters/real_05_clear_table.jpg" width="100%" alt="Clear Table Trash"/>
+      </a>
+      <br/><b>Clear Table Trash</b> (Multi-stage · 86 ep)<br/><sub><code>real/clean_table_trash.zip</code> · 30 Hz</sub>
+    </td>
+    <td align="center" width="33%">
+      <a href="https://chenyizhi123.github.io/zeta0-project/assets/videos/real_06_avoid_obstacle.mp4">
+        <img src="https://chenyizhi123.github.io/zeta0-project/assets/posters/real_06_avoid_obstacle.jpg" width="100%" alt="Avoid Obstacle & Place Tape"/>
+      </a>
+      <br/><b>Avoid Obstacle &amp; Place Tape</b> (100 ep)<br/><sub><code>real/place_tape_on_table.zip</code> · 30 Hz</sub>
+    </td>
+  </tr>
+  <tr>
+    <td align="center" width="33%">
+      <a href="https://chenyizhi123.github.io/zeta0-project/assets/videos/real_02_hair_drying.mp4">
+        <img src="https://chenyizhi123.github.io/zeta0-project/assets/posters/real_02_hair_drying.jpg" width="100%" alt="Blow-Dry Hair"/>
+      </a>
+      <br/><b>Blow-Dry Hair</b> (Human interaction · 81 ep)<br/><sub><code>real/blow_dry_hair.zip</code> · 30 Hz</sub>
+    </td>
+    <td align="center" width="33%">
+      <a href="https://chenyizhi123.github.io/zeta0-project/assets/videos/real_03_push_chair.mp4">
+        <img src="https://chenyizhi123.github.io/zeta0-project/assets/posters/real_03_push_chair.jpg" width="100%" alt="Place Chair"/>
+      </a>
+      <br/><b>Place Chair</b> (Loco-manipulation · 101 ep)<br/><sub><code>real/place_chair.zip</code> · 30 Hz</sub>
+    </td>
+    <td align="center" width="33%">
+      <a href="https://chenyizhi123.github.io/zeta0-project/assets/videos/real_04_place_doll.mp4">
+        <img src="https://chenyizhi123.github.io/zeta0-project/assets/posters/real_04_place_doll.jpg" width="100%" alt="Place Doll"/>
+      </a>
+      <br/><b>Place Doll</b> (Precision pick &amp; place · 100 ep)<br/><sub><code>real/place_doll.zip</code> · 50 Hz</sub>
+    </td>
+  </tr>
+</table>
 
 ---
 
 ## Key Results
 
 | Benchmark / Metric | Base Policy | **ζ₀ (Ours)** | Gain | Details |
-| --- | :---: | :---: | :---: | --- |
+| :--- | :---: | :---: | :---: | :--- |
 | **HumanoidArena (7-task mean, Ψ₀)** | 44.8% | **63.6%** | **+18.8 pp** | 420 episodes/setting · `zeta_native` |
 | **HumanoidArena (7-task mean, GR00T N1.7)** | 70.5% | **79.5%** | **+9.0 pp** | Tops all compared 7-task joint policies · `gr00t_n1d7` |
-| **Real-World Unitree G1 (6 tasks, Ψ₀)** | 61.7% | **78.3%** | **+16.7 pp** | 300 physical trials · +26.7 pp on multi-stage tasks |
+| **Real-World Unitree G1 (6 tasks, Ψ₀)** | 61.7% | **78.3%** | **+16.7 pp** | 300 physical trials · **+26.7 pp** on multi-stage tasks |
 | **Real-World Unitree G1 (6 tasks, GR00T N1.7)** | 75.0% | **85.0%** | **+10.0 pp** | SONIC whole-body control + BrainCo hands + RTC |
 | **29-Joint Body Forecast (+0.6 s RMSE)** | 9.36° (hold) | **4.53°** | **−51.6%** | Wins in 83.5% of 526 windows (legs: 5.23° vs 12.54°) |
-| **Closed-Loop Inference (RTX 4090)** | — | **212 ms** | **6.3 GiB** | Single deterministic forecast per action chunk |
+| **Closed-Loop Latency (RTX 4090 / H200)** | — | **212 ms** | **6.3 GiB** | Single deterministic forecast per chunk (H200 `torch.compile` S1.5+S1: **105.9 ms / 1.82 GiB**) |
 
 ---
 
-## Layered Architecture (`System 2 → 1.5 → 1 → 0`)
+## Method & Layered Architecture (`System 2 → 1.5 → 1 → 0`)
 
-Zeta0 sits as a causal **System 1.5 Foresight Bridge** between a frozen System 2 VLM and a System 1 flow-matching action expert, unified across training, export, and deployment via the Layered VLA Host Registry (`zeta0.hosts` / `psi.models.predictive_world.hosts`):
+<p align="center">
+  <img src="https://chenyizhi123.github.io/zeta0-project/assets/figures/fig2_method.png" alt="Zeta-0 joint scene and body foresight architecture and dual-response transfer" width="96%"/>
+</p>
 
-| Layer | Component | Implementations |
-| --- | --- | --- |
-| **System 2 (VLM)** | Observation & visual patch backbone | Frozen Qwen3-VL (`zeta_native`), Exported GR00T N1.7 VLM (`gr00t_n1d7`), PaliGemma + KV-cache (`pi05`, planned) |
-| **System 1.5 (ζ₀ Core)** | Shared foresight & action-space transfer | `E_φ / E_φ̄` + `WorldReadout D` (training only) · `H` + `F_θ(prior/world)` · Dual-Response Transfer `L_resp` |
-| **System 1 (Action Expert)** | Flow-matching policy + RTC inpainting | `TemporalNativeActionExpert` (`zeta_native`), native `Gr00tN1d7ActionHead` (`gr00t_n1d7`), Gemma expert (`pi05`, planned) |
-| **System 0 (Robot Control)** | Whole-body execution on Unitree G1 | Unified G1 Runtime (`unified`) · RTC chunk handoff · GEAR-SONIC · BrainCo Revo2 hands |
+```mermaid
+flowchart LR
+  S2["System 2: Frozen VLM<br/>Qwen3-VL / GR00T N1.7 VL / (pi0.5)"]
+  S15["System 1.5: Zeta-0 Foresight Bridge<br/>History Encoder H + Latent Transition F_theta"]
+  S1["System 1: Flow-Matching Action Expert<br/>TemporalNative / Gr00tN1d7 + RTC Inpainting"]
+  S0["System 0: Unitree G1 Control<br/>Unified Runtime + GEAR-SONIC + BrainCo Hands"]
+  TR["Training-Only Supervision (Excluded at Deploy)<br/>Future Encoder E_phi / EMA + WorldReadout D + Teacher T_psi (L_resp)"]
 
-> At deployment, `E_φ`, `E_φ̄`, `D`, Teacher `T_ψ`, and world-mode future actions are excluded by construction inside `PredictiveWorldPolicy`.
+  S2 --> S15 --> S1 --> S0
+  S2 --> S1
+  TR -.->|"Joint scene + 29-joint body + Dual-Response Transfer"| S15
+```
+
+<details>
+<summary><b>View 29-Joint Whole-Body Forecast Figure &amp; Layered Host Matrix</b></summary>
+
+<p align="center">
+  <img src="https://chenyizhi123.github.io/zeta0-project/assets/figures/fig3_body_readout.png" alt="29-joint whole-body forecast accuracy at +0.2s, +0.4s, +0.6s" width="90%"/>
+</p>
+
+| Model Host | `model.host_architecture` | Status | Action Grid / Solver | Template / Module |
+| :--- | :--- | :---: | :---: | :--- |
+| **Ψ₀-derived** | `zeta_native` | Supported (Train + Export + G1 Deploy) | 50 steps @ 30 Hz or 30 @ 50 Hz · 10 Euler | [`configs/psi0/joint.template.json`](configs/psi0/joint.template.json) |
+| **Native GR00T N1.7** | `gr00t_n1d7` | Supported (Train + Export + G1 Deploy) | 40 steps @ 30 Hz or 50 Hz · 4 Euler | [`configs/gr00t_n1d7/joint.template.json`](configs/gr00t_n1d7/joint.template.json) |
+| **π₀.₅ (PaliGemma + Gemma)** | `pi05` | Contract Reserved (`kv_cache` + dynamic `visual_dim`) | 50 steps · 10 Euler | [`src/psi/models/predictive_world/hosts/pi05.py`](src/psi/models/predictive_world/hosts/pi05.py) |
+
+</details>
 
 ---
 
-## Four Open-Source Real-Robot Pillars (Unitree G1 + SONIC + BrainCo)
-
-This release centers on an end-to-end, reproducible real-humanoid stack across four pillars:
+## Four Open-Source Real-Robot Pillars
 
 | Pillar | What's Included | Entrypoints |
-| --- | --- | --- |
-| **1. Hardware Kit (3D-Printable)** | RealSense D415 wrist mounts (paper `+30°` back-of-hand & expanded `−20°..+20°` palm-side, recommended `0°`), print specs, M3 BOM, URDF previews & SHA-256 asset manifest | [`hardware/README.md`](hardware/README.md) · [`hardware/assets_manifest.json`](hardware/assets_manifest.json) |
-| **2. Real G1 Collection** | PICO / XRoboToolkit teleop + GEAR-SONIC WBC + BrainCo Revo2 dual-hand + 3× D415 capture directly into LeRobot v3 (`state41` / `motion76`), plus offline audit (`zeta data inspect`) | [`real/g1/README.md`](real/g1/README.md#collection) · [`docs/framework.md`](docs/framework.md#inspect-captured-data) |
-| **3. Real-Robot Training** | No-private-weights v6/raw training from public **Qwen3-VL / Cosmos-Reason2-2B** (`--init-mode scratch`) or **NVIDIA GR00T N1.7-3B** (`--init-mode gr00t_n1d7`, 30 Hz & 50 Hz) on `zeta0-real-dataset` or your own G1 recordings | [`scripts/train/predictive_world/prepare_sonic_lerobot_task.py`](scripts/train/predictive_world/prepare_sonic_lerobot_task.py) · [`docs/real_data_final_method.md`](docs/real_data_final_method.md) |
-| **4. Real G1 Deployment** | Unified G1 runtime (`unified`) + `real_sonic_server` supporting both `zeta_native` (`50/30` & `30/50`) and `gr00t_n1d7` (`30/40` & `50/40`) with RTC inpainting + hardware-free `mock_g1_client.py` + `zeta visualize log` | [`real/g1/runtime_profiles/README.md`](real/g1/runtime_profiles/README.md) · [`real/g1/README.md`](real/g1/README.md#deployment) |
+| :--- | :--- | :--- |
+| **1. Hardware Kit (3D-Printable)** | RealSense D415 wrist mounts (paper `+30°` back-of-hand & expanded `−20°..+20°` palm-side, recommended `0°`), print specs, M3 BOM, URDF previews & SHA-256 manifest | [`hardware/README.md`](hardware/README.md) · [`v0.2.0` Release](https://github.com/chenyizhi123/Zeta0/releases/tag/v0.2.0) |
+| **2. Real G1 Collection** | PICO / XRoboToolkit teleop + GEAR-SONIC WBC + BrainCo Revo2 dual-hand + 3× D415 recording into LeRobot v3 (`state41` / `motion76`), plus offline audit (`zeta data inspect`) | [`real/g1/README.md`](real/g1/README.md#collection) · [Data Inspection](docs/framework.md#inspect-captured-data) |
+| **3. Real-Robot Training** | **No-private-weights** v6/raw training from public **Qwen3-VL / Cosmos-Reason2-2B** (`--init-mode scratch`) or **NVIDIA GR00T N1.7-3B** (`--init-mode gr00t_n1d7`, 30 Hz & 50 Hz) | [`prepare_sonic_lerobot_task.py`](scripts/train/predictive_world/prepare_sonic_lerobot_task.py) · [Real-Data Recipe](docs/real_data_final_method.md) |
+| **4. Real G1 Deployment** | Unified G1 runtime (`unified`) + `real_sonic_server` supporting `zeta_native` & `gr00t_n1d7` with RTC inpainting + hardware-free `mock_g1_client.py` + `zeta visualize log` | [`real/g1/runtime_profiles/README.md`](real/g1/runtime_profiles/README.md) · [G1 Deployment](real/g1/README.md#deployment) |
 
-### Train on Real G1 Data (No Private Checkpoints Required)
+<details>
+<summary><b>Expand: Train, Export &amp; Serve on Real G1 Data (No Private Checkpoints Required)</b></summary>
 
 ```bash
-# Option A: Train Zeta-0 (Ψ₀ / zeta_native) from scratch with any public Qwen3-VL-2B backbone on 30 Hz G1 data
+# Option A: Train Zeta-0 (Ψ₀ / zeta_native) from scratch with any public Qwen3-VL-2B / Cosmos-Reason2-2B
 PYTHONPATH=src python scripts/train/predictive_world/prepare_sonic_lerobot_task.py \
   --init-mode scratch --dataset /path/to/place_chair --task real/place_chair \
   --qwen-model /path/to/Qwen3-VL-2B --output runs/place_chair_scratch \
   --current-state-only --fixed-action-grid --whole-body-target --action-horizon 50 \
   --gpus 1 --batch 64 --updates 20000
 
-# Option B: Train Zeta-0 on native GR00T N1.7-3B (30 Hz / 40-step action chunk) and deploy directly to G1
+# Option B: Train Zeta-0 on native NVIDIA GR00T N1.7-3B (30 Hz / 40-step action chunk) & deploy to G1
 PYTHONPATH=src python scripts/train/gr00t_n1d7/export_backbone.py \
   --base /path/to/GR00T-N1.7-3B --cosmos-processor /path/to/Cosmos-Reason2-2B --output assets/gr00t_n1d7_backbone
 PYTHONPATH=src python scripts/train/predictive_world/prepare_sonic_lerobot_task.py \
@@ -77,7 +174,7 @@ PYTHONPATH=src python scripts/train/predictive_world/prepare_sonic_lerobot_task.
   --output runs/place_chair_gr00t --current-state-only --fixed-action-grid --whole-body-target \
   --gpus 1 --batch 64 --updates 20000
 
-# Then cache visual features, train, export, and serve (append --gr00t-model for gr00t_n1d7)
+# Cache visual features -> Train -> Export -> Serve (pass --gr00t-model for gr00t_n1d7)
 PYTHONPATH=src python scripts/data/cache_predictive_world_features.py \
   --index runs/place_chair_gr00t/artifacts/predictive_world_index.jsonl \
   --provenance runs/place_chair_gr00t/artifacts/feature_provenance.json \
@@ -91,39 +188,62 @@ PYTHONPATH=src python -m psi.deploy.real_sonic_server \
   --qwen-model assets/gr00t_n1d7_backbone --gr00t-model /path/to/GR00T-N1.7-3B
 ```
 
----
+</details>
 
-## Released Source & Public Datasets
+<details>
+<summary><b>Expand: Public Datasets Breakdown (739 Real G1 Episodes + 700 Sim Episodes)</b></summary>
 
-**2026-11-23 · v0.2.0.** Includes the public `zeta0` Python SDK facade, unified Layered VLA Host Registry (training + export + G1 deployment for both `zeta_native` and `gr00t_n1d7`), no-private-weights real-robot training (`--init-mode scratch` and `--init-mode gr00t_n1d7` across 30 Hz and 50 Hz G1 tasks), full-algorithm CPU quickstart with visual report, `zeta visualize` foresight/RTC dashboard, HumanoidArena evaluation bridge, hardware-free G1 mock client, official Dockerfiles, and offline CI suites.
-
-| Asset | Source | Format / Specs |
-| --- | --- | --- |
-| **Real-World G1 Dataset (6+1 Tasks)** | [`SII-yizhi/zeta0-real-dataset`](https://huggingface.co/datasets/SII-yizhi/zeta0-real-dataset) | Unitree G1 + BrainCo + SONIC · 739 episodes · 872,409 rows (~24.4 GB, task ZIPs + `SHA256SUMS`) · 5× 30 Hz flat (`sonic_lerobot`) + 2× 50 Hz split (`real_sonic`) |
-| **Simulation Dataset (7 Tasks)** | [`SII-yizhi/HumanoidArenaV3.1_SONIC40`](https://huggingface.co/datasets/SII-yizhi/HumanoidArenaV3.1_SONIC40) | Public · LeRobot · 700 episodes · 546,460 frames · 50 Hz · `state64` / `semantic40` |
-| **Base Models & Hardware SDKs** | [Asset Catalog](docs/public_assets.md) | Qwen3-VL / Ψ₀ base, NVIDIA GR00T N1.7-3B, GEAR-SONIC WBC, BrainCo SDK, XRoboToolkit |
-| **Task-Trained Weights** | [Artifact Requirements](docs/artifacts.md) | External assets (not bundled in this source repo) |
-
----
-
-## Quick Start (30 Seconds on CPU, No Hardware or Downloads)
+| Asset | HuggingFace Repo | Specs |
+| :--- | :--- | :--- |
+| **Real-World G1 (6+1 Tasks)** | [`SII-yizhi/zeta0-real-dataset`](https://huggingface.co/datasets/SII-yizhi/zeta0-real-dataset) | Public · 739 ep · 872,409 rows (~24.4 GB, task ZIPs + `SHA256SUMS`) · 5× 30 Hz flat (`sonic_lerobot`) + 2× 50 Hz split (`real_sonic`, incl. `additional/flatten_box.zip`) |
+| **HumanoidArena Sim (7 Tasks)** | [`SII-yizhi/HumanoidArenaV3.1_SONIC40`](https://huggingface.co/datasets/SII-yizhi/HumanoidArenaV3.1_SONIC40) | Public · 700 ep · 546,460 frames · 50 Hz · `state64` / `semantic40` |
+| **Base Models & Hardware SDKs** | [Asset Catalog](docs/public_assets.md) | Qwen3-VL / Cosmos-Reason2-2B / Ψ₀, NVIDIA GR00T N1.7-3B, GEAR-SONIC WBC, BrainCo SDK, XRoboToolkit |
 
 ```bash
-git clone https://github.com/chenyizhi123/Zeta0.git
-cd Zeta0
+# Plan or pull a single real G1 task (~1.14 GB) or a single HumanoidArena task (add --execute to download)
+zeta data pull real --tasks place_chair --output data/zeta0-real
+zeta data pull humanoidarena --tasks HOI_pp_box --output data/humanoidarena
+```
 
-# 1. Create lightweight CPU environment (Python 3.10)
+</details>
+
+---
+
+## 3D-Printable Wrist Camera Mounts (Unitree G1 + D415)
+
+<table>
+  <tr>
+    <td align="center" width="50%">
+      <img src="hardware/wrist-camera-paper/urdf_30deg.png" width="88%" alt="Paper back-of-hand +30 deg D415 wrist mount"/>
+      <br/><b>Paper Mount (Back of Hand · +30°)</b><br/>
+      <sub><code>d415_wrist_30deg.stl</code> · <code>d415_wrist_left.stl</code></sub>
+    </td>
+    <td align="center" width="50%">
+      <img src="hardware/wrist-camera-expansion/urdf_0deg.png" width="88%" alt="Expanded palm-side 0 deg D415 wrist mount (recommended)"/>
+      <br/><b>Expanded Mount (Palm Side · 0° Recommended)</b><br/>
+      <sub>Angles: <code>−20°</code>, <code>−10°</code>, <b><code>0°</code></b>, <code>+10°</code>, <code>+20°</code> · <a href="hardware/wrist-camera-expansion/urdf_neg20deg.png">−20°</a> · <a href="hardware/wrist-camera-expansion/urdf_neg10deg.png">−10°</a> · <a href="hardware/wrist-camera-expansion/urdf_10deg.png">+10°</a> · <a href="hardware/wrist-camera-expansion/urdf_20deg.png">+20°</a></sub>
+    </td>
+  </tr>
+</table>
+
+> **Download STLs + Simulation FOV Videos**: [`hardware-wrist-camera-v1.tar.gz`](https://github.com/chenyizhi123/Zeta0/releases/download/v0.2.0/hardware-wrist-camera-v1.tar.gz) (`57.8 MB`, SHA-256 verified against [`hardware/assets_manifest.json`](hardware/assets_manifest.json)). Recommended print settings: **PETG / ABS / PA-CF**, `0.20 mm` layer height, `4` wall loops, `30–40%` gyroid infill, rear `M3` (`<= 5 mm` thread depth). Full guide in [`hardware/README.md`](hardware/README.md).
+
+---
+
+## Quick Start (30 Seconds on CPU)
+
+Run the complete Zeta-0 stack (`E/EMA` + `D` + `F prior/world` + `T/G` Dual-Response Transfer + checkpoint resume + causal `PredictiveWorldPolicy` + `foresight_preview.png` visual plot) on CPU with **zero downloads or robot hardware**:
+
+```bash
+git clone https://github.com/chenyizhi123/Zeta0.git && cd Zeta0
 uv venv --python 3.10 .venv-check
 uv pip install --python .venv-check/bin/python torch==2.7.0 --index-url https://download.pytorch.org/whl/cpu
 uv pip install --python .venv-check/bin/python --group cpu-test
-
-# 2. Run full-algorithm Zeta-0 demo (E/EMA + D + F prior/world + T/G Dual-Response + Causal Deploy + Plot)
 make demo PYTHON=.venv-check/bin/python
 ```
 
-The demo trains a compact full Zeta-0 stack on synthetic kinematic trajectories, checkpoints at update 4, verifies bit-exact reload and resume through update 8, validates causal `PredictiveWorldPolicy` deployment, and writes both `summary.json` and **`foresight_preview.png`** under `runs/quickstart-*`.
-
-### Public Python SDK (`import zeta0`)
+<details>
+<summary><b>Expand: Python SDK (<code>import zeta0</code>) &amp; Complete <code>zeta</code> CLI Cheatsheet</b></summary>
 
 ```python
 import zeta0
@@ -134,77 +254,50 @@ from zeta0.core import (
     JointObjective,
     PredictiveWorldPolicy,
 )
-from zeta0.hosts import list_hosts, describe_hosts
+from zeta0.hosts import list_hosts
 
 print(zeta0.__version__, list_hosts())
 # 0.2.0 ('gr00t_n1d7', 'pi05', 'zeta_native')
 ```
 
----
-
-## End-to-End Operations with `zeta` CLI
-
 ```bash
-# Inspect environments and supported layered VLA hosts
+# Environment doctor & registered layered VLA hosts
 PYTHONPATH=src python -m psi.cli doctor --profile train --python /path/to/python
 PYTHONPATH=src python -m psi.cli hosts
 
-# Pull official simulation (single task or all 7) or real G1 dataset (plan by default; add --execute to download)
-zeta data pull humanoidarena --tasks HOI_pp_box --output data/humanoidarena
-zeta data pull real --output data/zeta0-real
-
 # Scaffold a v6/raw training config without hand-editing template JSONs
-zeta init --host gr00t_n1d7 --qwen-model /path/to/backbone --gr00t-model /path/to/GR00T-N1.7-3B --output configs/runs/pp_box.json
+zeta init --host gr00t_n1d7 --qwen-model /path/to/backbone --gr00t-model /path/to/GR00T-N1.7-3B --output configs/runs/task.json
 
-# Visualize foresight rollouts or G1 RuntimeAudit RTC latency traces
-zeta visualize rollout runs/quickstart-*/summary.json --output runs/foresight.png
-zeta visualize log runs/mock_g1_trace.jsonl --output runs/rtc_dashboard.png
-
-# Hardware-free Sim-in-the-Loop G1 RTC dry-run (no physical robot required)
+# Hardware-free G1 RTC dry-run + visualize telemetry / foresight plots
 PYTHONPATH=src python scripts/deploy/mock_g1_client.py --in-process --cycles 12 --output runs/mock_g1_trace.jsonl
+zeta visualize log runs/mock_g1_trace.jsonl --output runs/rtc_dashboard.png
+zeta visualize rollout runs/quickstart-*/summary.json --output runs/foresight.png
 
-# Benchmark deploy-only foresight + action-expert latency (CPU or CUDA, optional --compile)
+# Benchmark deploy-only latency (CPU or CUDA, eager vs --compile)
 PYTHONPATH=src python scripts/benchmark_inference.py --preset tiny-cpu --device cpu
 ```
 
----
+Also see: [Installation](docs/installation.md) · [Dockerfiles](docker/README.md) · [HumanoidArena 7-Task Bridge](benchmarks/humanoidarena/README.md) · [Workflows](docs/workflows.md) · [CLI Guide](docs/framework.md).
 
-## Workflows: Collection → Training → Evaluation → Deployment
-
-| Goal | Guide & Entrypoints |
-| --- | --- |
-| **Install / Docker** | [Installation](docs/installation.md) · [Dockerfiles](docker/README.md) · [Environment check](docs/framework.md#start-with-your-existing-environment) |
-| **Collect G1 Demonstrations** | [G1 Capture & Teleop](real/g1/README.md#collection) · [Data inspection](docs/framework.md#inspect-captured-data) |
-| **Train (`Ψ₀` or `GR00T N1.7`)** | [Layered Backends](docs/backends.md) · [Reproducibility](docs/reproducibility.md) · [Ψ₀ recipe](configs/psi0/README.md) · [GR00T N1.7 recipe](configs/gr00t_n1d7/README.md) |
-| **Evaluate in HumanoidArena** | [HumanoidArena 7-Task Bridge](benchmarks/humanoidarena/README.md) |
-| **Deploy on Unitree G1** | [Unified G1 Runtime](real/g1/runtime_profiles/README.md) · [Real SONIC Service](real/README.md) · [G1 Deployment](real/g1/README.md#deployment) |
-
-| Model Host | `model.host_architecture` | Status | Default Grid / Solver | Config Template |
-| --- | --- | :---: | :---: | --- |
-| **Ψ₀-derived** | `zeta_native` | Supported (Train + Export + G1 Deploy) | 50 steps / 10 Euler | [`configs/psi0/joint.template.json`](configs/psi0/joint.template.json) |
-| **Native GR00T N1.7** | `gr00t_n1d7` | Supported (Train + Export + G1 Deploy) | 40 steps / 4 Euler | [`configs/gr00t_n1d7/joint.template.json`](configs/gr00t_n1d7/joint.template.json) |
-| **π₀.₅ (PaliGemma + Gemma Expert)** | `pi05` | Contract Reserved (`kv_cache` ready) | 50 steps / 10 Euler | [`src/psi/models/predictive_world/hosts/pi05.py`](src/psi/models/predictive_world/hosts/pi05.py) |
+</details>
 
 ---
 
-## Open-Source Wrist Camera Mounts (Unitree G1 + RealSense D415)
+## Open-Source Release Checklist
 
-The [`hardware/`](hardware/README.md) kit documents 3D-printable wrist mounts,
-printing specs, BOM guidelines, and URDF previews. Heavy `.stl` meshes and
-simulation FOV videos are distributed via the verified release bundle
-(`hardware-wrist-camera-v1.tar.gz`, indexed in [`hardware/assets_manifest.json`](hardware/assets_manifest.json))
-to keep `git clone` fast and lightweight.
-
-| Mount | Camera Side | Angles | URDF Preview |
-| --- | --- | --- | --- |
-| Paper mount | Back of hand | `+30°` | [30°](hardware/wrist-camera-paper/urdf_30deg.png) |
-| Expanded mount *(recommended: **0°**)* | Palm side | `−20°`, `−10°`, **`0°`**, `+10°`, `+20°` | [−20°](hardware/wrist-camera-expansion/urdf_neg20deg.png) · [−10°](hardware/wrist-camera-expansion/urdf_neg10deg.png) · [**0°**](hardware/wrist-camera-expansion/urdf_0deg.png) · [10°](hardware/wrist-camera-expansion/urdf_10deg.png) · [20°](hardware/wrist-camera-expansion/urdf_20deg.png) |
+- [x] Real-world Unitree G1 + SONIC + BrainCo dataset ([`SII-yizhi/zeta0-real-dataset`](https://huggingface.co/datasets/SII-yizhi/zeta0-real-dataset), 6+1 tasks, 739 episodes)
+- [x] HumanoidArena 7-task SONIC simulation dataset ([`SII-yizhi/HumanoidArenaV3.1_SONIC40`](https://huggingface.co/datasets/SII-yizhi/HumanoidArenaV3.1_SONIC40), 700 episodes)
+- [x] 3D-printable RealSense D415 wrist camera mounts + print specs + SHA-256 bundle ([`v0.2.0`](https://github.com/chenyizhi123/Zeta0/releases/tag/v0.2.0))
+- [x] Real G1 capture, standalone no-private-weights training (`Ψ₀` & `GR00T N1.7`, 30 Hz & 50 Hz), and unified RTC deployment
+- [x] Full-algorithm CPU quickstart, `zeta0` SDK, visualization dashboards, mock G1 client, and Dockerfiles
+- [ ] π₀.₅ (`pi05`) full PaliGemma KV-cache host implementation (see [Roadmap](ROADMAP.md))
+- [ ] arXiv identifier update & optional pretrained checkpoint releases
 
 ---
 
 ## Citation
 
-If you find Zeta0 useful in your research or robot deployment, please cite:
+If you find **Zeta0** useful in your research or robot deployment, please cite:
 
 ```bibtex
 @article{chen2026zeta0,
@@ -220,11 +313,11 @@ If you find Zeta0 useful in your research or robot deployment, please cite:
 
 ## Documentation, Acknowledgments & Licenses
 
-[Documentation Index](docs/README.md) · [中文文档导航](docs/README_zh.md) · [CLI Guide](docs/framework.md) · [Contributing & Test Tiers](CONTRIBUTING.md)
+[Documentation Index](docs/README.md) · [中文文档导航](docs/README_zh.md) · [Roadmap](ROADMAP.md) · [Changelog](CHANGELOG.md) · [Contributing](CONTRIBUTING.md)
 
-We thank the open-source projects used in Zeta0:
+We gratefully acknowledge the open-source projects built upon in Zeta0:
 - [Ψ₀](https://github.com/physical-superintelligence-lab/Psi0): inherited and adapted code in the training library and deployment runtimes.
-- [Isaac-GR00T](https://github.com/NVIDIA/Isaac-GR00T): the native N1.7 action head used by the `gr00t_n1d7` backend.
+- [Isaac-GR00T](https://github.com/NVIDIA/Isaac-GR00T): native N1.7 action head used by the `gr00t_n1d7` backend.
 - [LeRobot](https://github.com/huggingface/lerobot), [GR00T-WholeBodyControl](https://github.com/physical-superintelligence-lab/GR00T-WholeBodyControl), and [HumanoidArena](https://github.com/William-wAng618/HumanoidArena): G1 capture, SONIC whole-body control, and simulation benchmark integrations.
 
 See [LICENSE](LICENSE), [NOTICE](NOTICE), and [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md).
