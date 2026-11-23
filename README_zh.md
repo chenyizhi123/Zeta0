@@ -7,9 +7,7 @@
 [![项目主页](https://img.shields.io/badge/项目主页-ζ₀-265B91?style=flat-square)](https://chenyizhi123.github.io/zeta0-project/)
 [![论文 PDF](https://img.shields.io/badge/论文-PDF_(18页)-334155?style=flat-square)](https://chenyizhi123.github.io/zeta0-project/assets/Zeta0-Humanoid-Full.pdf)
 [![真机数据集](https://img.shields.io/badge/HF_数据集-真机_G1_(739局)-187769?style=flat-square)](https://huggingface.co/datasets/SII-yizhi/zeta0-real-dataset)
-[![仿真数据集](https://img.shields.io/badge/HF_数据集-HumanoidArena_(700局)-187769?style=flat-square)](https://huggingface.co/datasets/SII-yizhi/HumanoidArenaV3.1_SONIC40)
 [![Release v0.2.0](https://img.shields.io/badge/Release-v0.2.0-A65B1A?style=flat-square)](https://github.com/chenyizhi123/Zeta0/releases/tag/v0.2.0)
-[![CI](https://github.com/chenyizhi123/Zeta0/actions/workflows/checks.yml/badge.svg)](https://github.com/chenyizhi123/Zeta0/actions/workflows/checks.yml)
 [![许可证](https://img.shields.io/badge/License-Apache_2.0-475569?style=flat-square)](LICENSE)
 
 [English](README.md) | **简体中文** · [真机实测画廊](#unitree-g1-真机演示画廊) · [方法与分层架构](#方法与分层架构system-2--15--1--0) · [四大真机主线](#四大真机开源主线) · [3D 打印支架](#开源-3d-打印腕部相机支架unitree-g1--d415) · [30 秒体验](#30-秒快速开始纯-cpu无需权重或真机) · [引用](#引用)

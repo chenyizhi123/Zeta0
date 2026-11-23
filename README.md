@@ -7,9 +7,7 @@
 [![Project Page](https://img.shields.io/badge/Project_Page-ζ₀-265B91?style=flat-square)](https://chenyizhi123.github.io/zeta0-project/)
 [![Paper PDF](https://img.shields.io/badge/Paper-PDF_(18pp)-334155?style=flat-square)](https://chenyizhi123.github.io/zeta0-project/assets/Zeta0-Humanoid-Full.pdf)
 [![Real G1 Dataset](https://img.shields.io/badge/HF_Dataset-Real_G1_(739_ep)-187769?style=flat-square)](https://huggingface.co/datasets/SII-yizhi/zeta0-real-dataset)
-[![Sim Dataset](https://img.shields.io/badge/HF_Dataset-HumanoidArena_(700_ep)-187769?style=flat-square)](https://huggingface.co/datasets/SII-yizhi/HumanoidArenaV3.1_SONIC40)
 [![Release v0.2.0](https://img.shields.io/badge/Release-v0.2.0-A65B1A?style=flat-square)](https://github.com/chenyizhi123/Zeta0/releases/tag/v0.2.0)
-[![CI](https://github.com/chenyizhi123/Zeta0/actions/workflows/checks.yml/badge.svg)](https://github.com/chenyizhi123/Zeta0/actions/workflows/checks.yml)
 [![License](https://img.shields.io/badge/License-Apache_2.0-475569?style=flat-square)](LICENSE)
 
 **English** | [简体中文](README_zh.md) · [Real G1 Demos](#real-world-unitree-g1-demos) · [Method](#method--layered-architecture-system-2--15--1--0) · [4 Real-Robot Pillars](#four-open-source-real-robot-pillars) · [3D-Printable Mounts](#3d-printable-wrist-camera-mounts-unitree-g1--d415) · [Quick Start](#quick-start-30-seconds-on-cpu) · [Citation](#citation)
