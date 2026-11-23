@@ -1,0 +1,21 @@
+{
+  "format": "zeta0.unified_g1_runtime.v1",
+  "profile": "unified",
+  "runtime_mode": "repository_src",
+  "supported_hosts": [
+    "zeta_native",
+    "gr00t_n1d7"
+  ],
+  "supported_action_grids": [
+    [50, 30],
+    [30, 50],
+    [50, 40],
+    [30, 40]
+  ],
+  "supported_latent_prediction_spaces": [
+    "raw",
+    "whitened"
+  ],
+  "action_hz": 30,
+  "action_horizon": 50
+}

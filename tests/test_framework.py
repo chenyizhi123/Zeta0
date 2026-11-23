@@ -197,11 +197,11 @@ def test_custom_task_configuration_in_isolated_runtime(tmp_path):
     weights = tmp_path / "weights"
     weights.mkdir()
     (weights / "inference_manifest.json").write_text(json.dumps({
-        "task": "Place the object", "temporal_abi": {"action_hz": 30, "action_horizon": 50}}))
+        "task": "Place the object", "temporal_abi": {"action_hz": 50, "action_horizon": 40}}))
     config = tmp_path / "models.json"
-    payload = {"format": "local_zeta0_model_paths.v1", "runtime_profile": "place_chair_20261029",
+    payload = {"format": "local_zeta0_model_paths.v1", "runtime_profile": "unified",
                "qwen_model": "encoder", "tasks": {"new_task": {
-                   "weights_dir": "weights", "task": "Place the object", "action_hz": 30, "action_horizon": 50}}}
+                   "weights_dir": "weights", "task": "Place the object", "action_hz": 50, "action_horizon": 40}}}
     config.write_text(json.dumps(payload))
     before = config.read_bytes()
     code = f"""import sys,os
@@ -209,20 +209,21 @@ sys.path.insert(0,{str(ROOT / 'real/g1/scripts')!r})
 from policy_profile import model_paths, runtime_kit
 paths=model_paths('new_task',{str(config)!r})
 assert paths['tasks']['new_task']['weights_dir']=={str(weights)!r}
-assert runtime_kit().name=='place_chair_runtime_20261029'
+assert runtime_kit().name=='unified'
 import online_runtime
-online_runtime.import_runtime()
+root=online_runtime.import_runtime()
 import psi
-assert 'runtime_profiles/place_chair_runtime_20261029' in psi.__file__
+assert str(root) in psi.__file__
 assert 'torch' not in sys.modules
 """
     env = dict(os.environ)
     env.pop("CHENYZ_POLICY_PROFILE", None)
+    env.pop("ZETA0_POLICY_PROFILE", None)
     result = subprocess.run([sys.executable, "-I", "-c", code], env=env, capture_output=True, text=True, timeout=10)
     assert result.returncode == 0, result.stderr
     assert config.read_bytes() == before
-    payload["tasks"]["new_task"]["action_hz"] = 50
-    payload["tasks"]["new_task"]["action_horizon"] = 30
+    payload["tasks"]["new_task"]["action_hz"] = 30
+    payload["tasks"]["new_task"]["action_horizon"] = 50
     config.write_text(json.dumps(payload))
     result = subprocess.run([sys.executable, "-I", "-c", code], env=env, capture_output=True, text=True, timeout=10)
     assert result.returncode != 0 and "disagrees" in result.stderr

@@ -28,23 +28,27 @@ def load(path):
 def test_source_and_runtime_identities():
     report = verify()
     assert not report['findings']
-    assert len(report['profiles']) == 5
-    assert {p['files'] for p in report['profiles']} == {46}
+    assert any(
+        p['profile'] == 'unified' and p.get('runtime_mode') == 'repository_src'
+        and set(p.get('supported_hosts', [])) >= {'zeta_native', 'gr00t_n1d7'}
+        for p in report['profiles']
+    )
+    archive = json.loads((G1 / 'runtime_profiles/LEGACY_ARCHIVE.json').read_text())
+    assert len(archive['profiles']) == 5
 
 
-def test_bundled_runtime_retains_its_preprocessing_reference():
+def test_bundled_runtime_retains_its_preprocessing_reference(tmp_path):
     require_runtime = load(G1 / 'scripts/local_vla_compat.py').require_preprocessing_runtime
-    manifest = json.loads((G1 / 'SOURCE_MANIFEST.json').read_text())
-    profiles = [entry for entry in manifest['files']
-                if entry['path'].startswith('runtime_profiles/')
-                and entry['path'].endswith('/COMPATIBILITY.json')]
-    assert len(profiles) == 5
-    for index, entry in enumerate(profiles):
-        kit = (G1 / entry['path']).parent
-        require_runtime(kit, entry['sha256'])
-        require_runtime(kit, entry['source_sha256'])
-        with pytest.raises(ValueError, match='different runtime'):
-            require_runtime(kit, profiles[index - 1]['source_sha256'])
+    kit = tmp_path / 'sample_legacy_kit'
+    kit.mkdir()
+    compat_payload = {'preprocessing_reference_compatibility_sha256': 'a' * 64}
+    compat_bytes = json.dumps(compat_payload).encode()
+    (kit / 'COMPATIBILITY.json').write_bytes(compat_bytes)
+    current_sha = hashlib.sha256(compat_bytes).hexdigest()
+    require_runtime(kit, current_sha)
+    require_runtime(kit, 'a' * 64)
+    with pytest.raises(ValueError, match='different runtime'):
+        require_runtime(kit, 'b' * 64)
 
 
 def test_launcher_help_works_before_local_configuration(tmp_path):
@@ -132,17 +136,28 @@ def test_teleop_dry_run_needs_no_local_config_or_robot_modules():
 
 
 def test_each_profile_loads_verified_transport_in_an_isolated_process():
-    for profile in ('legacy', 'clean_table_trash', 'place_chair_20261029',
-                    'blow_dry_hair_20261029', 'tidy_scene'):
-        code = ('import online_runtime; online_runtime.import_runtime(); '
-                'import psi; from pathlib import Path; '
-                'assert Path(psi.__file__).is_relative_to(online_runtime.KIT); '
-                'assert "torch" not in __import__("sys").modules')
-        result = subprocess.run([sys.executable, '-I', '-c',
-                                 'import sys; sys.path.insert(0, ' + repr(str(G1 / 'scripts')) + '); ' + code],
-                                env={**os.environ, 'CHENYZ_POLICY_PROFILE': profile},
-                                capture_output=True, text=True, timeout=10)
+    for profile in ('unified', 'zeta_native', 'gr00t_n1d7'):
+        code = (
+            'import online_runtime; root = online_runtime.import_runtime(); '
+            'import psi; from pathlib import Path; '
+            'assert Path(psi.__file__).is_relative_to(root); '
+            'assert "torch" not in __import__("sys").modules'
+        )
+        result = subprocess.run(
+            [sys.executable, '-I', '-c',
+             'import sys; sys.path.insert(0, ' + repr(str(G1 / 'scripts')) + '); ' + code],
+            env={**os.environ, 'ZETA0_POLICY_PROFILE': profile},
+            capture_output=True, text=True, timeout=10,
+        )
         assert result.returncode == 0, result.stderr
+    # Archived legacy v5 profiles report explicit restore guidance if not locally restored.
+    result = subprocess.run(
+        [sys.executable, '-I', '-c',
+         'import sys; sys.path.insert(0, ' + repr(str(G1 / 'scripts')) + '); '
+         'import policy_profile; policy_profile.runtime_kit("place_chair_20261029")'],
+        capture_output=True, text=True, timeout=10,
+    )
+    assert result.returncode != 0 and 'archive/legacy-v5-runtimes' in result.stderr
 
 
 def test_episode_success_cannot_override_a_timing_gap():

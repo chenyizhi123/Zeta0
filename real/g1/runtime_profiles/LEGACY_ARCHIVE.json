@@ -1,0 +1,51 @@
+{
+  "format": "zeta0.legacy_g1_runtimes.v1",
+  "archive": "legacy-g1-v5-runtimes-v0.1.tar.gz",
+  "archive_bytes": 706687,
+  "archive_sha256": "44d8960370d76725b96c6d6b9df3dd18e0ed30704f20e368cb78bfefda87c6a1",
+  "archive_branch": "archive/legacy-v5-runtimes",
+  "archive_commit": "6965053edf6b5ccf30ea2dc677aea63529718241",
+  "restore_hint": "git checkout archive/legacy-v5-runtimes -- real/g1/runtime_profiles",
+  "profiles": [
+    {
+      "profile_dir": "blow_dry_hair_runtime_20261029",
+      "compatibility_sha256": "1f95884a2822456f5a5d160739ed1e82caa12297895e4d29ace01643c2691a93",
+      "preprocessing_reference_compatibility_sha256": "952de70cacb6742ad7eb9542cdf5404a894c25d7e3f7e4b6b25384c6c465326f",
+      "action_hz": 30,
+      "action_horizon": 50,
+      "runtime_file_count": 46
+    },
+    {
+      "profile_dir": "clean_table_runtime_local_v1",
+      "compatibility_sha256": "822785f13345c8e0e7900fa480072f70ad15e944480dc683e32ca181243efe7c",
+      "preprocessing_reference_compatibility_sha256": "bed1ca09ef63e976e6636d6884bc1f8db978584224d7b13be7786971521fdd38",
+      "action_hz": 30,
+      "action_horizon": 50,
+      "runtime_file_count": 46
+    },
+    {
+      "profile_dir": "place_chair_runtime_20261029",
+      "compatibility_sha256": "67965d4324dcd05a1402d5a2be11e364062990ff3f9dec3dc6b03655ab9cbb6e",
+      "preprocessing_reference_compatibility_sha256": "848628cfad205e5c167f84cac0798236971d2baae1c131d1f1b975280605e5db",
+      "action_hz": 30,
+      "action_horizon": 50,
+      "runtime_file_count": 46
+    },
+    {
+      "profile_dir": "tidy_scene_runtime_local_v1",
+      "compatibility_sha256": "88ff879d603aba00d409f9249d892564f484591fa8e32d626020da9a9d442ad5",
+      "preprocessing_reference_compatibility_sha256": "64c84f6ab63471f7943e69697f782b53209b1f98faea2a38049e5d61ee7feb09",
+      "action_hz": 30,
+      "action_horizon": 50,
+      "runtime_file_count": 46
+    },
+    {
+      "profile_dir": "zeta0_deploy_offline_kit_20261024",
+      "compatibility_sha256": "50a8d79bf96d3e6022f4cb8587cf61070b87add54900a7db0dd49224a39d7e76",
+      "preprocessing_reference_compatibility_sha256": "f71c47e843d711f20822bb0dd26099337197b072ab43125f8dc7400316563f16",
+      "action_hz": null,
+      "action_horizon": null,
+      "runtime_file_count": 46
+    }
+  ]
+}

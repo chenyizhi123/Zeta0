@@ -122,15 +122,17 @@ after reference feedback. **v** returns to zero-velocity planning; **O** or
 
 ## Runtime compatibility
 
-Each task uses a model-matched runtime under `runtime_profiles/`. See
-[`COMPARISON.json`](runtime_profiles/COMPARISON.json) for differences between
-profiles. Current v6 and N1.7 training exports still need runtime adaptation
-before they can use these profiles.
+Zeta0 v0.2 uses the unified G1 runtime profile under `runtime_profiles/unified/`,
+which loads directly from the maintained `src/psi` implementation and supports
+both `zeta_native` (v5/v6, 30Hz/50 or 50Hz/30) and `gr00t_n1d7` (50Hz/40 or
+30Hz/40) exports. See [`runtime_profiles/README.md`](runtime_profiles/README.md)
+and [`COMPARISON.json`](runtime_profiles/COMPARISON.json).
 
-Profile selection is handled by `scripts/policy_profile.py`. An existing
-`.local/zeta0/<profile>` override takes precedence and must match that profile's
-checksum manifest. Run the historical runtime in a separate process from the
-current training library to avoid conflicting `psi` imports.
+Historical v5 task snapshots are archived on branch `archive/legacy-v5-runtimes`
+and indexed in [`LEGACY_ARCHIVE.json`](runtime_profiles/LEGACY_ARCHIVE.json).
+Profile selection is handled by `scripts/policy_profile.py` (`ZETA0_POLICY_PROFILE`,
+default `unified`). An existing `.local/zeta0/<profile>` override takes
+precedence and must match that profile's checksum manifest.
 
 ## Source and checks
 
