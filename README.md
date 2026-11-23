@@ -275,8 +275,6 @@ Also see: [Installation](docs/installation.md) · [Dockerfiles](docker/README.md
 - [x] 3D-printable RealSense D415 wrist camera mounts + print specs + SHA-256 bundle ([`v0.2.0`](https://github.com/chenyizhi123/Zeta0/releases/tag/v0.2.0))
 - [x] Real G1 capture, standalone no-private-weights training (`Ψ₀` & `GR00T N1.7`, 30 Hz & 50 Hz), and unified RTC deployment
 - [x] Full-algorithm CPU quickstart, `zeta0` SDK, visualization dashboards, mock G1 client, and Dockerfiles
-- [ ] π₀.₅ (`pi05`) full PaliGemma KV-cache host implementation (see [Roadmap](ROADMAP.md))
-- [ ] arXiv identifier update & optional pretrained checkpoint releases
 
 ---
 

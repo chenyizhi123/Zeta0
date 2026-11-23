@@ -275,8 +275,6 @@ PYTHONPATH=src python scripts/benchmark_inference.py --preset tiny-cpu --device 
 - [x] RealSense D415 3D 打印腕部支架、打印参数与 SHA-256 资产包（[`v0.2.0`](https://github.com/chenyizhi123/Zeta0/releases/tag/v0.2.0)）
 - [x] 真机采集、免私有权重训练（`Ψ₀` 与 `GR00T N1.7`，支持 30 Hz 与 50 Hz）与 G1 统一 RTC 部署
 - [x] 完整算法 CPU 最小演示、`zeta0` SDK、可视化看板、无真机模拟 G1 客户端与 Dockerfile
-- [ ] π₀.₅（`pi05`）完整 PaliGemma KV-Cache 底座接入（详见 [路线图](ROADMAP.md)）
-- [ ] arXiv 正式编号更新及可选预训练权重发布
 
 ---
 
