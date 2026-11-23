@@ -27,8 +27,8 @@
 ## News
 
 - **`[2026-11]` `v0.2.0` Released**: Full real-robot open-source stack for **Unitree G1 + GEAR-SONIC + BrainCo Revo2** — including **no-private-weights** training (`--init-mode scratch` with Qwen3-VL / Cosmos-Reason2-2B & `--init-mode gr00t_n1d7` with NVIDIA GR00T N1.7-3B), unified G1 RTC deployment, `import zeta0` SDK, and verified 3D-printable D415 wrist mounts in [Release `v0.2.0`](https://github.com/chenyizhi123/Zeta0/releases/tag/v0.2.0).
-- **`[2026-11]` Public Real-Robot Dataset**: Released [`SII-yizhi/zeta0-real-dataset`](https://huggingface.co/datasets/SII-yizhi/zeta0-real-dataset) (**739 episodes · 872,409 frames · 6 primary + 1 additional real G1 tasks**) alongside the 7-task simulation dataset [`SII-yizhi/HumanoidArenaV3.1_SONIC40`](https://huggingface.co/datasets/SII-yizhi/HumanoidArenaV3.1_SONIC40) (700 episodes).
-- **`[2026-11]` Project Page & Paper**: Interactive real/sim rollouts and full 18-page PDF are live at [chenyizhi123.github.io/zeta0-project](https://chenyizhi123.github.io/zeta0-project/).
+- **`[2026-11]` Public Real-Robot Dataset**: Released [`SII-yizhi/zeta0-real-dataset`](https://huggingface.co/datasets/SII-yizhi/zeta0-real-dataset) (**739 episodes · 872,409 frames · 6 primary + 1 additional real G1 tasks**).
+- **`[2026-11]` Project Page & Paper**: Interactive real-robot rollouts and full 18-page PDF are live at [chenyizhi123.github.io/zeta0-project](https://chenyizhi123.github.io/zeta0-project/).
 
 ---
 
@@ -96,8 +96,8 @@ Autonomous closed-loop rollouts on a physical **Unitree G1 + GEAR-SONIC WBC + Br
 
 | Benchmark / Metric | Base Policy | **ζ₀ (Ours)** | Gain | Details |
 | :--- | :---: | :---: | :---: | :--- |
-| **HumanoidArena (7-task mean, Ψ₀)** | 44.8% | **63.6%** | **+18.8 pp** | 420 episodes/setting · `zeta_native` |
-| **HumanoidArena (7-task mean, GR00T N1.7)** | 70.5% | **79.5%** | **+9.0 pp** | Tops all compared 7-task joint policies · `gr00t_n1d7` |
+| **HumanoidArena (7-task avg, Ψ₀)** | 44.8% | **63.6%** | **+18.8 pp** | 420 episodes/setting · `zeta_native` |
+| **HumanoidArena (7-task avg, GR00T N1.7)** | 70.5% | **79.5%** | **+9.0 pp** | Best multi-task whole-body policy · `gr00t_n1d7` |
 | **Real-World Unitree G1 (6 tasks, Ψ₀)** | 61.7% | **78.3%** | **+16.7 pp** | 300 physical trials · **+26.7 pp** on multi-stage tasks |
 | **Real-World Unitree G1 (6 tasks, GR00T N1.7)** | 75.0% | **85.0%** | **+10.0 pp** | SONIC whole-body control + BrainCo hands + RTC |
 | **29-Joint Body Forecast (+0.6 s RMSE)** | 9.36° (hold) | **4.53°** | **−51.6%** | Wins in 83.5% of 526 windows (legs: 5.23° vs 12.54°) |
@@ -187,18 +187,17 @@ PYTHONPATH=src python -m psi.deploy.real_sonic_server \
 </details>
 
 <details>
-<summary><b>Expand: Public Datasets Breakdown (739 Real G1 Episodes + 700 Sim Episodes)</b></summary>
+<summary><b>Expand: Public Real-Robot Dataset Breakdown (739 Unitree G1 Episodes)</b></summary>
 
 | Asset | HuggingFace Repo | Specs |
 | :--- | :--- | :--- |
 | **Real-World G1 (6+1 Tasks)** | [`SII-yizhi/zeta0-real-dataset`](https://huggingface.co/datasets/SII-yizhi/zeta0-real-dataset) | Public · 739 ep · 872,409 rows (~24.4 GB, task ZIPs + `SHA256SUMS`) · 5× 30 Hz flat (`sonic_lerobot`) + 2× 50 Hz split (`real_sonic`, incl. `additional/flatten_box.zip`) |
-| **HumanoidArena Sim (7 Tasks)** | [`SII-yizhi/HumanoidArenaV3.1_SONIC40`](https://huggingface.co/datasets/SII-yizhi/HumanoidArenaV3.1_SONIC40) | Public · 700 ep · 546,460 frames · 50 Hz · `state64` / `semantic40` |
 | **Base Models & Hardware SDKs** | [Asset Catalog](docs/public_assets.md) | Qwen3-VL / Cosmos-Reason2-2B / Ψ₀, NVIDIA GR00T N1.7-3B, GEAR-SONIC WBC, BrainCo SDK, XRoboToolkit |
 
 ```bash
-# Plan or pull a single real G1 task (~1.14 GB) or a single HumanoidArena task (add --execute to download)
+# Plan or pull a single real G1 task (~1.14 GB) or all tasks (add --execute to download)
 zeta data pull real --tasks place_chair --output data/zeta0-real
-zeta data pull humanoidarena --tasks HOI_pp_box --output data/humanoidarena
+zeta data pull real --output data/zeta0-real
 ```
 
 </details>
@@ -222,7 +221,7 @@ zeta data pull humanoidarena --tasks HOI_pp_box --output data/humanoidarena
   </tr>
 </table>
 
-> **Download STLs + Simulation FOV Videos**: [`hardware-wrist-camera-v1.tar.gz`](https://github.com/chenyizhi123/Zeta0/releases/download/v0.2.0/hardware-wrist-camera-v1.tar.gz) (`57.8 MB`, SHA-256 verified against [`hardware/assets_manifest.json`](hardware/assets_manifest.json)). Recommended print settings: **PETG / ABS / PA-CF**, `0.20 mm` layer height, `4` wall loops, `30–40%` gyroid infill, rear `M3` (`<= 5 mm` thread depth). Full guide in [`hardware/README.md`](hardware/README.md).
+> **Download STLs + Camera FOV Preview Videos**: [`hardware-wrist-camera-v1.tar.gz`](https://github.com/chenyizhi123/Zeta0/releases/download/v0.2.0/hardware-wrist-camera-v1.tar.gz) (`57.8 MB`, SHA-256 verified against [`hardware/assets_manifest.json`](hardware/assets_manifest.json)). Recommended print settings: **PETG / ABS / PA-CF**, `0.20 mm` layer height, `4` wall loops, `30–40%` gyroid infill, rear `M3` (`<= 5 mm` thread depth). Full guide in [`hardware/README.md`](hardware/README.md).
 
 ---
 
@@ -273,7 +272,7 @@ zeta visualize rollout runs/quickstart-*/summary.json --output runs/foresight.pn
 PYTHONPATH=src python scripts/benchmark_inference.py --preset tiny-cpu --device cpu
 ```
 
-Also see: [Installation](docs/installation.md) · [Dockerfiles](docker/README.md) · [HumanoidArena 7-Task Bridge](benchmarks/humanoidarena/README.md) · [Workflows](docs/workflows.md) · [CLI Guide](docs/framework.md).
+Also see: [Installation](docs/installation.md) · [Dockerfiles](docker/README.md) · [Workflows](docs/workflows.md) · [CLI Guide](docs/framework.md).
 
 </details>
 
@@ -282,7 +281,6 @@ Also see: [Installation](docs/installation.md) · [Dockerfiles](docker/README.md
 ## Open-Source Release Checklist
 
 - [x] Real-world Unitree G1 + SONIC + BrainCo dataset ([`SII-yizhi/zeta0-real-dataset`](https://huggingface.co/datasets/SII-yizhi/zeta0-real-dataset), 6+1 tasks, 739 episodes)
-- [x] HumanoidArena 7-task SONIC simulation dataset ([`SII-yizhi/HumanoidArenaV3.1_SONIC40`](https://huggingface.co/datasets/SII-yizhi/HumanoidArenaV3.1_SONIC40), 700 episodes)
 - [x] 3D-printable RealSense D415 wrist camera mounts + print specs + SHA-256 bundle ([`v0.2.0`](https://github.com/chenyizhi123/Zeta0/releases/tag/v0.2.0))
 - [x] Real G1 capture, standalone no-private-weights training (`Ψ₀` & `GR00T N1.7`, 30 Hz & 50 Hz), and unified RTC deployment
 - [x] Full-algorithm CPU quickstart, `zeta0` SDK, visualization dashboards, mock G1 client, and Dockerfiles
@@ -314,6 +312,6 @@ If you find **Zeta0** useful in your research or robot deployment, please cite:
 We gratefully acknowledge the open-source projects built upon in Zeta0:
 - [Ψ₀](https://github.com/physical-superintelligence-lab/Psi0): inherited and adapted code in the training library and deployment runtimes.
 - [Isaac-GR00T](https://github.com/NVIDIA/Isaac-GR00T): native N1.7 action head used by the `gr00t_n1d7` backend.
-- [LeRobot](https://github.com/huggingface/lerobot), [GR00T-WholeBodyControl](https://github.com/physical-superintelligence-lab/GR00T-WholeBodyControl), and [HumanoidArena](https://github.com/William-wAng618/HumanoidArena): G1 capture, SONIC whole-body control, and simulation benchmark integrations.
+- [LeRobot](https://github.com/huggingface/lerobot) and [GR00T-WholeBodyControl](https://github.com/physical-superintelligence-lab/GR00T-WholeBodyControl): G1 capture and SONIC whole-body control integrations.
 
 See [LICENSE](LICENSE), [NOTICE](NOTICE), and [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md).

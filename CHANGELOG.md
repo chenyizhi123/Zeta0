@@ -10,14 +10,14 @@ All notable changes to Zeta0 are documented in this file.
 - Unified **`ResearchInferenceRuntime`** and **`export_real_sonic_research_policy`** so both `zeta_native` and `gr00t_n1d7` v6/raw checkpoints export and load cleanly through the same G1 deployment runtime.
 - Archived the five duplicated legacy v5 runtime snapshots (60,356 lines across 231 files) to branch `archive/legacy-v5-runtimes` and `LEGACY_ARCHIVE.json`, introducing a lightweight `unified` G1 runtime profile in `real/g1/runtime_profiles/`.
 
-### Developer Experience, Visualization & Benchmarks
+### Developer Experience, Visualization & Tooling
 - Upgraded `scripts/examples/quickstart.py` (`make demo`) to execute the complete Zeta-0 algorithm (future encoder `E/EMA`, readout `D`, shared `prior/world` predictor `F`, independent teacher/student `T/G` with dual-response transfer `L_resp`, causal deploy-only `PredictiveWorldPolicy`, checkpoint reload/resume, and automatic `foresight_preview.png` generation).
-- Added **`zeta data pull`** (wired to `SII-yizhi/HumanoidArenaV3.1_SONIC40` and `SII-yizhi/zeta0-real-dataset`), **`zeta init`** (automated config scaffolding without manual `REQUIRED_*` editing), and **`zeta visualize`** (offline PNG/HTML & optional Rerun 3D foresight + `RuntimeAudit` RTC latency dashboards).
-- Added the **HumanoidArena closed-loop evaluation bridge** (`benchmarks/humanoidarena/`), hardware-free **Sim-in-the-Loop G1 mock client** (`scripts/deploy/mock_g1_client.py`), **inference latency benchmark** (`scripts/benchmark_inference.py`), and official **`docker/`** images.
+- Added **`zeta data pull`** (wired to `SII-yizhi/zeta0-real-dataset` with per-task ZIP selection), **`zeta init`** (automated config scaffolding without manual `REQUIRED_*` editing), and **`zeta visualize`** (offline PNG/HTML & optional Rerun 3D foresight + `RuntimeAudit` RTC latency dashboards).
+- Added standalone no-private-weights real-robot training (`--init-mode scratch` and `--init-mode gr00t_n1d7` across 30 Hz and 50 Hz G1 tasks), hardware-free **mock G1 RTC client** (`scripts/deploy/mock_g1_client.py`), **inference latency benchmark** (`scripts/benchmark_inference.py`), and official **`docker/`** images.
 
 ### Documentation & Repository Hygiene
-- Updated bilingual `README.md` / `README_zh.md` with project page, paper PDF, core benchmark tables, datasets, architecture overview, and BibTeX; updated `CITATION.cff` with full paper citation.
-- Moved oversized STL meshes and simulation videos out of Git history into the verified `hardware-wrist-camera-v1` asset manifest (`hardware/README.md`, `hardware/assets_manifest.json`), restoring full `make check-release` compliance, and removed tracked `.DS_Store` files.
+- Updated bilingual `README.md` / `README_zh.md` with project page, paper PDF, real-robot G1 gallery, core results, datasets, architecture overview, and BibTeX; updated `CITATION.cff` with full paper citation.
+- Moved oversized STL meshes and URDF camera FOV preview videos out of Git history into the verified `hardware-wrist-camera-v1` asset manifest (`hardware/README.md`, `hardware/assets_manifest.json`), restoring full `make check-release` compliance, and removed tracked `.DS_Store` files.
 
 ## [0.1.0] - 2026-11-22
 

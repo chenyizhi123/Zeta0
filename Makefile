@@ -43,7 +43,7 @@ test-gr00t:
 	PYTHONPATH=src CUDA_VISIBLE_DEVICES='' OMP_NUM_THREADS=1 $(PYTHON) -m pytest -q tests/predictive_world/test_gr00t.py tests/predictive_world/test_gr00t_assets.py tests/predictive_world/test_gr00t_ddp.py tests/predictive_world/test_gr00t_preparation.py tests/predictive_world/test_backend_release.py
 
 lint:
-	$(RUFF) check src/psi src/zeta0 scripts tests benchmarks real/g1/scripts real/g1/adapters real/g1/configure_local_paths.py
+	$(RUFF) check src/psi src/zeta0 scripts tests real/g1/scripts real/g1/adapters real/g1/configure_local_paths.py
 
 audit:
 	$(PYTHON) scripts/audit_repository.py

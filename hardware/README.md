@@ -4,7 +4,7 @@ This directory documents the 3D-printable wrist camera mounts developed for the
 Unitree G1 + BrainCo hand setup used in **ζ₀ (Zeta0)**.
 
 To keep the Git repository lightweight and within source-distribution limits,
-the large `.stl` meshes and simulation FOV `.mp4` / `.gif` videos are distributed
+the large `.stl` meshes and URDF camera FOV `.mp4` / `.gif` preview videos are distributed
 in the verified release asset bundle (`hardware-wrist-camera-v1.tar.gz`) and
 preserved on the archival branch `archive/legacy-v5-runtimes`. Every file's
 ASCII-normalized name and SHA-256 digest is recorded in
@@ -21,7 +21,7 @@ ASCII-normalized name and SHA-256 digest is recorded in
 | :---: | :---: |
 | ![Paper 30deg mount URDF](wrist-camera-paper/urdf_30deg.png) | ![Expanded 0deg mount URDF](wrist-camera-expansion/urdf_0deg.png) |
 
-## Downloading STL meshes and simulation FOV videos
+## Downloading STL meshes and camera FOV preview videos
 
 Option 1 — GitHub Releases (`v0.2.0`):
 

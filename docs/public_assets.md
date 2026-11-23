@@ -25,7 +25,6 @@ See [source verification](maintenance/RELEASE_CHECKLIST.md#source-checks) for re
 
 | Asset | Where to get it | Setup requirement |
 | --- | --- | --- |
-| HumanoidArena 7-task dataset | [`SII-yizhi/HumanoidArenaV3.1_SONIC40`](https://huggingface.co/datasets/SII-yizhi/HumanoidArenaV3.1_SONIC40) | Public LeRobot SONIC semantic-40 (50 Hz, 700 episodes); pull with `zeta data pull humanoidarena` |
 | Real-world Unitree G1 dataset | [`SII-yizhi/zeta0-real-dataset`](https://huggingface.co/datasets/SII-yizhi/zeta0-real-dataset) | Public Unitree G1 + BrainCo LeRobot v3 (739 episodes, 6+1 tasks); pull with `zeta data pull real` (or `--tasks place_chair`) |
 | Psi0 base models and data | [Psi0](https://github.com/physical-superintelligence-lab/Psi0), [models](https://huggingface.co/USC-PSI-Lab/psi-model), [data](https://huggingface.co/datasets/USC-PSI-Lab/psi-data) | Match the encoder and processor in your config |
 | GR00T N1.7 base | [NVIDIA model card](https://huggingface.co/nvidia/GR00T-N1.7-3B) | Record the model revision and follow its license terms |

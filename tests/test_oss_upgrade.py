@@ -106,17 +106,7 @@ def test_cli_hosts_init_and_data_pull_plan(tmp_path):
     assert res_hosts.returncode == 0, res_hosts.stderr
     assert "gr00t_n1d7" in json.loads(res_hosts.stdout)["hosts"]
 
-    # Plan pull for official simulation and real datasets (offline, zero network calls).
-    res_pull = _cli(
-        "--json", "data", "pull", "humanoidarena",
-        "--tasks", "HOI_pp_box", "--output", str(tmp_path / "sim"),
-    )
-    assert res_pull.returncode == 0, res_pull.stderr
-    plan = json.loads(res_pull.stdout)
-    assert plan["repo_id"] == "SII-yizhi/HumanoidArenaV3.1_SONIC40"
-    assert plan["allow_patterns"] == ["README.md", "HOI_pp_box/**"]
-    assert plan["executed"] is False
-
+    # Plan pull for official real dataset and custom owner/repo (offline, zero network calls).
     res_real = _cli(
         "--json", "data", "pull", "real",
         "--tasks", "place_chair,flatten_box", "--output", str(tmp_path / "real"),
@@ -127,6 +117,11 @@ def test_cli_hosts_init_and_data_pull_plan(tmp_path):
     assert real_plan["allow_patterns"] == [
         "README.md", "SHA256SUMS", "real/place_chair.zip", "additional/flatten_box.zip",
     ]
+    assert real_plan["executed"] is False
+
+    res_custom = _cli("--json", "data", "pull", "acme/custom-g1", "--output", str(tmp_path / "custom"))
+    assert res_custom.returncode == 0, res_custom.stderr
+    assert json.loads(res_custom.stdout)["repo_id"] == "acme/custom-g1"
 
     # Init GR00T config and verify automatic SHA-256 computation from config.json.
     gr00t_dir = tmp_path / "gr00t_base"
@@ -177,47 +172,6 @@ def test_mock_g1_client_logs_and_visualize_pipeline(tmp_path):
     res_viz = _cli("--json", "visualize", "log", str(trace), "--output", str(dashboard))
     assert res_viz.returncode == 0, res_viz.stderr
     assert dashboard.is_file() and dashboard.stat().st_size > 1000
-
-
-def test_humanoidarena_policy_bridge_closed_loop(tmp_path):
-    from benchmarks.humanoidarena.policy_bridge import (
-        HUMANOIDARENA_ACTION_DIM,
-        HUMANOIDARENA_STATE_DIM,
-        HumanoidArenaPolicyBridge,
-        write_eval_summary,
-    )
-
-    class _DummyPolicy:
-        def sample(self, observed, *, action_noise):
-            assert observed.raw_states.shape == (1, 1, HUMANOIDARENA_STATE_DIM)
-            return torch.zeros_like(action_noise)
-
-    class _DummyEnv:
-        def __init__(self):
-            self.t = 0
-
-        def reset(self, seed=0):
-            self.t = 0
-            return {"state": np.zeros(HUMANOIDARENA_STATE_DIM, dtype=np.float32)}
-
-        def step(self, action):
-            assert action.shape == (HUMANOIDARENA_ACTION_DIM,)
-            self.t += 1
-            done = self.t >= 12
-            return {"state": np.zeros(HUMANOIDARENA_STATE_DIM, dtype=np.float32)}, 0.0, done, {"success": done}
-
-    bridge = HumanoidArenaPolicyBridge(
-        policy=_DummyPolicy(),
-        prepare_qwen_inputs=lambda obs, inst: {},
-        action_horizon=40,
-        execute_steps=6,
-        host_architecture="gr00t_n1d7",
-    )
-    ep = bridge.run_episode(_DummyEnv(), task="HOI_pp_box", instruction="Push box", episode_index=0, seed=7, max_steps=20)
-    assert ep.success is True and ep.steps == 12 and ep.chunks_inferred == 2
-    out = tmp_path / "eval_summary.json"
-    summary = write_eval_summary([ep], out)
-    assert summary["mean_success_rate"] == 1.0 and out.is_file()
 
 
 def test_inference_benchmark_runs_on_cpu():

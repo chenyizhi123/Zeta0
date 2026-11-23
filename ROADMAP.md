@@ -9,12 +9,11 @@ Zeta0 focuses on turning **hierarchical / dual-system VLA policies** (System 2 V
 - [x] Public `zeta0` Python SDK facade with backward-compatible `psi` checkpoint contracts.
 - [x] `zeta` CLI end-to-end operations (`doctor`, `init`, `data pull/inspect`, `bundle inspect`, `logs summarize`, `visualize`, `workflow`).
 - [x] Full-algorithm CPU quickstart with automatic foresight preview plotting + `zeta visualize` (PNG/HTML + optional Rerun 3D).
-- [x] HumanoidArena closed-loop evaluation bridge, hardware-free G1 mock client, Dockerfiles, and slimmed hardware asset distribution.
+- [x] Standalone no-private-weights real-robot training (`scratch` & `gr00t_n1d7`), hardware-free G1 mock client, Dockerfiles, and slimmed hardware asset distribution.
 
 ## Next (v0.3.x)
 
 - [ ] **π₀.₅ (`pi05`) Layered Host**: Implement `src/psi/models/predictive_world/hosts/pi05.py` using the PaliGemma KV-cache + SigLIP visual patch + Gemma action-expert contracts prepared in v0.2.0.
-- [ ] **Public HuggingFace Model Zoo**: Publish reviewed HumanoidArena 7-task checkpoints (`ζ₀-Ψ₀` and `ζ₀-GR00T-N1.7`) with `PredictiveWorldPolicy.from_pretrained(...)` loader support.
+- [ ] **Public HuggingFace Model Zoo**: Publish reviewed real-robot checkpoints (`ζ₀-Ψ₀` and `ζ₀-GR00T-N1.7`) with `PredictiveWorldPolicy.from_pretrained(...)` loader support.
 - [ ] **TensorRT / `torch.compile` Deployment Profile**: Push closed-loop RTX 4090 inference latency below 120 ms with verified numerical equivalence tests.
-- [ ] **Public Real Dataset Card & Sample Subset**: Finalize public visibility and LeRobot v3 viewer metadata on `SII-yizhi/zeta0-real-dataset`.
 - [ ] **STEP CAD Sources**: Publish parametric `.STEP` CAD files for the wrist camera mounts to support community remixes (D405 / D435i / Orbbec).

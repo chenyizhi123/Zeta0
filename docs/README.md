@@ -10,7 +10,6 @@ Use the table below for a specific task.
 | Environment reuse and unified CLI | [Framework operations](framework.md) |
 | Workflow compatibility and validation | [Support matrix](workflows.md) |
 | Docker environments | [Official Dockerfiles](../docker/README.md) |
-| HumanoidArena 7-task evaluation | [HumanoidArena bridge](../benchmarks/humanoidarena/README.md) |
 | G1 collection and deployment | [G1 guide](../real/g1/README.md), [Unified G1 runtime](../real/g1/runtime_profiles/README.md) |
 | Wrist camera hardware kit | [D415 wrist mounts](../hardware/README.md) |
 | Layered VLA host selection | [Backends](backends.md) |

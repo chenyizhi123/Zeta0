@@ -35,7 +35,7 @@ dependencies = [
 Homepage = "https://chenyizhi123.github.io/zeta0-project/"
 Repository = "https://github.com/chenyizhi123/Zeta0"
 Issues = "https://github.com/chenyizhi123/Zeta0/issues"
-Datasets = "https://huggingface.co/datasets/SII-yizhi/HumanoidArenaV3.1_SONIC40"
+Datasets = "https://huggingface.co/datasets/SII-yizhi/zeta0-real-dataset"
 
 [project.scripts]
 zeta = "psi.cli:main"

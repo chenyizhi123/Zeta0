@@ -6,16 +6,6 @@ import os
 from pathlib import Path
 from typing import Any
 
-HUMANOIDARENA_TASKS = (
-    "HOI_double_desk",
-    "HOI_football",
-    "HOI_pp_box",
-    "HSI_boxing",
-    "HSI_open_door",
-    "HSI_sit_sofa",
-    "HSI_vision_navi",
-)
-
 REAL_G1_TASK_ARCHIVES: dict[str, str] = {
     "blow_dry_hair": "real/blow_dry_hair.zip",
     "clean_table_trash": "real/clean_table_trash.zip",
@@ -27,16 +17,6 @@ REAL_G1_TASK_ARCHIVES: dict[str, str] = {
 }
 
 OFFICIAL_DATASETS: dict[str, dict[str, Any]] = {
-    "humanoidarena": {
-        "repo_id": "SII-yizhi/HumanoidArenaV3.1_SONIC40",
-        "kind": "simulation",
-        "format": "lerobot_sonic_semantic40_v3.1",
-        "fps": 50,
-        "state_dim": 64,
-        "action_dim": 40,
-        "tasks": list(HUMANOIDARENA_TASKS),
-        "description": "7 HumanoidArena tasks (700 episodes, 546,460 frames at 50 Hz, SONIC semantic-40).",
-    },
     "real": {
         "repo_id": "SII-yizhi/zeta0-real-dataset",
         "kind": "real_robot",
@@ -53,7 +33,7 @@ OFFICIAL_DATASETS: dict[str, dict[str, Any]] = {
 
 
 def resolve_dataset_spec(dataset: str) -> dict[str, Any]:
-    """Resolve an official alias (``humanoidarena`` / ``real``) or explicit ``org/repo``."""
+    """Resolve an official alias (``real``) or explicit ``org/repo``."""
     key = dataset.strip()
     if not key:
         raise ValueError("dataset alias or HuggingFace repo_id must be non-empty")

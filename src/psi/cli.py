@@ -47,9 +47,9 @@ def parser() -> argparse.ArgumentParser:
     inspect.add_argument("--output")
 
     pull = data.add_parser("pull", help="Plan or download official Zeta0 datasets from HuggingFace")
-    pull.add_argument("dataset", help="Official alias ('humanoidarena' or 'real') or HuggingFace 'owner/repo'")
+    pull.add_argument("dataset", help="Official alias ('real') or HuggingFace 'owner/repo'")
     pull.add_argument("--output", required=True, help="Target local directory")
-    pull.add_argument("--tasks", nargs="*", default=None, help="Optional subset of tasks (e.g., HOI_pp_box)")
+    pull.add_argument("--tasks", nargs="*", default=None, help="Optional subset of tasks (e.g., place_chair)")
     pull.add_argument("--revision", default="main")
     pull.add_argument("--execute", action="store_true", help="Actually download files via huggingface_hub")
     pull.add_argument("--report-output", help="Write a new JSON report")

@@ -12,7 +12,7 @@
 | 复用已有 Python 环境与本地资产 | [环境检查](framework.md#start-with-your-existing-environment) |
 | 首次安装、Docker 镜像与公开数据集 | [安装指南](installation.md)、[Docker 环境](../docker/README.md)、[公开依赖与资产](public_assets.md) |
 | 无需机器人、数据集或模型权重，30 秒跑通全算法演示并出图 | [最小运行示例](quickstart.md) |
-| HumanoidArena 7 任务仿真评测与腕部支架 | [HumanoidArena 评测桥](../benchmarks/humanoidarena/README.md)、[腕部相机支架](../hardware/README.md) |
+| 3D 打印腕部相机支架（RealSense D415） | [腕部相机支架与打印指南](../hardware/README.md) |
 | 使用统一命令入口（`zeta`） | [框架 CLI](framework.md) |
 
 已有环境时，在仓库根目录运行以下只读检查，将路径替换为已有环境的 Python：

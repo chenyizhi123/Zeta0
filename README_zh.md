@@ -27,8 +27,8 @@
 ## 最新动态
 
 - **`[2026-11]` 发布 `v0.2.0`**：完整开源 **Unitree G1 + GEAR-SONIC + BrainCo Revo2** 四大真机主线——提供**免私有权重**真机训练（公开 Qwen3-VL / Cosmos-Reason2-2B `--init-mode scratch` 与 NVIDIA GR00T N1.7-3B `--init-mode gr00t_n1d7`）、统一 G1 RTC 部署运行时、`import zeta0` Python SDK 及已校验的 3D 打印腕部支架包（[Release `v0.2.0`](https://github.com/chenyizhi123/Zeta0/releases/tag/v0.2.0)）。
-- **`[2026-11]` 公开真机 G1 数据集**：[`SII-yizhi/zeta0-real-dataset`](https://huggingface.co/datasets/SII-yizhi/zeta0-real-dataset) 现已全面公开（**739 条轨迹 · 872,409 帧 · 6 主任务 + 1 附加任务**），连同 7 任务仿真集 [`SII-yizhi/HumanoidArenaV3.1_SONIC40`](https://huggingface.co/datasets/SII-yizhi/HumanoidArenaV3.1_SONIC40)（700 条轨迹）一站式获取。
-- **`[2026-11]` 项目主页与完整论文上线**：交互式真机/仿真演示与 18 页完整论文 PDF 请见 [chenyizhi123.github.io/zeta0-project](https://chenyizhi123.github.io/zeta0-project/)。
+- **`[2026-11]` 公开真机 G1 数据集**：[`SII-yizhi/zeta0-real-dataset`](https://huggingface.co/datasets/SII-yizhi/zeta0-real-dataset) 现已全面公开（**739 条轨迹 · 872,409 帧 · 6 主任务 + 1 附加任务**）。
+- **`[2026-11]` 项目主页与完整论文上线**：交互式真机演示与 18 页完整论文 PDF 请见 [chenyizhi123.github.io/zeta0-project](https://chenyizhi123.github.io/zeta0-project/)。
 
 ---
 
@@ -187,18 +187,17 @@ PYTHONPATH=src python -m psi.deploy.real_sonic_server \
 </details>
 
 <details>
-<summary><b>展开查看：公开数据集清单（真机 739 局 + 仿真 700 局）与按任务拉取命令</b></summary>
+<summary><b>展开查看：公开真机数据集清单（739 局 Unitree G1）与按任务拉取命令</b></summary>
 
 | 资产 | HuggingFace 地址 | 规格说明 |
 | :--- | :--- | :--- |
 | **真机 G1 数据集（6+1 任务）** | [`SII-yizhi/zeta0-real-dataset`](https://huggingface.co/datasets/SII-yizhi/zeta0-real-dataset) | 已公开 · 739 局 · 872,409 帧（约 24.4 GB，按任务 ZIP + `SHA256SUMS`）· 5 项 30 Hz 扁平（`sonic_lerobot`）+ 2 项 50 Hz 分列（`real_sonic`，含 `additional/flatten_box.zip`） |
-| **仿真数据集（7 任务）** | [`SII-yizhi/HumanoidArenaV3.1_SONIC40`](https://huggingface.co/datasets/SII-yizhi/HumanoidArenaV3.1_SONIC40) | 已公开 · 700 局 · 546,460 帧 · 50 Hz · `state64` / `semantic40` |
 | **基础模型与硬件 SDK** | [公开资产目录](docs/public_assets.md) | Qwen3-VL / Cosmos-Reason2-2B / Ψ₀、NVIDIA GR00T N1.7-3B、GEAR-SONIC、BrainCo SDK、XRoboToolkit |
 
 ```bash
-# 按单任务预览或拉取真机数据（如 place_chair 约 1.14 GB）或仿真数据（加 --execute 执行下载）
+# 按单任务预览或拉取真机数据（如 place_chair 约 1.14 GB）或全量拉取（加 --execute 执行下载）
 zeta data pull real --tasks place_chair --output data/zeta0-real
-zeta data pull humanoidarena --tasks HOI_pp_box --output data/humanoidarena
+zeta data pull real --output data/zeta0-real
 ```
 
 </details>
@@ -222,7 +221,7 @@ zeta data pull humanoidarena --tasks HOI_pp_box --output data/humanoidarena
   </tr>
 </table>
 
-> **一键下载全部 STL 模型 + 仿真视场视频**：[`hardware-wrist-camera-v1.tar.gz`](https://github.com/chenyizhi123/Zeta0/releases/download/v0.2.0/hardware-wrist-camera-v1.tar.gz)（`57.8 MB`，SHA-256 校验见 [`hardware/assets_manifest.json`](hardware/assets_manifest.json)）。推荐打印参数：**PETG / ABS / PA-CF**、`0.20 mm` 层高、`4` 层壁厚、`30–40%` 陀螺体填充、背部 `M3` 螺丝（旋入深度 `<= 5 mm`）。完整装配说明见 [`hardware/README.md`](hardware/README.md)。
+> **一键下载全部 STL 模型 + 相机视野预览视频**：[`hardware-wrist-camera-v1.tar.gz`](https://github.com/chenyizhi123/Zeta0/releases/download/v0.2.0/hardware-wrist-camera-v1.tar.gz)（`57.8 MB`，SHA-256 校验见 [`hardware/assets_manifest.json`](hardware/assets_manifest.json)）。推荐打印参数：**PETG / ABS / PA-CF**、`0.20 mm` 层高、`4` 层壁厚、`30–40%` 陀螺体填充、背部 `M3` 螺丝（旋入深度 `<= 5 mm`）。完整装配说明见 [`hardware/README.md`](hardware/README.md)。
 
 ---
 
@@ -273,7 +272,7 @@ zeta visualize rollout runs/quickstart-*/summary.json --output runs/foresight.pn
 PYTHONPATH=src python scripts/benchmark_inference.py --preset tiny-cpu --device cpu
 ```
 
-更多指南：[安装说明](docs/installation.md) · [Docker 镜像](docker/README.md) · [HumanoidArena 7 任务评测桥](benchmarks/humanoidarena/README.md) · [工作流总览](docs/workflows.md) · [命令行指南](docs/framework.md)。
+更多指南：[安装说明](docs/installation.md) · [Docker 镜像](docker/README.md) · [工作流总览](docs/workflows.md) · [命令行指南](docs/framework.md)。
 
 </details>
 
@@ -282,7 +281,6 @@ PYTHONPATH=src python scripts/benchmark_inference.py --preset tiny-cpu --device 
 ## 开源进度清单
 
 - [x] Unitree G1 + SONIC + BrainCo 真机数据集公开（[`SII-yizhi/zeta0-real-dataset`](https://huggingface.co/datasets/SII-yizhi/zeta0-real-dataset)，6+1 任务，739 局）
-- [x] HumanoidArena 7 任务 SONIC 仿真数据集公开（[`SII-yizhi/HumanoidArenaV3.1_SONIC40`](https://huggingface.co/datasets/SII-yizhi/HumanoidArenaV3.1_SONIC40)，700 局）
 - [x] RealSense D415 3D 打印腕部支架、打印参数与 SHA-256 资产包（[`v0.2.0`](https://github.com/chenyizhi123/Zeta0/releases/tag/v0.2.0)）
 - [x] 真机采集、免私有权重训练（`Ψ₀` 与 `GR00T N1.7`，支持 30 Hz 与 50 Hz）与 G1 统一 RTC 部署
 - [x] 完整算法 CPU 最小演示、`zeta0` SDK、可视化看板、无真机模拟 G1 客户端与 Dockerfile
@@ -314,6 +312,6 @@ PYTHONPATH=src python scripts/benchmark_inference.py --preset tiny-cpu --device 
 感谢 Zeta0 使用与致敬的开源项目：
 - [Ψ₀](https://github.com/physical-superintelligence-lab/Psi0)：训练代码库和部署运行时中继承与修改的代码来源。
 - [Isaac-GR00T](https://github.com/NVIDIA/Isaac-GR00T)：`gr00t_n1d7` 后端使用的原生 N1.7 动作头。
-- [LeRobot](https://github.com/huggingface/lerobot)、[GR00T-WholeBodyControl](https://github.com/physical-superintelligence-lab/GR00T-WholeBodyControl) 与 [HumanoidArena](https://github.com/William-wAng618/HumanoidArena)：G1 数据采集、SONIC 全身控制与仿真评测集成。
+- [LeRobot](https://github.com/huggingface/lerobot) 与 [GR00T-WholeBodyControl](https://github.com/physical-superintelligence-lab/GR00T-WholeBodyControl)：G1 数据采集与 SONIC 全身控制集成。
 
 许可与归属说明见 [LICENSE](LICENSE)、[NOTICE](NOTICE) 和 [第三方声明](THIRD_PARTY_NOTICES.md)。
