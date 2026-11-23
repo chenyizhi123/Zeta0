@@ -45,3 +45,28 @@ bash scripts/train/predictive_world/finetune-real-sonic-final-4gpu-20k.sh
 训练会依次进行数据准备、视觉特征缓存、三步四卡训练预检和正式微调。
 需要排除轨迹时，将 `EXCLUDE_EPISODES` 设为要排除的原始索引，多个索引用逗号分隔。
 请按本次数据集确定排除项。不同硬件需要调整批量时，记录实际使用的配方。
+
+## 开源免私有权重训练（`--init-mode scratch` 与 `--init-mode gr00t_n1d7`）
+
+外部用户无需 `joint-15000` 私有预训练权重或站点 `.local.json`，即可直接在 `SII-yizhi/zeta0-real-dataset` 或自采 G1 数据集上以 **v6/raw 联合目标** 训练并导出真机推理包：
+
+- **30 Hz 扁平格式（`sonic_lerobot`，如 `place_chair`、`tidy_scene`、`clean_table_trash`、`blow_dry_hair`、`place_tape_on_table` 以及开源 G1 采集脚本直出数据）**：使用 `scripts/train/predictive_world/prepare_sonic_lerobot_task.py`，支持 `--whole-body-target` 监督全部 29 个全身实测关节。
+- **50 Hz 分列格式（`real_sonic`，如 `place_doll`、`additional/flatten_box`）**：使用 `scripts/train/predictive_world/prepare_real_sonic_task.py`，配合 `--current-state-only --fixed-action-grid --independent-future-components --collector-snapshots --recorded-action-projection --real-sample-filter collector_snapshot_v1`（`place_doll` 按说明传 `--exclude-episode 80`）。
+
+```bash
+# 1. 从零初始化 Ψ₀ (zeta_native) + 公开 Qwen3-VL-2B
+PYTHONPATH=src python scripts/train/predictive_world/prepare_sonic_lerobot_task.py \
+  --init-mode scratch --dataset /path/to/place_chair --task real/place_chair \
+  --qwen-model /path/to/Qwen3-VL-2B --output runs/place_chair_scratch \
+  --current-state-only --fixed-action-grid --whole-body-target \
+  --action-horizon 50 --gpus 1 --batch 64 --updates 20000
+
+# 2. 从公开 NVIDIA GR00T N1.7-3B 初始化 (gr00t_n1d7，原生 40 步动作块，支持 30 Hz 与 50 Hz)
+PYTHONPATH=src python scripts/train/predictive_world/prepare_sonic_lerobot_task.py \
+  --init-mode gr00t_n1d7 --dataset /path/to/place_chair --task real/place_chair \
+  --qwen-model /path/to/exported_gr00t_backbone --gr00t-model /path/to/GR00T-N1.7-3B \
+  --output runs/place_chair_gr00t --current-state-only --fixed-action-grid --whole-body-target \
+  --gpus 1 --batch 64 --updates 20000
+```
+
+也可通过 `finetune-real-sonic.sh` 直接设定 `INIT_MODE=scratch` 或 `INIT_MODE=gr00t_n1d7`（加 `GR00T_MODEL=...`）串起数据准备、特征缓存、3 步预检与训练。

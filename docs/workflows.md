@@ -35,8 +35,11 @@ its original resolved config. The [real SONIC research integration](../real/READ
 documents the matching service and robot client.
 
 Choose a model export, encoder, processor and runtime with matching observation,
-action and timing formats. The five task runtimes in `real/g1/runtime_profiles`
-serve historical models; current v6/N1.7 exports still require runtime adaptation.
+action and timing formats. The unified G1 runtime profile (`runtime_profiles/unified`)
+loads directly from `src/psi` and supports both `zeta_native` (v5/v6) and `gr00t_n1d7`
+exports (including 50Hz/40-step grids). The five historical v5 task runtimes are
+preserved on branch `archive/legacy-v5-runtimes` and indexed in
+[`LEGACY_ARCHIVE.json`](../real/g1/runtime_profiles/LEGACY_ARCHIVE.json).
 Task weights must be supplied separately. See
 [runtime compatibility](../real/g1/README.md#runtime-compatibility) and
 [required assets](artifacts.md).

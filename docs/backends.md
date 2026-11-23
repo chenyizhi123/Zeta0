@@ -1,9 +1,13 @@
-# Two-backend workflow
+# Layered VLA hosts (`Ψ₀`, `GR00T N1.7`, and reserved `π₀.₅`)
 
-Zeta-0 supports a Psi0-derived host and a native GR00T N1.7 host. They share the
-representation, predictor, objectives and trainer; each host supplies its own
-action computation. Host selection is implemented in
-[`factory.py`](../src/psi/models/predictive_world/factory.py).
+Zeta-0 turns layered / dual-system VLA policies into World Action Models by
+embedding a shared System 1.5 foresight core between System 2 (VLM) and System 1
+(flow-matching action expert). Host selection is unified across training, export,
+and G1 deployment through the Layered VLA Host Registry in
+[`hosts/`](../src/psi/models/predictive_world/hosts/__init__.py) (also exposed as
+`zeta0.hosts`) and invoked from [`factory.py`](../src/psi/models/predictive_world/factory.py)
+and [`real_sonic_runtime.py`](../src/psi/deploy/real_sonic_runtime.py).
+Run `zeta hosts` to inspect supported and planned host contracts.
 
 ## Install
 

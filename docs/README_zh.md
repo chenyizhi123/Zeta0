@@ -8,11 +8,12 @@
 
 | 你的目标 | 推荐入口 |
 | --- | --- |
-| 了解框架定位和当前模型 | [中文首页](../README_zh.md)、[当前模型实现](../README_zh.md#当前模型实现) |
+| 了解框架定位、核心成绩与分层架构 | [中文首页](../README_zh.md)、[路线图](../ROADMAP.md) |
 | 复用已有 Python 环境与本地资产 | [环境检查](framework.md#start-with-your-existing-environment) |
-| 首次安装与选择环境 | [安装指南](installation.md)、[公开依赖与资产](public_assets.md) |
-| 无需机器人、数据集或模型权重，先跑通训练与恢复示例 | [最小运行示例](quickstart.md) |
-| 使用统一命令入口 | [框架 CLI](framework.md) |
+| 首次安装、Docker 镜像与公开数据集 | [安装指南](installation.md)、[Docker 环境](../docker/README.md)、[公开依赖与资产](public_assets.md) |
+| 无需机器人、数据集或模型权重，30 秒跑通全算法演示并出图 | [最小运行示例](quickstart.md) |
+| HumanoidArena 7 任务仿真评测与腕部支架 | [HumanoidArena 评测桥](../benchmarks/humanoidarena/README.md)、[腕部相机支架](../hardware/README.md) |
+| 使用统一命令入口（`zeta`） | [框架 CLI](framework.md) |
 
 已有环境时，在仓库根目录运行以下只读检查，将路径替换为已有环境的 Python：
 

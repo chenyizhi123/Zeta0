@@ -56,9 +56,9 @@ def prepare_training(source_data, template, *, base, backbone, output, run_outpu
     if source.get("identity") != canonical_sha256({key: value for key, value in source.items() if key != "identity"}):
         raise ValueError("source joint release identity mismatch")
     data = PredictiveWorldDataConfig(**source["data"])
-    if (data.action_horizon < 40 or data.action_hz != 50 or data.state_history_count != 1
+    if (data.action_horizon < 40 or data.action_hz not in (30, 50) or data.state_history_count != 1
             or data.observed_visual_mode != "current_multiview" or data.source_sampling_exponent != 0):
-        raise ValueError("N1.7 preparation requires current RGB/state and task-uniform SONIC at 50 Hz")
+        raise ValueError("N1.7 preparation requires current RGB/state and task-uniform SONIC at 30 Hz or 50 Hz")
     if data.current_visual_pooling != "content_area_v1":
         raise ValueError("N1.7 preparation requires explicit content_area_v1 observations")
     meta = verify_predictive_world_index(data.index_path)

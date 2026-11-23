@@ -25,6 +25,8 @@ See [source verification](maintenance/RELEASE_CHECKLIST.md#source-checks) for re
 
 | Asset | Where to get it | Setup requirement |
 | --- | --- | --- |
+| HumanoidArena 7-task dataset | [`SII-yizhi/HumanoidArenaV3.1_SONIC40`](https://huggingface.co/datasets/SII-yizhi/HumanoidArenaV3.1_SONIC40) | Public LeRobot SONIC semantic-40 (50 Hz, 700 episodes); pull with `zeta data pull humanoidarena` |
+| Real-world Unitree G1 dataset | [`SII-yizhi/zeta0-real-dataset`](https://huggingface.co/datasets/SII-yizhi/zeta0-real-dataset) | Unitree G1 + BrainCo LeRobot v3; pull with `zeta data pull real` (set `HF_TOKEN` if gated/private) |
 | Psi0 base models and data | [Psi0](https://github.com/physical-superintelligence-lab/Psi0), [models](https://huggingface.co/USC-PSI-Lab/psi-model), [data](https://huggingface.co/datasets/USC-PSI-Lab/psi-data) | Match the encoder and processor in your config |
 | GR00T N1.7 base | [NVIDIA model card](https://huggingface.co/nvidia/GR00T-N1.7-3B) | Record the model revision and follow its license terms |
 | SONIC controller and models | [WBC installation](https://nvlabs.github.io/GR00T-WholeBodyControl/getting_started/installation_deploy.html) | Match ONNX weights, observation config and controller build |
@@ -37,6 +39,22 @@ See [source verification](maintenance/RELEASE_CHECKLIST.md#source-checks) for re
 Component licenses and vendor redistribution restrictions are listed in
 [third-party notices](../THIRD_PARTY_NOTICES.md) and the
 [G1 license review](maintenance/G1_INTEGRATION_REVIEW.md).
+
+## Real-world G1 dataset (`SII-yizhi/zeta0-real-dataset`)
+
+The real-world Unitree G1 + SONIC + BrainCo release contains **739 episodes (872,409 frames, ~24.4 GB)** packaged as per-task ZIP archives with `SHA256SUMS` (three 640×480 AV1 RGB cameras: `ego_view`, `left_wrist`, `right_wrist`).
+
+| Task Archive | Split | Episodes | Rate | Schema / Preparation Script |
+| --- | --- | :---: | :---: | --- |
+| `real/place_chair.zip` | Primary | 101 | 30 Hz | Flat `state[41]` / `action[76]` · `prepare_sonic_lerobot_task.py` |
+| `real/blow_dry_hair.zip` | Primary | 81 | 30 Hz | Flat `state[41]` / `action[76]` · `prepare_sonic_lerobot_task.py` |
+| `real/place_tape_on_table.zip` | Primary | 100 | 30 Hz | Flat `state[41]` / `action[76]` · `prepare_sonic_lerobot_task.py` |
+| `real/clean_table_trash.zip` | Primary | 86 | 30 Hz | Flat `state[41]` / `action[76]` · `prepare_sonic_lerobot_task.py` |
+| `real/tidy_scene.zip` | Primary | 200 | 30 Hz | Flat `state[41]` / `action[76]` · `prepare_sonic_lerobot_task.py` |
+| `real/place_doll.zip` | Primary | 100 *(ep 80 excluded)* | 50 Hz | Split `state[29]+hand_q[12]` / `motion_token[64]+hand_q[12]` + timing sidecars · `prepare_real_sonic_task.py` |
+| `additional/flatten_box.zip` | Additional | 71 | 50 Hz | Split `state[29]+hand_q[12]` / `motion_token[64]+hand_q[12]` + timing sidecars · `prepare_real_sonic_task.py` |
+
+Verify downloaded archives with `sha256sum -c SHA256SUMS`, unzip the task directory, audit it with `zeta data inspect <task_dir> --full`, and prepare training runs with `--init-mode scratch` or `--init-mode gr00t_n1d7`.
 
 ## Capture-to-training boundary
 
