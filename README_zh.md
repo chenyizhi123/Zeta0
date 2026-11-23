@@ -111,18 +111,9 @@
   <img src="https://chenyizhi123.github.io/zeta0-project/assets/figures/fig2_method.png" alt="Zeta-0 联合场景与身体未来预见框架及双响应迁移结构图" width="96%"/>
 </p>
 
-```mermaid
-flowchart LR
-  S2["System 2：冻结 VLM<br/>Qwen3-VL / GR00T N1.7 VL / (pi0.5)"]
-  S15["System 1.5：Zeta-0 因果预见桥<br/>历史编码器 H + 潜空间转移 F_theta"]
-  S1["System 1：流匹配动作专家<br/>TemporalNative / Gr00tN1d7 + RTC 衔接"]
-  S0["System 0：Unitree G1 全身控制<br/>统一运行时 + GEAR-SONIC + BrainCo 灵巧手"]
-  TR["仅训练态监督（部署态结构性剥离）<br/>未来编码器 E_phi / EMA + 读出头 D + 教师 T_psi (L_resp)"]
-
-  S2 --> S15 --> S1 --> S0
-  S2 --> S1
-  TR -.->|"联合场景 + 29 关节身体 + 双响应迁移"| S15
-```
+<p align="center">
+  <img src="docs/assets/zeta0-system-layers.png" alt="Zeta-0 分层系统架构：上方仅训练态监督，下方部署态 System 2 → 1.5 → 1 → 0 因果执行栈" width="96%"/>
+</p>
 
 <details>
 <summary><b>展开查看：29 关节全身预见精度图 &amp; 分层 Host 注册表</b></summary>

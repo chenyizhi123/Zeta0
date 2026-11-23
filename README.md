@@ -111,18 +111,9 @@ Autonomous closed-loop rollouts on a physical **Unitree G1 + GEAR-SONIC WBC + Br
   <img src="https://chenyizhi123.github.io/zeta0-project/assets/figures/fig2_method.png" alt="Zeta-0 joint scene and body foresight architecture and dual-response transfer" width="96%"/>
 </p>
 
-```mermaid
-flowchart LR
-  S2["System 2: Frozen VLM<br/>Qwen3-VL / GR00T N1.7 VL / (pi0.5)"]
-  S15["System 1.5: Zeta-0 Foresight Bridge<br/>History Encoder H + Latent Transition F_theta"]
-  S1["System 1: Flow-Matching Action Expert<br/>TemporalNative / Gr00tN1d7 + RTC Inpainting"]
-  S0["System 0: Unitree G1 Control<br/>Unified Runtime + GEAR-SONIC + BrainCo Hands"]
-  TR["Training-Only Supervision (Excluded at Deploy)<br/>Future Encoder E_phi / EMA + WorldReadout D + Teacher T_psi (L_resp)"]
-
-  S2 --> S15 --> S1 --> S0
-  S2 --> S1
-  TR -.->|"Joint scene + 29-joint body + Dual-Response Transfer"| S15
-```
+<p align="center">
+  <img src="docs/assets/zeta0-system-layers.png" alt="Zeta-0 layered system stack: Training-Only Supervision over Deployment System 2, System 1.5, System 1, and System 0" width="96%"/>
+</p>
 
 <details>
 <summary><b>View 29-Joint Whole-Body Forecast Figure &amp; Layered Host Matrix</b></summary>
