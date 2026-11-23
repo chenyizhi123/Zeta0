@@ -1,3 +1,7 @@
+# OS metadata
+.DS_Store
+Thumbs.db
+
 # Python-generated files
 __pycache__/
 *.py[oc]
@@ -12,12 +16,6 @@ wheels/
 /data
 cache
 *.mp4
-!/hardware/wrist-camera-expansion/video/overview_neg20deg.mp4
-!/hardware/wrist-camera-expansion/video/overview_neg10deg.mp4
-!/hardware/wrist-camera-expansion/video/overview_0deg.mp4
-!/hardware/wrist-camera-expansion/video/overview_10deg.mp4
-!/hardware/wrist-camera-expansion/video/overview_20deg.mp4
-ml-egodex_dataset/ # soft link to the egodex dataset
 wandb/
 runs/
 checkpoints/
@@ -30,7 +28,6 @@ runs_old/
 tmp_dir/
 .runs*
 
-
 .env
 .env.local
 
@@ -40,31 +37,18 @@ _lerobot_build
 .logs
 
 *.local.yaml
-
-
-vq/
-extern/vq_bet_official/
-src/fast/egodex-*
 *.pkl
-!src/fast/egodex-rel-50w-1x48-v2048-s100
-src/fast/pi
-
 .deepspeed_env
 *.bak
-#uv.lock
 .vscode/
 .direnv/
 # Dependency contents must be deliberately pinned and reviewed; do not hide the
 # entire third_party tree from maintainers.
-src/gr00t/.venv/
 props/
 textures/
 test.py
 *.npy
-
 unitree_sdk2_python
-
-src/h_rdt/datasets/pretrain/egodex_large_values.txt
 .claude/
 
 # Zeta0-Humanoid local-only material. These rules are not a publication/security audit.
@@ -114,7 +98,6 @@ src/h_rdt/datasets/pretrain/egodex_large_values.txt
 *.db
 /source_manifest.json
 
-
 # Optional local dependency checkouts and manuscript-only checks.
 /third_party/GR00T-WholeBodyControl/
 /third_party/Isaac-GR00T/
@@ -128,10 +111,8 @@ src/h_rdt/datasets/pretrain/egodex_large_values.txt
 /core
 /core.*
 
-# Site inventories and optional upstream checkout are never release source.
+# Site inventories are never release source.
 /INSPIRE.md
-/workspace.local.env
-/third_party/Isaac-GR00T/
 
 # Incomplete optional-source downloads are local preparation state.
 /third_party/.source-fetch-*/

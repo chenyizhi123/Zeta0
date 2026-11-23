@@ -112,7 +112,7 @@ def main() -> int:
     paths.extend(sorted(path for path in (ROOT / "docs").glob("*.md") if path not in paths))
     paths.append(ROOT / ".github/pull_request_template.md")
     discovered = list(ROOT.glob("*.md"))
-    for directory in ("docs", "configs", "scripts", "real", "examples"):
+    for directory in ("docs", "configs", "scripts", "real", "examples", "hardware", "benchmarks", "docker"):
         discovered.extend((ROOT / directory).rglob("*.md"))
     paths.extend(sorted(path for path in discovered if path not in paths
                         and maintained_document(path)))

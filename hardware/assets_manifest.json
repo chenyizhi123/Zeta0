@@ -1,0 +1,153 @@
+{
+  "format": "zeta0.hardware_assets.v1",
+  "archive": "hardware-wrist-camera-v1.tar.gz",
+  "archive_bytes": 57766953,
+  "archive_sha256": "5c1d8bd2dc5e5d3db73389e98ce2ec726a87fe51dc862c658d17d2b21e6abed1",
+  "archive_branch": "archive/legacy-v5-runtimes",
+  "archive_commit": "6965053edf6b5ccf30ea2dc677aea63529718241",
+  "recommended_starter_stl": "wrist-camera-expansion/d415_wrist_0deg.stl",
+  "files": [
+    {
+      "kind": "stl",
+      "design": "paper_back_of_hand",
+      "angle_deg": 30,
+      "path": "wrist-camera-paper/d415_wrist_30deg.stl",
+      "legacy_path": "hardware/wrist-camera-paper/D415-wrist-30°.stl",
+      "bytes": 11164384,
+      "sha256": "fc2213620ed0e6c5aa93b4df3b67e12fabcf5f25ac429fe9d7c1f6b823a8bf39"
+    },
+    {
+      "kind": "stl",
+      "design": "paper_back_of_hand",
+      "angle_deg": null,
+      "path": "wrist-camera-paper/d415_wrist_left.stl",
+      "legacy_path": "hardware/wrist-camera-paper/D415-wrist-left.stl",
+      "bytes": 6902084,
+      "sha256": "050cd5165412f45e978793dd721592d221da0d4ee3e1fb3ebe092bc6a8cd4544"
+    },
+    {
+      "kind": "stl",
+      "design": "expansion_palm_side",
+      "angle_deg": -20,
+      "path": "wrist-camera-expansion/d415_wrist_neg20deg.stl",
+      "legacy_path": "hardware/wrist-camera-expansion/D415-wrist-neg20°.stl",
+      "bytes": 715784,
+      "sha256": "418bcdd21bbfac235bf2e7b1bda66a5854d0b0874e174d24ff034d5755a0bc22"
+    },
+    {
+      "kind": "stl",
+      "design": "expansion_palm_side",
+      "angle_deg": -10,
+      "path": "wrist-camera-expansion/d415_wrist_neg10deg.stl",
+      "legacy_path": "hardware/wrist-camera-expansion/D415-wrist-neg10°.stl",
+      "bytes": 718084,
+      "sha256": "008dfdd7d112651eb79035dbf6c732cf1e46ae705f84cf752d3bacda1d3445d8"
+    },
+    {
+      "kind": "stl",
+      "design": "expansion_palm_side",
+      "angle_deg": 0,
+      "path": "wrist-camera-expansion/d415_wrist_0deg.stl",
+      "legacy_path": "hardware/wrist-camera-expansion/D415-wrist-0°.stl",
+      "bytes": 715484,
+      "sha256": "7fd1a1d9f5e01917cb10dd2fdb984b0621732a287eeea712d1ba53a722ef6a87"
+    },
+    {
+      "kind": "stl",
+      "design": "expansion_palm_side",
+      "angle_deg": 10,
+      "path": "wrist-camera-expansion/d415_wrist_10deg.stl",
+      "legacy_path": "hardware/wrist-camera-expansion/D415-wrist-10°.stl",
+      "bytes": 717384,
+      "sha256": "6189dd0abb25b99ca064ac98a56e54d442584cd7c325c72fe724b3a5fd48edc0"
+    },
+    {
+      "kind": "stl",
+      "design": "expansion_palm_side",
+      "angle_deg": 20,
+      "path": "wrist-camera-expansion/d415_wrist_20deg.stl",
+      "legacy_path": "hardware/wrist-camera-expansion/D415-wrist-20°.stl",
+      "bytes": 716784,
+      "sha256": "e34a67d91725683d7c9a431225e02192bae19db2ede12ec76c00b9f7548567bf"
+    },
+    {
+      "kind": "stl",
+      "design": "expansion_palm_side",
+      "angle_deg": null,
+      "path": "wrist-camera-expansion/d415_wrist_right.stl",
+      "legacy_path": "hardware/wrist-camera-expansion/D415-wrist-right.stl",
+      "bytes": 1224684,
+      "sha256": "6c8659c9f6be1b70b5aa60c13876a40c1b5ac8ab31545cc1f4c9452cbcc13e24"
+    },
+    {
+      "kind": "gif",
+      "design": "expansion_palm_side",
+      "path": "wrist-camera-expansion/video/overview_0deg.gif",
+      "bytes": 3944813,
+      "sha256": "e9fdae20c7bef26be2bb25cb6a3d4debb8eab2aba7c7ff75b4c3b3a2e9357629"
+    },
+    {
+      "kind": "mp4",
+      "design": "expansion_palm_side",
+      "path": "wrist-camera-expansion/video/overview_0deg.mp4",
+      "bytes": 5748799,
+      "sha256": "e55fd9fe4eb7101a6992232b36a0077a505403b4416d80c0a221f2b86893f239"
+    },
+    {
+      "kind": "gif",
+      "design": "expansion_palm_side",
+      "path": "wrist-camera-expansion/video/overview_10deg.gif",
+      "bytes": 3963819,
+      "sha256": "2be00c732eda7dcc888119c470b5cf8e65be6c70a2d674c8e1051182d5d84f2a"
+    },
+    {
+      "kind": "mp4",
+      "design": "expansion_palm_side",
+      "path": "wrist-camera-expansion/video/overview_10deg.mp4",
+      "bytes": 5839532,
+      "sha256": "1296f022b757495fec25d405ead09fd47e4ae6cb3ef30eaa3e547cfd18de9ace"
+    },
+    {
+      "kind": "gif",
+      "design": "expansion_palm_side",
+      "path": "wrist-camera-expansion/video/overview_20deg.gif",
+      "bytes": 3800175,
+      "sha256": "51c15b3574f9a65d14c1e05f85906f34fadb1fc48c0906e2b6530258311a5af0"
+    },
+    {
+      "kind": "mp4",
+      "design": "expansion_palm_side",
+      "path": "wrist-camera-expansion/video/overview_20deg.mp4",
+      "bytes": 5929735,
+      "sha256": "508fd40d224004efde5fb15246bb69dc874797e318e7eb10e9b473c867969a37"
+    },
+    {
+      "kind": "gif",
+      "design": "expansion_palm_side",
+      "path": "wrist-camera-expansion/video/overview_neg10deg.gif",
+      "bytes": 3499475,
+      "sha256": "2654656321b343cec5a174cd0d01a86b6dbc2a23d27b7ad2a0c3aa2c9ee68000"
+    },
+    {
+      "kind": "mp4",
+      "design": "expansion_palm_side",
+      "path": "wrist-camera-expansion/video/overview_neg10deg.mp4",
+      "bytes": 5467384,
+      "sha256": "a2df432b7a8ede628c349ac8110ffd546a10f494e21ec2ae17fd6d3f6f68c49f"
+    },
+    {
+      "kind": "gif",
+      "design": "expansion_palm_side",
+      "path": "wrist-camera-expansion/video/overview_neg20deg.gif",
+      "bytes": 3555961,
+      "sha256": "19c59dda459f2cdfb693f30a51ceb1f227f49824d1bae7cbc8a6e9a7f66c5254"
+    },
+    {
+      "kind": "mp4",
+      "design": "expansion_palm_side",
+      "path": "wrist-camera-expansion/video/overview_neg20deg.mp4",
+      "bytes": 5784110,
+      "sha256": "f9085beaea13650d2a59b1110e7410615809319950055bd9b0cf90b6734ac2ab"
+    }
+  ]
+}

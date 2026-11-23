@@ -46,7 +46,7 @@ jobs:
           uv build --wheel
           .venv-check/bin/python scripts/check_distribution.py dist/*.whl
           uv pip install --no-deps --python .venv-check/bin/python dist/*.whl
-          .venv-check/bin/python -I -c 'import psi; from importlib.metadata import version; from psi.data.predictor_pretrain.runtime_contract import resolve_timeouts; assert psi.__version__ == version("zeta0-humanoid"); assert "site-packages" in psi.__file__; assert resolve_timeouts({}) == (600, 600)'
+          .venv-check/bin/python -I -c 'import psi, zeta0; from importlib.metadata import version; from psi.data.predictor_pretrain.runtime_contract import resolve_timeouts; assert psi.__version__ == zeta0.__version__ == version("zeta0-humanoid"); assert "site-packages" in psi.__file__; assert "site-packages" in zeta0.__file__; assert resolve_timeouts({}) == (600, 600)'
           .venv-check/bin/zeta --help
 
   native-gr00t:

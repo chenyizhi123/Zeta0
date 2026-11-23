@@ -1,7 +1,7 @@
 [project]
 name = "zeta0-humanoid"
-version = "0.1.1"
-description = "Zeta0: humanoid demonstration capture, policy training and deployment"
+version = "0.2.0"
+description = "Zeta0: World Action Models with joint scene and body foresight for humanoid control"
 readme = "README.md"
 license = "Apache-2.0"
 license-files = ["LICENSE", "NOTICE", "LICENSES/Apache-2.0.txt", "LICENSES/GEAR-SONIC.txt", "THIRD_PARTY_NOTICES.md"]
@@ -32,8 +32,10 @@ dependencies = [
 ]
 
 [project.urls]
+Homepage = "https://chenyizhi123.github.io/zeta0-project/"
 Repository = "https://github.com/chenyizhi123/Zeta0"
 Issues = "https://github.com/chenyizhi123/Zeta0/issues"
+Datasets = "https://huggingface.co/datasets/SII-yizhi/HumanoidArenaV3.1_SONIC40"
 
 [project.scripts]
 zeta = "psi.cli:main"
@@ -47,8 +49,8 @@ psi = ["assets/*"]
 
 [tool.setuptools.packages.find]
 where = ["src"]
-# Only the maintained Zeta-0 implementation belongs in the wheel.
-include = ["psi", "psi.*"]
+# Only the maintained Zeta-0 implementation and its public facade belong in the wheel.
+include = ["psi", "psi.*", "zeta0", "zeta0.*"]
 
 [tool.uv.sources]
 zeta0-humanoid = { path = ".", editable = true }
@@ -112,7 +114,7 @@ addopts = "-ra --strict-config --strict-markers"
 
 [tool.ruff]
 target-version = "py310"
-extend-exclude = ["third_party", "paper", "diagnostics", "chenyz", "posttrain_runs", "eval_runs"]
+extend-exclude = ["third_party", "paper", "diagnostics", "posttrain_runs", "eval_runs"]
 
 [tool.ruff.lint]
 # Start with correctness checks, not a repository-wide formatting rewrite.

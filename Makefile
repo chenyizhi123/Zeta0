@@ -22,7 +22,7 @@ check-release:
 	$(PYTHON) scripts/check_g1_sources.py
 
 test-dev:
-	CUDA_VISIBLE_DEVICES='' $(PYTHON) -m pytest -q tests/test_check_docs.py tests/test_export_eval_summary.py tests/test_development_config.py tests/test_distribution.py tests/test_repository_audit.py tests/test_json_config_audit.py tests/test_source_pins.py tests/test_public_setup.py tests/test_subprocess_cleanup.py tests/test_source_export.py tests/test_source_package.py tests/test_release.py tests/test_framework.py
+	CUDA_VISIBLE_DEVICES='' OMP_NUM_THREADS=1 $(PYTHON) -m pytest -q tests/test_check_docs.py tests/test_export_eval_summary.py tests/test_development_config.py tests/test_distribution.py tests/test_repository_audit.py tests/test_json_config_audit.py tests/test_source_pins.py tests/test_public_setup.py tests/test_subprocess_cleanup.py tests/test_source_export.py tests/test_source_package.py tests/test_release.py tests/test_framework.py tests/test_oss_upgrade.py
 
 test-cpu:
 	PYTHONPATH=src CUDA_VISIBLE_DEVICES='' OMP_NUM_THREADS=1 $(PYTHON) -m pytest -q \
@@ -43,7 +43,7 @@ test-gr00t:
 	PYTHONPATH=src CUDA_VISIBLE_DEVICES='' OMP_NUM_THREADS=1 $(PYTHON) -m pytest -q tests/predictive_world/test_gr00t.py tests/predictive_world/test_gr00t_assets.py tests/predictive_world/test_gr00t_ddp.py tests/predictive_world/test_gr00t_preparation.py tests/predictive_world/test_backend_release.py
 
 lint:
-	$(RUFF) check src/psi scripts tests real/g1/scripts real/g1/adapters real/g1/configure_local_paths.py
+	$(RUFF) check src/psi src/zeta0 scripts tests benchmarks real/g1/scripts real/g1/adapters real/g1/configure_local_paths.py
 
 audit:
 	$(PYTHON) scripts/audit_repository.py

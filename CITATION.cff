@@ -1,8 +1,105 @@
 cff-version: 1.2.0
 type: software
-message: "If you use this source code, cite the software repository and preserve upstream attribution."
-title: "Zeta0: Humanoid demonstration collection, training and deployment"
-authors:
-  - name: "Zeta0 contributors"
+message: "If you use Zeta0 in your research or robot stack, please cite the paper and preserve upstream attribution."
+title: "Zeta0: A Framework for World Action Models with Joint Scene and Body Foresight in Humanoid Control"
+version: 0.2.0
+date-released: "2026-11-23"
+url: "https://chenyizhi123.github.io/zeta0-project/"
 repository-code: "https://github.com/chenyizhi123/Zeta0"
 license: Apache-2.0
+authors:
+  - family-names: Chen
+    given-names: Yizhi
+  - family-names: Cao
+    given-names: Zhanxiang
+  - family-names: Wang
+    given-names: Yitong
+  - family-names: Liu
+    given-names: Junyu
+  - family-names: Zeng
+    given-names: Hongchu
+  - family-names: Peng
+    given-names: Xinyi
+  - family-names: Huang
+    given-names: Chuxuan
+  - family-names: Su
+    given-names: Yicheng
+  - family-names: Zhou
+    given-names: Zihao
+  - family-names: Fu
+    given-names: Shengcheng
+  - family-names: Li
+    given-names: Haoyang
+  - family-names: Yan
+    given-names: Liyun
+  - family-names: Zhan
+    given-names: Tianyue
+  - family-names: Ma
+    given-names: Jianming
+  - family-names: Zhang
+    given-names: Yang
+  - family-names: Zhu
+    given-names: Keqi
+  - family-names: Si
+    given-names: Xiaxi
+  - family-names: Yao
+    given-names: Jinming
+  - family-names: Sun
+    given-names: Qiao
+  - family-names: Zhang
+    given-names: Shizeng
+  - family-names: Zhong
+    given-names: Jiangwei
+  - family-names: Gao
+    given-names: Yue
+preferred-citation:
+  type: article
+  title: "ζ₀: A Framework for World Action Models with Joint Scene and Body Foresight in Humanoid Control"
+  year: 2026
+  journal: "arXiv preprint"
+  url: "https://chenyizhi123.github.io/zeta0-project/"
+  authors:
+    - family-names: Chen
+      given-names: Yizhi
+    - family-names: Cao
+      given-names: Zhanxiang
+    - family-names: Wang
+      given-names: Yitong
+    - family-names: Liu
+      given-names: Junyu
+    - family-names: Zeng
+      given-names: Hongchu
+    - family-names: Peng
+      given-names: Xinyi
+    - family-names: Huang
+      given-names: Chuxuan
+    - family-names: Su
+      given-names: Yicheng
+    - family-names: Zhou
+      given-names: Zihao
+    - family-names: Fu
+      given-names: Shengcheng
+    - family-names: Li
+      given-names: Haoyang
+    - family-names: Yan
+      given-names: Liyun
+    - family-names: Zhan
+      given-names: Tianyue
+    - family-names: Ma
+      given-names: Jianming
+    - family-names: Zhang
+      given-names: Yang
+    - family-names: Zhu
+      given-names: Keqi
+    - family-names: Si
+      given-names: Xiaxi
+    - family-names: Yao
+      given-names: Jinming
+    - family-names: Sun
+      given-names: Qiao
+    - family-names: Zhang
+      given-names: Shizeng
+    - family-names: Zhong
+      given-names: Jiangwei
+    - family-names: Gao
+      given-names: Yue
