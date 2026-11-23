@@ -119,6 +119,10 @@ def _expert_arguments(
     }
     if features.image_mask is not None:
         result["image_mask"] = features.image_mask
+    if features.kv_cache is not None:
+        result["kv_cache"] = features.kv_cache
+    if features.kv_attention_mask is not None:
+        result["kv_attention_mask"] = features.kv_attention_mask
     return result
 
 

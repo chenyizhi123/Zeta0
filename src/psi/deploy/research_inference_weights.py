@@ -258,19 +258,30 @@ def export_real_sonic_research_policy(checkpoint_dir, config_path, output_dir):
             shutil.copyfile(path, output / "registries" / (name + ".json"))
         for name, value in (("feature_provenance.json", provenance), ("source_index_metadata.json", index_meta)):
             (output / name).write_text(json.dumps(value, indent=2, sort_keys=True) + "\n")
+        gr00t_flag = " --gr00t-model GR00T_BASE" if config.model.host_architecture == "gr00t_n1d7" else ""
+        gr00t_line = (
+            f"Required external GR00T base: {config.model.gr00t_model}\n"
+            if config.model.host_architecture == "gr00t_n1d7"
+            else ""
+        )
         (output / "RUN_INFERENCE.txt").write_text(
             "Research inference only; formal export/evaluation acceptance is unchanged.\n"
             "Use the matching Zeta0-Humanoid checkout/runtime and external Qwen/processor.\n"
-            "python -m psi.deploy.real_sonic_server --weights-dir PACKAGE --qwen-model QWEN\n"
+            f"python -m psi.deploy.real_sonic_server --weights-dir PACKAGE --qwen-model QWEN{gr00t_flag}\n"
             "The service derives current-state count, RTC capacity and time mode from this package.\n"
+            f"Host architecture: {config.model.host_architecture}\n"
             f"Action grid: {config.data.action_hz:g}Hz, {config.data.action_horizon} steps, "
             f"RTC prefix up to {trained} steps.\n"
             f"Required external VLM: {config.model.qwen_model}\n"
+            f"{gr00t_line}"
             f"Required encoder identity: {metadata['encoder_id']}\n"
-            "For 30Hz/50-step packages, use the runtime/server supporting that grid; "
+            "For 30Hz packages, use the runtime/server supporting that grid; "
             "the legacy physical 50Hz queue/client cannot consume it directly.\n"
             "No dataset, feature tensors, training-only models or optimizer states are packaged.\n"
         )
+        external_dependency = {"qwen_model": str(config.model.qwen_model), "included": False}
+        if config.model.host_architecture == "gr00t_n1d7":
+            external_dependency["gr00t_model"] = str(config.model.gr00t_model)
         manifest = {
             "format": INFERENCE_FORMAT, "module_names": sorted(INFERENCE_MODULES),
             "weights_file": "inference.safetensors", "weights_sha256": file_sha256(output / "inference.safetensors"),
@@ -285,7 +296,7 @@ def export_real_sonic_research_policy(checkpoint_dir, config_path, output_dir):
             "future_component_alignment": payload["data"].get("future_component_alignment"),
             "observation_contract": observation_contract,
             "validated_production_deploy_bundle": False, "evaluation_report": None,
-            "external_dependency": {"qwen_model": str(config.model.qwen_model), "included": False},
+            "external_dependency": external_dependency,
             "source_code_revision": metadata["code_revision"], "source_code_fingerprint": metadata["code_fingerprint"],
             "package_files_sha256": {
                 str(path.relative_to(output)): file_sha256(path)

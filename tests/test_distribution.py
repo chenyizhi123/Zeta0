@@ -24,6 +24,7 @@ def test_wheel_boundaries(tmp_path, extra):
         for name in (
             "psi/__init__.py",
             "psi/data/predictor_pretrain/runtime_contract.py",
+            "zeta0/__init__.py",
         ):
             archive.writestr(name, "")
         for name in ("LICENSE", "NOTICE", "Apache-2.0.txt", "THIRD_PARTY_NOTICES.md"):
@@ -43,6 +44,7 @@ def test_missing_notices_refused(tmp_path):
         archive.writestr("zeta0_humanoid-0.0.0.dist-info/METADATA", "Name: zeta0-humanoid\n")
         archive.writestr("psi/__init__.py", "")
         archive.writestr("psi/data/predictor_pretrain/runtime_contract.py", "")
+        archive.writestr("zeta0/__init__.py", "")
     with pytest.raises(ValueError, match="Missing attribution"):
         check_wheel(wheel)
 
@@ -52,6 +54,7 @@ def valid_members():
         'zeta0_humanoid-0.0.0.dist-info/METADATA': 'Name: zeta0-humanoid\nVersion: 0.0.0\n',
         'psi/__init__.py': '',
         'psi/data/predictor_pretrain/runtime_contract.py': '',
+        'zeta0/__init__.py': '',
         **{f'zeta0_humanoid-0.0.0.dist-info/licenses/{name}': '' for name in
            ('LICENSE', 'NOTICE', 'Apache-2.0.txt', 'THIRD_PARTY_NOTICES.md')},
     }

@@ -44,6 +44,7 @@ class InferenceService:
 
     def health(self):
         return dict(format=FORMAT, action_protocol_id=PROTOCOL, state_schema_id=STATE_SCHEMA,
+                    host_architecture=self.manifest.get("architecture", {}).get("host_architecture", "zeta_native"),
                     action_hz=self.action_hz, action_horizon=self.action_horizon, native_dim=76, rtc_max_prefix_steps=self.rtc_max_prefix_steps,
                     state_history_count=self.state_count, observation_contract=self.observation_contract,
                     task=self.manifest["task"], source_completed_updates=self.manifest["source_completed_updates"],
@@ -131,6 +132,7 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--weights-dir", required=True)
     parser.add_argument("--qwen-model", required=True)
+    parser.add_argument("--gr00t-model", default=None, help="Local GR00T N1.7 base directory (required for gr00t_n1d7 packages)")
     parser.add_argument("--host", default="0.0.0.0")
     parser.add_argument("--port", type=int, default=8014)
     parser.add_argument("--device", default="cuda:0")
@@ -139,7 +141,7 @@ def main():
     logging.basicConfig(level=logging.INFO, format="%(asctime)s %(levelname)s %(message)s")
     from psi.deploy.real_sonic_runtime import ResearchInferenceRuntime
     runtime = ResearchInferenceRuntime(args.weights_dir)
-    policy, processor = runtime.build_policy(args.qwen_model, device=args.device)
+    policy, processor = runtime.build_policy(args.qwen_model, device=args.device, gr00t_model=args.gr00t_model)
     service = InferenceService(lambda request, seed: runtime.infer_request(policy, processor, request, seed=seed),
                                runtime.read_json("inference_manifest.json"), seed=args.seed,
                                rtc_max_prefix_steps=runtime.rtc_max_prefix_steps,

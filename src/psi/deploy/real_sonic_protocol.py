@@ -28,10 +28,16 @@ MAX_RTC_PREFIX = 15
 
 
 def validate_action_grid(action_hz, action_horizon):
-    """Supported model output grids; the physical queue below remains 50Hz."""
+    """Supported model output grids; the physical queue below remains 50Hz.
+
+    Supports Psi0-derived grids (50Hz/30 steps, 30Hz/50 steps) as well as
+    native GR00T N1.7 grids (50Hz/40 steps, 30Hz/40 steps).
+    """
     if (type(action_hz) not in (int, float) or type(action_horizon) is not int
-            or (action_hz, action_horizon) not in {(50, 30), (30, 50)}):
-        raise ValueError("Unsupported real-SONIC action grid: expected 50Hz/30 steps or 30Hz/50 steps")
+            or (action_hz, action_horizon) not in {(50, 30), (30, 50), (50, 40), (30, 40)}):
+        raise ValueError(
+            "Unsupported real-SONIC action grid: expected 50Hz/30, 30Hz/50, 50Hz/40, or 30Hz/40 steps"
+        )
     return float(action_hz), action_horizon
 
 

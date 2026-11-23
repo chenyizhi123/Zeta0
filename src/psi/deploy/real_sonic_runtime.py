@@ -14,9 +14,8 @@ import base64
 from psi.data.predictor_pretrain.state_adapter import StateAdapterBank
 from psi.data.predictive_world.contracts import ObservedHistory
 from psi.models.predictive_world.history import PredictiveHistoryEncoder
+from psi.models.predictive_world.hosts import get_host
 from psi.models.predictive_world.latent_transition import LatentNormalizer, TemporalLatentTransition
-from psi.models.predictive_world.action_expert import TemporalNativeActionExpert
-from psi.models.predictive_world.observation import FrozenQwenObservationEncoder
 from psi.models.predictive_world.policy import PredictiveWorldPolicy
 from psi.data.lerobot.action_aligned_cache import preprocess_endpoint_vlm_image
 from psi.data.predictive_world.provenance import verify_qwen_provenance
@@ -74,10 +73,13 @@ class ResearchInferenceRuntime:
             raise ValueError("Manifest cannot relabel a legacy source as collector snapshots")
 
 
+        self.host_architecture = str(manifest.get("architecture", {}).get("host_architecture", "zeta_native"))
+        get_host(self.host_architecture)
+
     def read_json(self, name):
         return json.loads((self.root / name).read_text(encoding="utf-8"))
 
-    def build_modules(self):
+    def build_modules(self, *, gr00t_model=None):
         manifest = self.read_json("inference_manifest.json")
         a, t = manifest["architecture"], manifest["temporal_abi"]
         if t["observed_visual_mode"] != "current_multiview":
@@ -98,12 +100,15 @@ class ResearchInferenceRuntime:
             latent_shape=tuple(a["latent_shape"]), group_ends_s=t["future_group_ends_s"],
             **{key: a["latent_transition"][key] for key in ("hidden_dim", "num_blocks", "num_heads", "ff_dim")},
             output_affine=a["latent_transition"].get("output_affine", False))
-        student = TemporalNativeActionExpert(protocols, dims, state_statistics=stats,
-            qwen_dim=qwen_dim, context_tokens=a["expert_context_tokens"],
-            latent_dim=a["latent_shape"][2], latent_groups=a["latent_shape"][0],
-            latent_slots=a["latent_shape"][1], state_history_count=t["state_history_count"],
-            action_steps=t["action_horizon"], hidden_dim=a["expert_hidden_dim"],
-            num_blocks=a["expert_blocks"], num_heads=a["expert_heads"], ff_dim=a["expert_ff_dim"])
+        host = get_host(a.get("host_architecture", "zeta_native"))
+        student = host.build_deploy_action_expert(
+            manifest=manifest,
+            protocols=protocols,
+            state_dims=dims,
+            state_stats=stats,
+            context_dim=qwen_dim,
+            host_model_path=None if gr00t_model is None else Path(gr00t_model),
+        )
         modules = {"history_state_adapters": StateAdapterBank(dims, statistics=stats),
                    "history_encoder": history, "latent_transition": transition,
                    "normalizer": LatentNormalizer(tuple(a["latent_shape"])), "student": student}
@@ -112,8 +117,7 @@ class ResearchInferenceRuntime:
             module.eval()
         return modules
 
-    def build_policy(self, qwen_model, device="cuda:0"):
-        from transformers import Qwen3VLForConditionalGeneration
+    def build_policy(self, qwen_model, device="cuda:0", *, gr00t_model=None):
         from psi.data.predictive_world.provenance import load_qwen_processor
         # Relocation is allowed; changing model/processor bytes is not. Keep the
         # archived training config untouched and verify the selected local copy.
@@ -123,18 +127,26 @@ class ResearchInferenceRuntime:
         device = torch.device(device)
         processor = load_qwen_processor(qwen_model)
         verify_qwen_provenance(qwen_model, self.read_json("feature_provenance.json"), processor=processor)
-        modules = self.build_modules()
-        qwen = Qwen3VLForConditionalGeneration.from_pretrained(str(qwen_model),
-            local_files_only=True, dtype=torch.bfloat16 if device.type == "cuda" else torch.float32,
-            attn_implementation="sdpa")
+        modules = self.build_modules() if gr00t_model is None else self.build_modules(gr00t_model=gr00t_model)
+        manifest = self.read_json("inference_manifest.json")
+        arch = manifest["architecture"]
+        host = get_host(arch.get("host_architecture", "zeta_native"))
+        dtype = torch.bfloat16 if device.type == "cuda" else torch.float32
+        backbone = host.load_backbone(
+            backbone_path=qwen_model,
+            device=device,
+            dtype=dtype,
+            host_model_path=None if gr00t_model is None else Path(gr00t_model).expanduser().resolve(),
+            expected_config_sha256=arch.get("gr00t_config_sha256"),
+        )
         expected = self.read_json("feature_provenance.json")["feature_shape"][-1]
-        if qwen.config.text_config.hidden_size != expected:
-            raise ValueError("Qwen hidden dimension differs from the packaged model")
-        policy = PredictiveWorldPolicy(observation_encoder=FrozenQwenObservationEncoder(qwen),
+        if backbone.context_dim != expected:
+            raise ValueError("Backbone hidden dimension differs from the packaged model")
+        policy = PredictiveWorldPolicy(observation_encoder=backbone.observation_encoder,
             history_state_adapters=modules["history_state_adapters"],
             history_encoder=modules["history_encoder"], latent_transition=modules["latent_transition"],
             latent_normalizer=modules["normalizer"], student=modules["student"],
-            action_solver_steps=self.read_json("inference_manifest.json")["architecture"]["action_solver_steps"],
+            action_solver_steps=arch["action_solver_steps"],
             latent_prediction_space=self.read_json("original_run_config.json")["training"].get(
                 "latent_prediction_space", "whitened"))
         return policy.to(device).eval(), processor
@@ -197,6 +209,10 @@ class ResearchInferenceRuntime:
         encoded = dict(processor(text=[text], images=images, padding=True, return_tensors="pt"))
         encoded["image_counts"] = torch.tensor([len(images)])
         encoded["primary_current_image_indices"] = torch.tensor([primary])
+        pooling = self.read_json("original_run_config.json").get("data", {}).get("current_visual_pooling", "canvas_v1")
+        if pooling == "content_area_v1":
+            from psi.models.action_aligned_image import content_boxes
+            encoded["image_content_boxes"] = content_boxes(images)
         encoded = {key: value.to(device) for key, value in encoded.items()}
         protocol = manifest["action_protocol_id"]
         space = self.read_json("registries/action_protocol_registry.json")[protocol]["normalization_space"]

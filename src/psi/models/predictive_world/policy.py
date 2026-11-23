@@ -5,7 +5,7 @@ from __future__ import annotations
 import contextlib
 import time
 from dataclasses import dataclass
-from typing import Protocol
+from typing import Any, Protocol
 
 import torch
 from torch import Tensor, nn
@@ -26,6 +26,14 @@ class ObservationFeatures:
     current_visual: Tensor
     # Native GR00T alternates cross-attention to image and non-image tokens.
     image_mask: Tensor | None = None
+    # Reserved for layered KV-cache hosts such as pi0.5 (PaliGemma + Gemma expert).
+    kv_cache: Any | None = None
+    kv_attention_mask: Tensor | None = None
+
+    @property
+    def context(self) -> Tensor:
+        """Backbone-agnostic alias for System 2 multimodal context tokens."""
+        return self.qwen_context
 
 
 class ObservationEncoder(Protocol):
@@ -141,8 +149,15 @@ class PredictiveWorldPolicy(nn.Module):
             latent_valid = torch.ones(
                 batch, latent_raw.shape[1], device=latent_raw.device, dtype=torch.bool
             )
+            host_extras = {}
+            if features.image_mask is not None:
+                host_extras["image_mask"] = features.image_mask
+            if features.kv_cache is not None:
+                host_extras["kv_cache"] = features.kv_cache
+            if features.kv_attention_mask is not None:
+                host_extras["kv_attention_mask"] = features.kv_attention_mask
             actions = self.student.sample(
-                **({"image_mask": features.image_mask} if features.image_mask is not None else {}),
+                **host_extras,
                 qwen_context=features.qwen_context,
                 context_valid=features.context_valid,
                 raw_states=observed.raw_states,

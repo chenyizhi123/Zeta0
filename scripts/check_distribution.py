@@ -21,7 +21,7 @@ def check_wheel(path: Path) -> None:
         info = BytesParser().parsebytes(wheel.read(metadata[0]))
         if info["Name"] != "zeta0-humanoid":
             raise ValueError("Unexpected distribution name")
-        allowed = {"psi", info_root}
+        allowed = {"psi", "zeta0", info_root}
         seen = set()
         files = set()
         for member in wheel.infolist():
@@ -53,6 +53,7 @@ def check_wheel(path: Path) -> None:
         for required in (
             "psi/__init__.py",
             "psi/data/predictor_pretrain/runtime_contract.py",
+            "zeta0/__init__.py",
         ):
             if required not in names:
                 raise ValueError(f"Missing core module: {required}")

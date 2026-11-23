@@ -17,11 +17,11 @@ from psi.config.predictive_world import (
 from psi.data.predictive_world.cache import file_sha256
 from psi.data.predictor_pretrain.state_adapter import StateAdapterBank
 from psi.models.predictive_world.action_expert import (
-    TemporalNativeActionExpert,
     clone_independent_expert,
 )
 from psi.models.predictive_world.checkpoint import load_predictive_world_bundle
 from psi.models.predictive_world.history import PredictiveHistoryEncoder
+from psi.models.predictive_world.hosts import get_host
 from psi.models.predictive_world.latent_transition import LatentNormalizer, TemporalLatentTransition
 from psi.models.predictive_world.observation import FrozenQwenObservationEncoder
 from psi.models.predictive_world.phases import (
@@ -79,9 +79,11 @@ def _reference_modules(
     state_stats: Mapping[str, tuple[torch.Tensor, torch.Tensor]],
     *,
     qwen_dim: int,
+    visual_dim: int = 2048,
 ) -> dict[str, nn.Module]:
     model = config.model
     online_encoder = FutureTrajectoryEncoder(
+        visual_dim=visual_dim,
         measurement_dim=model.measurement_dim,
         latent_shape=model.latent_shape,
         scene_slots=model.latent_scene_slots,
@@ -94,6 +96,7 @@ def _reference_modules(
         online_encoder, decay=config.training.target_encoder_ema_decay
     )
     readout = WorldReadout(
+        visual_dim=visual_dim,
         measurement_dim=model.measurement_dim,
         latent_shape=model.latent_shape,
         max_scene_patches=model.max_scene_patches,
@@ -112,26 +115,13 @@ def _reference_modules(
 
 
 def _action_expert(config, protocols, state_dims, state_stats, *, qwen_dim):
-    model = config.model
-    if model.host_architecture == "gr00t_n1d7":
-        from psi.data.predictive_world.assets import resolve_asset_path
-        from psi.models.predictive_world.gr00t import load_action_expert
-        path = resolve_asset_path(model.gr00t_model, config.runtime.asset_path_map)
-        if file_sha256(path / "config.json") != model.gr00t_config_sha256:
-            raise ValueError("GR00T base configuration identity mismatch")
-        expert = load_action_expert(path, protocols, state_dims, state_stats, latent_shape=model.latent_shape)
-        expert.activation_checkpointing = config.runtime.gr00t_activation_checkpointing
-        if expert.action_steps != config.data.action_horizon or expert.head.config.backbone_embedding_dim != qwen_dim:
-            raise ValueError("GR00T checkpoint dimensions disagree with the resolved training configuration")
-        return expert
-    return TemporalNativeActionExpert(
-        protocols, state_dims, state_statistics=state_stats, qwen_dim=qwen_dim,
-        context_tokens=model.expert_context_tokens, latent_dim=model.latent_shape[2],
-        latent_groups=model.latent_shape[0], latent_slots=model.latent_shape[1],
-        state_history_count=config.data.state_history_count,
-        action_steps=config.data.action_horizon, hidden_dim=model.expert_hidden_dim,
-        num_blocks=model.expert_blocks, num_heads=model.expert_heads,
-        ff_dim=model.expert_ff_dim,
+    host = get_host(config.model.host_architecture)
+    return host.build_action_expert(
+        config=config,
+        protocols=protocols,
+        state_dims=state_dims,
+        state_stats=state_stats,
+        context_dim=qwen_dim,
     )
 
 
@@ -142,11 +132,13 @@ def _forecast_modules(
     state_stats: Mapping[str, tuple[torch.Tensor, torch.Tensor]],
     *,
     qwen_dim: int,
+    visual_dim: int = 2048,
 ) -> dict[str, nn.Module]:
     model = config.model
     adapters = StateAdapterBank(dict(state_dims), statistics=dict(state_stats))
     history = PredictiveHistoryEncoder(
         qwen_dim=qwen_dim,
+        visual_dim=visual_dim,
         state_history_count=config.data.state_history_count,
         output_tokens=16,
         context_tokens=model.history_context_tokens,
@@ -181,17 +173,16 @@ def build_phase(config: PredictiveWorldConfig, *, device: torch.device,
     model = config.model
     from psi.data.predictive_world.processor_migration import require_migration_budget
     require_migration_budget(config)
-    from transformers import Qwen3VLForConditionalGeneration
     from psi.data.predictive_world.assets import resolve_asset_path
     from psi.data.predictive_world.provenance import verify_qwen_provenance
 
+    host = get_host(model.host_architecture)
     qwen_path = resolve_asset_path(config.model.qwen_model, config.runtime.asset_path_map)
-    gr00t_initialization = None
-    if model.host_architecture == "gr00t_n1d7":
-        from psi.models.predictive_world.gr00t_assets import verify_backbone_export
-        gr00t_initialization = verify_backbone_export(
-            qwen_path, resolve_asset_path(model.gr00t_model, config.runtime.asset_path_map),
-            expected_config_sha256=model.gr00t_config_sha256)
+    host_model_path = (
+        resolve_asset_path(model.gr00t_model, config.runtime.asset_path_map)
+        if model.host_architecture == "gr00t_n1d7"
+        else None
+    )
     feature_manifest = Path(config.data.feature_cache)
     if feature_manifest.is_dir():
         feature_manifest /= "feature_manifest.json"
@@ -202,20 +193,22 @@ def build_phase(config: PredictiveWorldConfig, *, device: torch.device,
     verify_qwen_provenance(qwen_path, feature_provenance)
 
     dtype = torch.bfloat16 if device.type == "cuda" else torch.float32
-    if model.host_architecture == "gr00t_n1d7":
-        from psi.models.predictive_world.gr00t_assets import load_backbone
-        qwen = load_backbone(qwen_path, dtype=dtype, device=device)
-    else:
-        qwen = Qwen3VLForConditionalGeneration.from_pretrained(
-            str(qwen_path), local_files_only=True, dtype=dtype, attn_implementation="sdpa"
-        ).to(device)
-    qwen_dim = int(getattr(qwen.config, "text_config", qwen.config).hidden_size)
-    observation = FrozenQwenObservationEncoder(
-        qwen, **({"include_image_mask": True} if model.host_architecture == "gr00t_n1d7" else {}))
+    backbone_result = host.load_backbone(
+        backbone_path=qwen_path,
+        device=device,
+        dtype=dtype,
+        host_model_path=host_model_path,
+        expected_config_sha256=model.gr00t_config_sha256 if model.host_architecture == "gr00t_n1d7" else None,
+        observation_encoder_cls=FrozenQwenObservationEncoder,
+    )
+    gr00t_initialization = backbone_result.initialization
+    qwen_dim = backbone_result.context_dim
+    visual_dim = backbone_result.visual_dim
+    observation = backbone_result.observation_encoder
     protocols = _registry(config.data.action_protocol_registry)
     state_dims, state_stats = _state_registry(config.data.state_schema_registry)
     reference = _reference_modules(
-        config, protocols, state_dims, state_stats, qwen_dim=qwen_dim
+        config, protocols, state_dims, state_stats, qwen_dim=qwen_dim, visual_dim=visual_dim
     )
     phase = config.training.phase
     forecast: dict[str, nn.Module] = {}
@@ -248,7 +241,7 @@ def build_phase(config: PredictiveWorldConfig, *, device: torch.device,
             regularizer_weight=config.training.latent_regularizer_weight,
         )
         forecast = _forecast_modules(
-            config, protocols, state_dims, state_stats, qwen_dim=qwen_dim
+            config, protocols, state_dims, state_stats, qwen_dim=qwen_dim, visual_dim=visual_dim
         )
         forecast_objective = ForecastObjective(
             reference_encoder=reference["encoder"],
@@ -278,7 +271,7 @@ def build_phase(config: PredictiveWorldConfig, *, device: torch.device,
         checkpoint_modules = {**reference, **forecast}
     else:
         forecast = _forecast_modules(
-            config, protocols, state_dims, state_stats, qwen_dim=qwen_dim
+            config, protocols, state_dims, state_stats, qwen_dim=qwen_dim, visual_dim=visual_dim
         )
         all_world_modules = {**reference, **forecast}
         if phase == "joint":
@@ -418,37 +411,42 @@ def build_deploy_policy(
         raise ValueError('processor diagnostic configs cannot be deployed')
     if config.training.init_processor_migration is not None:
         raise ValueError('research processor migration requires separate deployment acceptance')
-    from transformers import Qwen3VLForConditionalGeneration
-
     from psi.models.predictive_world.policy import PredictiveWorldPolicy
     from psi.data.predictive_world.assets import resolve_asset_path
     from psi.data.predictive_world.provenance import verify_qwen_provenance
 
+    host = get_host(config.model.host_architecture)
     qwen_path = resolve_asset_path(config.model.qwen_model, config.runtime.asset_path_map)
+    host_model_path = (
+        resolve_asset_path(config.model.gr00t_model, config.runtime.asset_path_map)
+        if config.model.host_architecture == "gr00t_n1d7"
+        else None
+    )
     feature_manifest = Path(config.data.feature_cache)
     if feature_manifest.is_dir():
         feature_manifest /= "feature_manifest.json"
     provenance = json.loads(feature_manifest.read_text(encoding="utf-8"))["provenance"]
-    if config.model.host_architecture == "gr00t_n1d7":
-        from psi.models.predictive_world.gr00t_assets import verify_backbone_export
-        verify_backbone_export(
-            qwen_path, resolve_asset_path(config.model.gr00t_model, config.runtime.asset_path_map),
-            expected_config_sha256=config.model.gr00t_config_sha256)
     verify_qwen_provenance(qwen_path, provenance)
 
     dtype = torch.bfloat16 if device.type == "cuda" else torch.float32
-    if config.model.host_architecture == "gr00t_n1d7":
-        from psi.models.predictive_world.gr00t_assets import load_backbone
-        qwen = load_backbone(qwen_path, dtype=dtype, device=device)
-    else:
-        qwen = Qwen3VLForConditionalGeneration.from_pretrained(
-            str(qwen_path), local_files_only=True, dtype=dtype, attn_implementation="sdpa"
-        ).to(device)
-    qwen_dim = int(getattr(qwen.config, "text_config", qwen.config).hidden_size)
+    backbone_result = host.load_backbone(
+        backbone_path=qwen_path,
+        device=device,
+        dtype=dtype,
+        host_model_path=host_model_path,
+        expected_config_sha256=(
+            config.model.gr00t_config_sha256
+            if config.model.host_architecture == "gr00t_n1d7"
+            else None
+        ),
+        observation_encoder_cls=FrozenQwenObservationEncoder,
+    )
+    qwen_dim = backbone_result.context_dim
+    visual_dim = backbone_result.visual_dim
     protocols = _registry(config.data.action_protocol_registry)
     state_dims, state_stats = _state_registry(config.data.state_schema_registry)
     forecast = _forecast_modules(
-        config, protocols, state_dims, state_stats, qwen_dim=qwen_dim
+        config, protocols, state_dims, state_stats, qwen_dim=qwen_dim, visual_dim=visual_dim
     )
     normalizer = LatentNormalizer(config.model.latent_shape)
     student = _action_expert(config, protocols, state_dims, state_stats, qwen_dim=qwen_dim)
@@ -485,8 +483,7 @@ def build_deploy_policy(
         },
     )
     policy = PredictiveWorldPolicy(
-        observation_encoder=FrozenQwenObservationEncoder(qwen,
-            **({"include_image_mask": True} if config.model.host_architecture == "gr00t_n1d7" else {})),
+        observation_encoder=backbone_result.observation_encoder,
         history_state_adapters=forecast["history_state_adapters"],
         history_encoder=forecast["history_encoder"],
         latent_transition=forecast["latent_transition"], latent_normalizer=normalizer,
