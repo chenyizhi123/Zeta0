@@ -6,7 +6,6 @@
 
 [![Project Page](https://img.shields.io/badge/Project_Page-ζ₀-265B91?style=flat-square)](https://chenyizhi123.github.io/zeta0-project/)
 [![arXiv](https://img.shields.io/badge/arXiv-2611.29277-B31B1B?style=flat-square)](https://arxiv.org/abs/2611.29277)
-[![Paper PDF](https://img.shields.io/badge/Paper-PDF_(18pp)-334155?style=flat-square)](https://chenyizhi123.github.io/zeta0-project/assets/Zeta0-Humanoid-Full.pdf)
 [![Real G1 Dataset](https://img.shields.io/badge/HF_Dataset-Real_G1_(739_ep)-187769?style=flat-square)](https://huggingface.co/datasets/SII-yizhi/zeta0-real-dataset)
 [![Release v0.2.0](https://img.shields.io/badge/Release-v0.2.0-A65B1A?style=flat-square)](https://github.com/chenyizhi123/Zeta0/releases/tag/v0.2.0)
 [![License](https://img.shields.io/badge/License-Apache_2.0-475569?style=flat-square)](LICENSE)
