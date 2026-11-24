@@ -5,6 +5,7 @@
 ### A Framework for World Action Models with Joint Scene and Body Foresight in Humanoid Control
 
 [![Project Page](https://img.shields.io/badge/Project_Page-ζ₀-265B91?style=flat-square)](https://chenyizhi123.github.io/zeta0-project/)
+[![arXiv](https://img.shields.io/badge/arXiv-2611.29277-B31B1B?style=flat-square)](https://arxiv.org/abs/2611.29277)
 [![Paper PDF](https://img.shields.io/badge/Paper-PDF_(18pp)-334155?style=flat-square)](https://chenyizhi123.github.io/zeta0-project/assets/Zeta0-Humanoid-Full.pdf)
 [![Real G1 Dataset](https://img.shields.io/badge/HF_Dataset-Real_G1_(739_ep)-187769?style=flat-square)](https://huggingface.co/datasets/SII-yizhi/zeta0-real-dataset)
 [![Release v0.2.0](https://img.shields.io/badge/Release-v0.2.0-A65B1A?style=flat-square)](https://github.com/chenyizhi123/Zeta0/releases/tag/v0.2.0)
@@ -28,7 +29,7 @@
 
 - **`[2026-11]` `v0.2.0` Released**: Full real-robot open-source stack for **Unitree G1 + GEAR-SONIC + BrainCo Revo2** — including **no-private-weights** training (`--init-mode scratch` with Qwen3-VL / Cosmos-Reason2-2B & `--init-mode gr00t_n1d7` with NVIDIA GR00T N1.7-3B), unified G1 RTC deployment, `import zeta0` SDK, and verified 3D-printable D415 wrist mounts in [Release `v0.2.0`](https://github.com/chenyizhi123/Zeta0/releases/tag/v0.2.0).
 - **`[2026-11]` Public Real-Robot Dataset**: Released [`SII-yizhi/zeta0-real-dataset`](https://huggingface.co/datasets/SII-yizhi/zeta0-real-dataset) (**739 episodes · 872,409 frames · 6 primary + 1 additional real G1 tasks**).
-- **`[2026-11]` Project Page & Paper**: Interactive real-robot rollouts and full 18-page PDF are live at [chenyizhi123.github.io/zeta0-project](https://chenyizhi123.github.io/zeta0-project/).
+- **`[2026-11]` Project Page & Paper**: Paper ([`arXiv:2611.29277`](https://arxiv.org/abs/2611.29277)), interactive real-robot rollouts, and full 18-page PDF are live at [chenyizhi123.github.io/zeta0-project](https://chenyizhi123.github.io/zeta0-project/).
 
 ---
 
@@ -286,9 +287,9 @@ If you find **Zeta0** useful in your research or robot deployment, please cite:
 @article{chen2026zeta0,
   title   = {$\zeta_0$: A Framework for World Action Models with Joint Scene and Body Foresight in Humanoid Control},
   author  = {Chen, Yizhi and Cao, Zhanxiang and Wang, Yitong and Liu, Junyu and Zeng, Hongchu and Peng, Xinyi and Huang, Chuxuan and Su, Yicheng and Zhou, Zihao and Fu, Shengcheng and Li, Haoyang and Yan, Liyun and Zhan, Tianyue and Ma, Jianming and Zhang, Yang and Zhu, Keqi and Si, Xiaxi and Yao, Jinming and Sun, Qiao and Zhang, Shizeng and Zhong, Jiangwei and Gao, Yue},
-  journal = {arXiv preprint},
+  journal = {arXiv preprint arXiv:2611.29277},
   year    = {2026},
-  url     = {https://chenyizhi123.github.io/zeta0-project/}
+  url     = {https://arxiv.org/abs/2611.29277}
 }
 ```
 

@@ -5,6 +5,7 @@
 ### 面向人形机器人控制的联合场景与身体预见世界动作模型框架
 
 [![项目主页](https://img.shields.io/badge/项目主页-ζ₀-265B91?style=flat-square)](https://chenyizhi123.github.io/zeta0-project/)
+[![arXiv](https://img.shields.io/badge/arXiv-2611.29277-B31B1B?style=flat-square)](https://arxiv.org/abs/2611.29277)
 [![论文 PDF](https://img.shields.io/badge/论文-PDF_(18页)-334155?style=flat-square)](https://chenyizhi123.github.io/zeta0-project/assets/Zeta0-Humanoid-Full.pdf)
 [![真机数据集](https://img.shields.io/badge/HF_数据集-真机_G1_(739局)-187769?style=flat-square)](https://huggingface.co/datasets/SII-yizhi/zeta0-real-dataset)
 [![Release v0.2.0](https://img.shields.io/badge/Release-v0.2.0-A65B1A?style=flat-square)](https://github.com/chenyizhi123/Zeta0/releases/tag/v0.2.0)
@@ -28,7 +29,7 @@
 
 - **`[2026-11]` 发布 `v0.2.0`**：完整开源 **Unitree G1 + GEAR-SONIC + BrainCo Revo2** 四大真机主线——提供**免私有权重**真机训练（公开 Qwen3-VL / Cosmos-Reason2-2B `--init-mode scratch` 与 NVIDIA GR00T N1.7-3B `--init-mode gr00t_n1d7`）、统一 G1 RTC 部署运行时、`import zeta0` Python SDK 及已校验的 3D 打印腕部支架包（[Release `v0.2.0`](https://github.com/chenyizhi123/Zeta0/releases/tag/v0.2.0)）。
 - **`[2026-11]` 公开真机 G1 数据集**：[`SII-yizhi/zeta0-real-dataset`](https://huggingface.co/datasets/SII-yizhi/zeta0-real-dataset) 现已全面公开（**739 条轨迹 · 872,409 帧 · 6 主任务 + 1 附加任务**）。
-- **`[2026-11]` 项目主页与完整论文上线**：交互式真机演示与 18 页完整论文 PDF 请见 [chenyizhi123.github.io/zeta0-project](https://chenyizhi123.github.io/zeta0-project/)。
+- **`[2026-11]` 项目主页与完整论文上线**：论文（[`arXiv:2611.29277`](https://arxiv.org/abs/2611.29277)）、交互式真机演示与 18 页完整论文 PDF 请见 [chenyizhi123.github.io/zeta0-project](https://chenyizhi123.github.io/zeta0-project/)。
 
 ---
 
@@ -286,9 +287,9 @@ PYTHONPATH=src python scripts/benchmark_inference.py --preset tiny-cpu --device 
 @article{chen2026zeta0,
   title   = {$\zeta_0$: A Framework for World Action Models with Joint Scene and Body Foresight in Humanoid Control},
   author  = {Chen, Yizhi and Cao, Zhanxiang and Wang, Yitong and Liu, Junyu and Zeng, Hongchu and Peng, Xinyi and Huang, Chuxuan and Su, Yicheng and Zhou, Zihao and Fu, Shengcheng and Li, Haoyang and Yan, Liyun and Zhan, Tianyue and Ma, Jianming and Zhang, Yang and Zhu, Keqi and Si, Xiaxi and Yao, Jinming and Sun, Qiao and Zhang, Shizeng and Zhong, Jiangwei and Gao, Yue},
-  journal = {arXiv preprint},
+  journal = {arXiv preprint arXiv:2611.29277},
   year    = {2026},
-  url     = {https://chenyizhi123.github.io/zeta0-project/}
+  url     = {https://arxiv.org/abs/2611.29277}
 }
 ```
 
